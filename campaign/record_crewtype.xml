@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="crewtype" copy="record_window_tabbed">
+		<tab>
+			<name>main</name>
+			<resource>crewtype_tab_main</resource>
+			<class>crewtype_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>data</name>
+			<resource>crewtype_tab_data</resource>
+			<class>crewtype_data</class>
+			<embed />
+		</tab>
+  </windowclass>
+
+  <windowclass name="crewtype_main">
+		<script file="campaign/scripts/crewtype_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="crewtype_header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_column_full name="description" />
+		</sheetdata>
+  </windowclass>
+
+	<windowclass name="crewtype_data">
+		<script file="campaign/scripts/crewtype_data.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<stringc_content_noframe_noscroll_static_top>
+				<static textres="crewtype_label_abilities_empty" />
+				<center />
+			</stringc_content_noframe_noscroll_static_top>
+
+			<header_content_framed_headersimple name="abilities_header">
+				<static textres="crewtype_header_abilities" />
+			</header_content_framed_headersimple>
+			<list_content_column name="abilities">
+				<datasource>.abilities</datasource>
+				<sortby><control>name</control></sortby>
+				<class>crewtype_ability</class>
+				<allowdelete />
+			</list_content_column>
+
+			<header_content_framed_headersimple name="upgrades_header">
+				<static textres="crewtype_header_upgrades" />
+			</header_content_framed_headersimple>
+			<list_content_column name="upgrades">
+				<datasource>.upgrades</datasource>
+				<sortby><control>name</control></sortby>
+				<class>crewtype_upgrade</class>
+				<allowdelete />
+			</list_content_column>
+
+			<header_content_framed_headersimple name="contacts_header">
+				<static textres="crewtype_header_contacts" />
+			</header_content_framed_headersimple>
+			<button_iedit name="contacts_iedit">
+				<anchored to="contacts_header" position="insidetopright" offset="2,0" />
+				<edittarget>contacts</edittarget>
+			</button_iedit>
+			<button_iadd name="contacts_iadd">
+				<anchored to="contacts_header" position="insidetopright" offset="22,0" />
+				<target>contacts</target>
+			</button_iadd>
+			<list_content_column name="contacts">
+				<datasource>.contacts</datasource>
+				<sortby><control>name</control></sortby>
+				<class>crewtype_contact</class>
+				<allowdelete />
+				<allowcreate />
+			</list_content_column>
+
+			<header_content_framed_headersimple name="xptriggers_header">
+				<static textres="crewtype_header_xptriggers" />
+			</header_content_framed_headersimple>
+			<button_iedit name="xptriggers_iedit">
+				<anchored to="xptriggers_header" position="insidetopright" offset="2,0" />
+				<edittarget>xptriggers</edittarget>
+			</button_iedit>
+			<button_iadd name="xptriggers_iadd">
+				<anchored to="xptriggers_header" position="insidetopright" offset="22,0" />
+				<target>xptriggers</target>
+			</button_iadd>
+			<list_content_column name="xptriggers">
+				<datasource>.xptriggers</datasource>
+				<sortby><control>name</control></sortby>
+				<class>crewtype_xptrigger</class>
+				<allowdelete />
+				<allowcreate />
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="crewtype_ability" copy="ref_listitem_ability">
+		<sheetdata>
+			<button_listitem_checkbox_left name="given">
+				<state icon="button_checkoff" tooltipres="crewtype_tooltip_ability_off" merge="resetandadd" />
+				<state icon="button_checkon" tooltipres="crewtype_tooltip_ability_on" merge="add" />
+			</button_listitem_checkbox_left>
+		</sheetdata>
+	</windowclass>
+	<windowclass name="crewtype_upgrade" copy="ref_listitem_ability">
+		<sheetdata>
+			<button_listitem_checkbox_left name="given">
+				<state icon="button_checkoff" tooltipres="crewtype_tooltip_upgrade_off" merge="resetandadd" />
+				<state icon="button_checkon" tooltipres="crewtype_tooltip_upgrade_on" merge="add" />
+			</button_listitem_checkbox_left>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="crewtype_contact">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.update()
+			end
+			function update()
+				local w = UtilityManager.getTopWindow(self);
+				local bReadOnly = WindowManager.getReadOnlyState(w.getDatabaseNode());
+				contact.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>contacts_iedit</editmode>
+			</button_listitem_idelete>
+
+			<string_listitem_center_underline name="contact" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="crewtype_xptrigger">
+		<margins control="0,0,0,5" />
+		<script>
+			function onInit()
+				self.update()
+			end
+			function update()
+				local w = UtilityManager.getTopWindow(self);
+				local bReadOnly = WindowManager.getReadOnlyState(w.getDatabaseNode());
+				xptrigger.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>xptriggers_iedit</editmode>
+			</button_listitem_idelete>
+
+			<string_listitem_center_underline name="xptrigger" />
+		</sheetdata>
+	</windowclass>
+</root>

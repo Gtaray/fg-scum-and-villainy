@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<icon name="button_clock_4_0" file="graphics/clocks/red_lamp/4_segment/0.png" />
+	<icon name="button_clock_4_1" file="graphics/clocks/red_lamp/4_segment/1.png" />
+	<icon name="button_clock_4_2" file="graphics/clocks/red_lamp/4_segment/2.png" />
+	<icon name="button_clock_4_3" file="graphics/clocks/red_lamp/4_segment/3.png" />
+	<icon name="button_clock_4_4" file="graphics/clocks/red_lamp/4_segment/4.png" />
+
+	<icon name="button_clock_6_0" file="graphics/clocks/red_lamp/6_segment/0.png" />
+	<icon name="button_clock_6_1" file="graphics/clocks/red_lamp/6_segment/1.png" />
+	<icon name="button_clock_6_2" file="graphics/clocks/red_lamp/6_segment/2.png" />
+	<icon name="button_clock_6_3" file="graphics/clocks/red_lamp/6_segment/3.png" />
+	<icon name="button_clock_6_4" file="graphics/clocks/red_lamp/6_segment/4.png" />
+	<icon name="button_clock_6_5" file="graphics/clocks/red_lamp/6_segment/5.png" />
+	<icon name="button_clock_6_6" file="graphics/clocks/red_lamp/6_segment/6.png" />
+
+	<icon name="button_clock_8_0" file="graphics/clocks/red_lamp/8_segment/0.png" />
+	<icon name="button_clock_8_1" file="graphics/clocks/red_lamp/8_segment/1.png" />
+	<icon name="button_clock_8_2" file="graphics/clocks/red_lamp/8_segment/2.png" />
+	<icon name="button_clock_8_3" file="graphics/clocks/red_lamp/8_segment/3.png" />
+	<icon name="button_clock_8_4" file="graphics/clocks/red_lamp/8_segment/4.png" />
+	<icon name="button_clock_8_5" file="graphics/clocks/red_lamp/8_segment/5.png" />
+	<icon name="button_clock_8_6" file="graphics/clocks/red_lamp/8_segment/6.png" />
+	<icon name="button_clock_8_7" file="graphics/clocks/red_lamp/8_segment/7.png" />
+	<icon name="button_clock_8_8" file="graphics/clocks/red_lamp/8_segment/8.png" />
+
+	<icon name="button_clock_10_0" file="graphics/clocks/red_lamp/10_segment/0.png" />
+	<icon name="button_clock_10_1" file="graphics/clocks/red_lamp/10_segment/1.png" />
+	<icon name="button_clock_10_2" file="graphics/clocks/red_lamp/10_segment/2.png" />
+	<icon name="button_clock_10_3" file="graphics/clocks/red_lamp/10_segment/3.png" />
+	<icon name="button_clock_10_4" file="graphics/clocks/red_lamp/10_segment/4.png" />
+	<icon name="button_clock_10_5" file="graphics/clocks/red_lamp/10_segment/5.png" />
+	<icon name="button_clock_10_6" file="graphics/clocks/red_lamp/10_segment/6.png" />
+	<icon name="button_clock_10_7" file="graphics/clocks/red_lamp/10_segment/7.png" />
+	<icon name="button_clock_10_8" file="graphics/clocks/red_lamp/10_segment/8.png" />
+	<icon name="button_clock_10_9" file="graphics/clocks/red_lamp/10_segment/9.png" />
+	<icon name="button_clock_10_10" file="graphics/clocks/red_lamp/10_segment/10.png" />
+
+	<icon name="button_clock_12_0" file="graphics/clocks/red_lamp/12_segment/0.png" />
+	<icon name="button_clock_12_1" file="graphics/clocks/red_lamp/12_segment/1.png" />
+	<icon name="button_clock_12_2" file="graphics/clocks/red_lamp/12_segment/2.png" />
+	<icon name="button_clock_12_3" file="graphics/clocks/red_lamp/12_segment/3.png" />
+	<icon name="button_clock_12_4" file="graphics/clocks/red_lamp/12_segment/4.png" />
+	<icon name="button_clock_12_5" file="graphics/clocks/red_lamp/12_segment/5.png" />
+	<icon name="button_clock_12_6" file="graphics/clocks/red_lamp/12_segment/6.png" />
+	<icon name="button_clock_12_7" file="graphics/clocks/red_lamp/12_segment/7.png" />
+	<icon name="button_clock_12_8" file="graphics/clocks/red_lamp/12_segment/8.png" />
+	<icon name="button_clock_12_9" file="graphics/clocks/red_lamp/12_segment/9.png" />
+	<icon name="button_clock_12_10" file="graphics/clocks/red_lamp/12_segment/10.png" />
+	<icon name="button_clock_12_11" file="graphics/clocks/red_lamp/12_segment/11.png" />
+	<icon name="button_clock_12_12" file="graphics/clocks/red_lamp/12_segment/12.png" />
+</root>

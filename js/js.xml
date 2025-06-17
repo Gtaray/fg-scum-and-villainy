@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="jobsheet">
+		<frame>partysheet</frame>
+		<sizelimits>
+			<minimum width="840" height="650" />
+			<dynamic />
+		</sizelimits>
+		<softclose />
+		<windowmenu>
+			<right>export_job</right>
+		</windowmenu>
+		<script>
+			function onInit()
+				WindowTabManager.populate(self);
+			end
+
+			function onDrop(x, y, draginfo)
+				JobManager.handleDrop(draginfo);
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_partysheet name="title">
+				<resource>js_window_title</resource>
+			</windowtitlebar_partysheet>
+			<windowmenubar_partysheet name="menubar" />
+
+			<anchor_content_partysheet_top />
+			<anchor_content_partysheet_bottom />
+
+			<resize_partysheet />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="combattracker_host" copy="jobsheet" />
+	<windowclass name="combattracker_client" copy="jobsheet" />
+</root>

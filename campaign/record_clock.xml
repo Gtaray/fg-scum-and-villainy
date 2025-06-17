@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="clock" copy="record_window">
+		<sizelimits>
+			<minimum height="500" />
+		</sizelimits>
+	</windowclass>
+	<windowclass name="clock_header" copy="record_header_id" />
+	
+	<windowclass name="clock_main">
+		<script file="campaign/scripts/clock_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<hn name="size" />
+
+			<label_content_column name="size_label">
+				<static textres="clock_label_size" />
+			</label_content_column>
+			<comboboxc_content_column_sizeselector name="size_selector">
+				<control>size</control>
+			</comboboxc_content_column_sizeselector>
+
+			<label_content_column name="progress_label">
+				<static textres="clock_label_progress" />
+			</label_content_column>
+			<number_content_column_clockprogress name="progress">
+				<maxsource>size</maxsource>
+			</number_content_column_clockprogress>
+
+			<button_content_top_clock_center name="clock">
+				<sourcefields>
+					<size>size</size>
+					<progress>progress</progress>
+				</sourcefields>
+			</button_content_top_clock_center>
+			
+			<ft_content name="notes">
+				<anchored>
+					<top offset="20" />
+				</anchored>
+				<nodrag />
+			</ft_content>
+		</sheetdata>
+	</windowclass>
+
+	<!-- COMMON CLOCKS TAB -->
+	<windowclass name="tab_clocks">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				local tFields = { "clocks", "clocks_iadd" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="header_clocks">
+				<static textres="clock_header_clocks" />
+			</header_content_framed_headersimple>
+
+			<button_iadd name="clocks_iadd">
+				<script>
+					function update(bReadOnly)
+						setVisible(not bReadOnly)
+					end
+				</script>
+				<anchored to="header_clocks" position="insidetopright" offset="2,0" />
+				<target>clocks</target>
+				<gmvisibleonly />
+			</button_iadd>
+
+			<list_content_noscroll_top name="clocks">
+				<script>
+					function update(bReadOnly)
+						for _, w in ipairs(getWindows()) do
+							w.update(bReadOnly);
+						end
+					end
+				</script>
+				<datasource>.clocks</datasource>
+				<class>clock_listitem</class>
+				<allowdelete />
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="clock_listitem">
+		<margins control="0,0,10,5" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "name", "notes", "clock", "sizeselector" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<hn name="size">
+				<default>4</default>
+			</hn>
+			<hn name="progress">
+				<default>0</default>
+			</hn>
+
+			<button_clock_listitem name="clock">
+				<script>
+					function update(bReadOnly)
+						if bReadOnly == nil then
+							bReadOnly = false
+						end
+
+						super.update();
+						setReadOnly(bReadOnly);
+					end
+				</script>
+			</button_clock_listitem>
+
+			<button_clock_to_chat name="chat">
+				<anchored to="clock" position="insidetopright" offset="5,0" />
+			</button_clock_to_chat>
+
+			<string_labeled_content_top name="name">
+				<anchored>
+					<left offset="0" />
+				</anchored>
+				<labelres>clock_label_name</labelres>
+			</string_labeled_content_top>
+
+			<label_content_column name="size_label">
+				<static textres="clock_label_size" />
+			</label_content_column>
+			<comboboxc_content_column_sizeselector name="sizeselector">
+				<script>
+					function onInit()
+						super.onInit();
+						self.update();
+					end
+					function update(bReadOnly)
+						if not Session.IsHost then
+							self.setComboBoxReadOnly(true);
+						else
+							self.setComboBoxReadOnly(bReadOnly);
+						end
+					end
+				</script>
+				<anchored>
+					<left offset="60" />
+				</anchored>
+				<control>size</control>
+			</comboboxc_content_column_sizeselector>
+
+			<ft_content_column_full name="notes" />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_actions">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_actions_contents</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_actions_contents">
+		<sheetdata>
+			<anchor_content_top />
+
+			<list_content_column_autopopulate name="attributes">
+				<script>
+					function getData()
+						return DataManager.getAttributes();
+					end
+				</script>
+				<class>charsheet_attribute</class>
+				<datasource>.attributes</datasource>
+			</list_content_column_autopopulate>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_attribute">
+		<script file="campaign/scripts/charsheet_attribute.lua" />
+		<margins control="0,0,0,4" />
+		<sheetdata>
+			<anchor_content_top />
+			<hs name="attribute" />
+			<hn name="resistancedice" source="resistance.bonusdice">
+				<default>0</default>
+			</hn>
+			<hn name="xpcur" source="xp.current">
+				<default>0</default>
+			</hn>
+			<hn name="xpmax" source="xp.maximum">
+				<default>6</default>
+			</hn>
+
+			<char_title_framed_top_right name="header">
+				<anchored>
+					<left offset="40" />
+				</anchored>
+			</char_title_framed_top_right>
+
+			<anchor_title_left>
+				<anchored to="header" />
+			</anchor_title_left>
+			<anchor_title_right>
+				<anchored to="header" />
+			</anchor_title_right>
+
+			<!-- LEFT -->
+			<char_button_resistance_left name="button_resistance_roll" />
+
+			<!-- RIGHT -->
+			<button_attribute_editor />
+			<char_rating_bg_title_right name="bg">
+				<control>xp</control>
+				<source>xp.maximum</source>
+			</char_rating_bg_title_right>
+			<char_rating_title_right name="xp">
+				<sourcefields>
+					<current>xp.current</current>
+					<maximum>xp.maximum</maximum>
+				</sourcefields>
+				<maxslotperrow>18</maxslotperrow>
+			</char_rating_title_right>
+
+			<list_content_column_autopopulate name="actions">
+				<script>
+					function getData()
+						return DataManager.getActionsForAttribute(window.attribute.getValue());
+					end
+				</script>
+				<class>charsheet_action</class>
+				<datasource>.actions</datasource>
+				<manual />
+				<anchored>
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</list_content_column_autopopulate>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_action">
+		<script file="campaign/scripts/charsheet_action.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<hs name="action" />
+			<hn name="bonusdice">
+				<default>0</default>
+			</hn>
+
+			<char_button_action_left />
+
+			<buttongroup_action_right name="rating" />
+
+			<stringc_listitem_center_noframe_static name="label" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_actions_attribute" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="240" />
+		</sizelimits>
+		<script>
+			function onInit()
+				local nodeAttr = getDatabaseNode()
+				local sAttribute = DB.getValue(nodeAttr, "attribute", "")
+
+				attribute.setValue(sAttribute)
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_attribute</prefix>
+				<field>attribute</field>
+			</windowtitlebar_charsheethelper>
+			<anchor_content_top />
+
+			<hs name="attribute" />
+
+			<label_content_column name="label_xp">
+				<static textres="char_label_attribute_xp" />
+			</label_content_column>
+
+			<number_content_column name="xp_current" source="xp.current">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored width="45" height="20">
+					<top offset="10" />
+				</anchored>
+				<min>0</min>
+				<default>0</default>
+				<maxsource>xp.maximum</maxsource>
+			</number_content_column>
+			<label_fieldtop>
+				<anchored to="xp_current" />
+				<static textres="char_label_attribute_current" />
+			</label_fieldtop>
+
+			<basicnumber name="xp_maximum" source="xp.maximum">
+				<anchored to="xp_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>6</default>
+				<max>18</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="xp_maximum" />
+				<static textres="char_label_attribute_maximum" />
+			</label_fieldtop>
+
+			<header_content_framed_headersimple name="bonusdice_header">
+				<static textres="char_header_attribute_bonusdice" />
+			</header_content_framed_headersimple>
+
+			
+			<label_content_column name="label_resistance">
+				<static textres="char_label_attribute_resistance" />
+			</label_content_column>
+			<number_content_column name="resistancedice" source="resistance.bonusdice">
+				<anchored width="45" height="20" />
+				<default>0</default>
+			</number_content_column>
+
+			<list_content_column name="actions">
+				<class>editor_charsheet_actions_action</class>
+				<datasource>.actions</datasource>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_actions_action">
+		<margins control="0,0,0,3" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="label_action">
+				<script>
+					function onInit()
+						local sAction = DB.getValue(window.getDatabaseNode(), "action", "");
+						local rAction = DataManager.getAction(sAction)
+						setValue(Interface.getString(rAction.sResource))
+					end
+				</script>
+			</label_content_column>
+			<number_content_column name="bonusdice">
+				<anchored width="45" height="20" />
+				<default>0</default>
+			</number_content_column>
+		</sheetdata>
+	</windowclass>
+</root>

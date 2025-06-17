@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_notes">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_notes_contents</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_contents">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_top name="details">
+				<class>charsheet_notes_details</class>
+			</sub_content_top>
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+
+			<sub_content_right name="notes">
+				<class>charsheet_notes_notes</class>
+				<anchored>
+					<left offset="-20" />
+					<bottom merge="delete" />
+				</anchored>
+				<noscroll />
+			</sub_content_right>
+
+			<sub_content_left name="contacts">
+				<class>charsheet_notes_contacts</class>
+				<anchored>
+					<right offset="-20" />
+					<bottom merge="delete" />
+				</anchored>
+				<noscroll />
+			</sub_content_left>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_details">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<char_title_framed_top name="details_title">
+				<static textres="char_title_details" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+
+			<spacer_content_top />
+
+			<button_details name="button_crewsheet">
+				<script>
+					function onButtonPress()
+						local sClass = "partysheet_client";
+						if Session.IsHost then
+							sClass = "partysheet_host";
+						end
+						local w = Interface.openWindow(sClass, DB.findNode("partysheet"));
+					end
+				</script>
+				<anchored to="contentanchor">
+					<top relation="current" offset="5" postoffset="5" />
+					<right offset="-15" />
+				</anchored>
+				<icon normal="button_link" pressed="button_link_down" />
+			</button_details>
+			<stringc_labeled_content_top name="crew">
+				<script>
+					function onInit()
+						DB.addHandler("partysheet.crew.name", "onUpdate", onUpdate)
+						self.onUpdate()
+					end
+					function onClose()
+						DB.removeHandler("partysheet.crew.name", "onUpdate", onUpdate)
+					end
+					function onUpdate()
+						setValue(CrewManager.getCrewName())
+					end
+				</script>
+				<readonly />
+				<labelres>char_label_crew</labelres>
+				<anchored>
+					<left offset="15" />
+					<right parent="button_crewsheet" anchor="left" />
+				</anchored>
+			</stringc_labeled_content_top>
+
+			<button_details name="button_heritage_editor">
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("heritage", DB.getChild(window.getDatabaseNode(), "heritage"));
+					end
+				</script>
+				<anchored to="contentanchor">
+					<top relation="current" offset="5" postoffset="5" />
+					<right anchor="center" offset="-5" />
+				</anchored>
+				<icon normal="button_link" pressed="button_link_down" />
+			</button_details>
+			<string_labeled_content_top name="heritage" source="heritage.name">
+				<labelres>char_label_heritage</labelres>
+				<anchored>
+					<top relation="current" />
+					<left offset="15" />
+					<right parent="button_heritage_editor" anchor="left" />
+				</anchored>
+			</string_labeled_content_top>
+
+			<button_details name="button_background_editor">
+				<script>
+					function onButtonPress()
+						local w = Interface.openWindow("background", DB.getChild(window.getDatabaseNode(), "background"));
+					end
+				</script>
+				<anchored to="contentanchor">
+					<top relation="current" offset="5" postoffset="5" />
+					<right offset="-15" />
+				</anchored>
+				<icon normal="button_link" pressed="button_link_down" />
+			</button_details>
+			<string_labeled_content_top name="background" source="background.name">
+				<labelres>char_label_background</labelres>
+				<anchored>
+					<left anchor="center" offset="5" />
+					<right parent="button_background_editor" anchor="left" />
+				</anchored>
+			</string_labeled_content_top>
+
+			<string_labeled_content_top name="vice">
+				<labelres>char_label_vice</labelres>
+				<anchored>
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</string_labeled_content_top>
+
+			<string_labeled_content_top name="look" source="look">
+				<labelres>char_label_look</labelres>
+				<anchored>
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</string_labeled_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_contacts">
+		<sheetdata>
+			<anchor_content_top />
+
+			<char_title_framed_top name="contacts_title">
+				<static textres="char_title_contacts" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			<button_iadd name="contacts_iadd">
+				<anchored to="contacts_title" position="insidetopright" offset="2,0" />
+				<target>contacts</target>
+			</button_iadd>
+
+			<list_content_top name="contacts">
+				<datasource>.contacts</datasource>
+				<class>charsheet_notes_contact</class>
+				<allowdelete />
+				<anchored>
+					<left offset="5" />
+					<right offset="0" />
+				</anchored>
+			</list_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_notes">
+		<sheetdata>
+			<anchor_content_top />
+
+			<char_title_framed_top name="notes_title">
+				<static textres="char_title_notes" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+
+			<stringu_content_noframe_noscroll_top name="notes">
+				<anchored>
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</stringu_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_contact">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_right />
+			<anchor_listitem_left />
+
+			<char_contact_state name="relationship" />
+
+			<linkc_listitem_right name="link">
+				<class>charsheet_contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_contact" copy="record_window" />
+
+	<windowclass name="charsheet_contact_main">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<hn name="relationship">
+				<script>
+					function onValueChanged()
+						window.relationship_combo.update();
+					end
+				</script>
+			</hn>
+			
+			<label_content_column name="relationship_label">
+				<static textres="contact_label_relationship" />
+			</label_content_column>
+			<comboboxc_content_column name="relationship_combo">
+				<script>
+					local bUpdating = false;
+					function onInit()
+						super.onInit();
+
+						self.add(Interface.getString("char_tooltip_contact_neutral"));
+						self.add(Interface.getString("char_tooltip_contact_friend"));
+						self.add(Interface.getString("char_tooltip_contact_enemy"));
+
+						self.update();
+					end
+					function onValueChanged()
+						bUpdating = true
+						local n = 0;
+						local s = self.getSelectedValue();
+						if s == Interface.getString("char_tooltip_contact_neutral") then
+							n = 0;
+						elseif s == Interface.getString("char_tooltip_contact_friend") then
+							n = 1;
+						elseif s == Interface.getString("char_tooltip_contact_enemy") then
+							n = 2;
+						end
+						window.relationship.setValue(n);
+						bUpdating = false;
+					end
+					function update()
+						if not bUpdating then
+							self.setListIndex(window.relationship.getValue() + 1);
+						end
+					end
+				</script>
+				<unsorted />
+			</comboboxc_content_column>
+
+			<ft_content_noframe_noscroll name="notes" />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="js_main">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>js_main_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_main_content">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+
+			<sub_content_top name="sub_header">
+				<class>js_main_header</class>
+			</sub_content_top>
+
+			<sub_content_top name="sub_crew">
+				<anchored width="270">
+					<right merge="delete" />
+					<top relation="current" />
+				</anchored>
+				<class>js_main_crew</class>
+				<noscroll />
+			</sub_content_top>
+
+			<sub_content_top name="sub_details">
+				<anchored>
+					<left parent="sub_crew" anchor="right" offset="20" />
+				</anchored>
+				<class>js_main_details</class>
+				<noscroll />
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_main_header">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<string_content_top_labeled name="jobname" source="job.name">
+				<labelres>js_label_name</labelres>
+				<font>jobname</font>
+				<multilinespacing>24</multilinespacing>
+				<anchored height="30" />
+			</string_content_top_labeled>
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+
+			<ft_content_column_full name="notes" source="job.description" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_main_details">
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="header_details">
+				<static textres="js_header_details" />
+			</header_content_framed_headersimple>
+
+			<label_content_column name="system_label">
+				<static textres="js_label_system" />
+			</label_content_column>
+			<linkfield_content_column_right name="systemlink" source="job.systemlink"/>
+			<stringc_content_column_systemname name="system">
+				<anchored>
+					<left offset="105" />
+					<right parent="systemlink" anchor="left" offset="3" />
+				</anchored>
+			</stringc_content_column_systemname>
+
+			<label_content_column name="payout_label">
+				<static textres="js_label_payout" />
+			</label_content_column>
+			<number_content_column name="payout" source="job.payout">
+				<min>0</min>
+				<default>4</default>
+			</number_content_column>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<header_content_framed_headersimple name="header_factions">
+				<static textres="js_header_factions" />
+			</header_content_framed_headersimple>
+
+			<list_content_column name="list">
+				<datasource>.job.factions</datasource>
+				<class>js_main_faction</class>
+				<allowdelete />
+			</list_content_column>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<header_content_framed_headersimple name="header_engagement">
+				<static textres="js_header_engagement" />
+			</header_content_framed_headersimple>
+
+			<label_content_column name="plan_label">
+				<static textres="js_label_engagement_plan" />
+			</label_content_column>
+			<combobox_content_column name="plan" source="engagement.plan">
+				<script>
+					function onInit()
+						super.onInit()
+
+						local types = DataManager.getEngagementsPlans()
+						for _, type in ipairs(types) do
+							self.add(type.sId, type.sLabel);
+						end
+					end
+				</script>
+			</combobox_content_column>
+
+			<spacer_content_top />
+
+			<stringc_engagement name="description">
+				<property>sDescription</property>
+			</stringc_engagement>
+			<stringc_engagement name="detail">
+				<property>sDetail</property>
+				<prefixres>js_label_engagement_detail</prefixres>
+			</stringc_engagement>
+			
+			<ft_content_column_full name="notes" source="engagement.notes" />
+
+			<spacer_content_top />
+
+			<label_content_column name="roll_label">
+				<static textres="js_label_engagement_roll" />
+			</label_content_column>
+
+			<button_engagement />
+
+			<spacer_content_top />
+
+			<number_content_column name="dice" source="engagement.dice">
+				<min>0</min>
+				<default>1</default>
+			</number_content_column>
+
+			<label_content_column name="startingposition_label">
+				<static textres="js_label_engagement_starting_position" />
+			</label_content_column>
+			<combobox_content_column name="startingposition" source="engagement.startingposition">
+				<script>
+					function onInit()
+						super.onInit()
+						self.add("controlled", Interface.getString("position_controlled"));
+						self.add("risky", Interface.getString("position_risky"));
+						self.add("desperate", Interface.getString("position_desperate"));
+					end
+				</script>
+			</combobox_content_column>			
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_main_faction" copy="ref_listitem_linked">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<button_listitem_checkbox_left name="standing" insertbefore="shortcut">
+				<state icon="button_checkoff" tooltipres="quest_tooltip_faction_status_neutral" merge="resetandadd" />
+				<state icon="button_triangle_up_blue" tooltipres="quest_tooltip_faction_status_raise" merge="add" />
+				<state icon="button_triangle_down_red" tooltipres="quest_tooltip_faction_status_lower" merge="add" />
+			</button_listitem_checkbox_left>
+
+			<link_listitem_right name="shortcut">
+				<class>faction</class>
+			</link_listitem_right>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_main_crew">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<header_content_framed_headersimple name="header">
+				<static textres="js_header_crew" />
+			</header_content_framed_headersimple>
+
+			<list_content_noscroll_top name="list">
+				<datasource>.crew</datasource>
+				<class>js_crew_member</class>
+				<sortby><control>name</control></sortby>
+				<allowdelete />
+				<empty font="list-empty" textres="js_emptycrewlist" />
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_crew_member">
+		<margins control="0,0,0,10" />
+		<frame>fieldlight</frame>
+		<sheetdata>
+			<hlink name="link">
+				<script>
+					function onValueChanged()
+						window.portrait.update();
+					end
+				</script>
+			</hlink>
+		
+			<portrait_js name="portrait">
+				<bounds>10,10,50,50</bounds>
+			</portrait_js>
+			
+			<string_js name="name">
+				<anchored position="insidetopleft" offset="65,10">
+					<right offset="-30" />
+				</anchored>
+				<empty textres="library_recordtype_empty_charsheet" />
+			</string_js>
+
+			<stress_js name="stress">
+				<anchored position="insidetopleft" offset="70,40">
+					
+				</anchored>
+			</stress_js>
+		</sheetdata>
+	</windowclass>
+</root>

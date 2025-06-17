@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_jobs">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="sub_shared">
+				<class>ps_jobs_main</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_jobs_main">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header">
+				<static textres="ps_title_jobs" />
+			</label_crewframe_top_right>
+			<list_content_alternating name="list">
+				<anchored>
+					<top offset="10" />
+				</anchored>
+				<datasource>.jobs</datasource>
+				<class>ps_job</class>
+				<allowdelete />
+			</list_content_alternating>
+			<scrollbar_content_list name="scrollbar_content_list" />
+
+			<button_iadd name="list_iadd">
+				<anchored to="list" position="aboveright" offset="5,15" />
+				<target>list</target>
+				<visible />
+				<script>
+					function onButtonPress()
+						if not Session.IsHost then
+							CrewManager.sendPlayerCreateJobOobMsg()
+							return;
+						end
+						super.onButtonPress();
+					end
+				</script>
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_job">
+		<margins control="0,0,0,10" />
+		<script file="ps/scripts/ps_job.lua" />
+		<sheetdata>
+			<anchor_listitem_right />
+			<anchor_listitem_left />
+
+			<button_job_expand_base name="expander_base" />
+			<button_job_expand_icon name="expander" />
+
+			<link_listitem_right name="shortcut">
+				<class>ps_job_editor</class>
+			</link_listitem_right>
+
+			<number_listitem_right name="payout">
+				<readonly />
+				<min>0</min>
+				<default>0</default>
+
+			</number_listitem_right>
+			<label_listitem_right name="payout_label">
+				<static textres="ps_label_payout" />
+			</label_listitem_right>
+
+			<string_listitem_center_underline name="name">
+				<anchored height="24" />
+				<font>jobname</font>
+			</string_listitem_center_underline>
+
+			<subwindow name="details">
+				<class>ps_job_details</class>
+				<anchored>
+					<top parent="name" anchor="bottom" offset="5" />
+					<left />
+					<right />
+				</anchored>
+				<activate />
+				<fastinit />
+			</subwindow>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_job_details">
+		<margins control="0,0,0,4" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<ft_content_column_full name="description">
+				<readonly />
+				<anchored>
+					<top relation="current" />
+					<right anchor="center" />
+				</anchored>
+			</ft_content_column_full>
+
+			<label_content_column name="system_label">
+				<static textres="ps_label_job_system" />
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</label_content_column>
+			<linkfield_content_column_right name="systemlink"/>
+			<stringc_content_column_noframe_static name="systemname">
+				<script>
+					function onInit()
+						DB.addHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+						update();
+					end
+					function onClose()
+						DB.removeHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+					end
+					function update()
+						local node = window.getDatabaseNode();
+						local _, sRecord = DB.getValue(node, "systemlink", "", "");
+						local systemNode = DB.findNode(sRecord);
+						if not systemNode then
+							setValue("Unknown");
+							return;
+						end
+						setValue(DB.getValue(systemNode, "name", ""));
+					end
+				</script>
+				<readonly />
+				<anchored>
+					<left anchor="center" offset="110" />
+					<right parent="systemlink" anchor="left" offset="3" />
+				</anchored>
+			</stringc_content_column_noframe_static>
+
+			<label_content_column name="engagement_label">
+				<static textres="ps_label_engagement" />
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</label_content_column>
+			<string_content_column name="engagementplan">
+				<readonly />
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</string_content_column>
+
+			<list_content_column name="list">
+				<datasource>.factions</datasource>
+				<class>ps_job_faction</class>
+				<allowdelete />
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_job_faction" copy="ref_listitem_linked">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<button_listitem_standing name="standing" insertbefore="shortcut" />
+
+			<link_listitem_right name="shortcut">
+				<class>faction</class>
+			</link_listitem_right>
+		</sheetdata>
+	</windowclass>
+
+	<!-- GM Job Editor -->
+	<windowclass name="ps_job_editor" copy="record_window_tabbed">
+		<sizelimits>
+			<minimum height="500" />
+		</sizelimits>
+		<tab>
+			<name>main</name>
+			<resource>ps_job_editor_tab_main</resource>
+			<class>ps_job_editor_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>notes</name>
+			<resource>ps_job_editor_tab_notes</resource>
+			<class>ps_job_editor_notes</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>gmnotes</name>
+			<resource>gmnotes_tab</resource>
+			<class>tab_gmnotes</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="ps_job_editor_main">
+		<script>
+			function onInit()
+				self.update();
+			end
+
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				local tFields = { "payout", "description", "factionlist" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+
+			function onDrop(x, y, draginfo)
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				if bReadOnly then
+					return true;
+				end
+
+				if draginfo.isType("shortcut") then
+					local sClass, sRecord = draginfo.getShortcutData();
+					local node = DB.findNode(sRecord);
+					if RecordDataManager.isRecordTypeDisplayClass("system", sClass) then
+						return self.addSystem(node);
+					elseif RecordDataManager.isRecordTypeDisplayClass("faction", sClass) then
+						return self.addFaction(node);
+					end
+				end
+			end
+
+			function addSystem(nodeSystem)
+				systemlink.setValue("system", DB.getPath(nodeSystem));
+			end
+
+			function addFaction(nodeFaction)
+				if not nodeFaction then
+					return;
+				end
+
+				local w = factionlist.createWindow();
+				w.shortcut.setValue("faction", DB.getPath(nodeFaction));
+				return true;
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="information_header">
+				<static textres="quest_header_information" />
+			</header_content_framed_headersimple>
+			<label_content_column name="payout_label">
+				<static textres="quest_label_payout" />
+			</label_content_column>
+			<number_content_column name="payout">
+				<min>0</min>
+				<max>20</max>
+				<default>4</default>
+			</number_content_column>
+			<label_content_column name="system_label">
+				<static textres="quest_label_system" />
+			</label_content_column>
+			<linkfield_content_column_right name="systemlink"/>
+			<stringc_content_column_systemname name="system">
+				<anchored>
+					<right parent="systemlink" anchor="left" offset="3" />
+				</anchored>
+			</stringc_content_column_systemname>
+
+			<header_content_framed_headersimple name="faction_header">
+				<static textres="quest_header_factions" />
+			</header_content_framed_headersimple>
+
+			<list_content_column name="factionlist">
+				<datasource>.factions</datasource>
+				<class>quest_faction</class>
+				<allowdelete />
+				<script>
+					function update()
+						local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+						for _, w in ipairs(getWindows()) do
+							w.standing.setReadOnly(bReadOnly);
+						end
+					end
+				</script>
+			</list_content_column>
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="quest_header_description" />
+			</header_content_framed_headersimple>
+
+			<ft_content_columnh_full name="description" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_job_editor_notes">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				local tFields = { "notes" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<ft_content_column_full name="notes">
+				<anchored>
+					<bottom parent="bottomanchor" relation="relative" offset="-3" postoffset="-3" />
+				</anchored>
+			</ft_content_column_full>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="quest_faction" copy="ref_listitem_linked">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<button_listitem_standing name="standing" insertbefore="shortcut" />
+
+			<link_listitem_right name="shortcut">
+				<class>faction</class>
+			</link_listitem_right>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Player Job Editor -->
+</root>

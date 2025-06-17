@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>    
+    <windowclass name="faction" copy="record_window_tabbed">
+		<script>
+			function onDrop(x, y, draginfo)
+				ClockManager.handleClockDrop(draginfo, self);
+			end
+		</script>
+		<sizelimits>
+			<minimum height="500" />
+		</sizelimits>
+		<tab>
+			<name>main</name>
+			<resource>faction_tab_main</resource>
+			<class>faction_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>clocks</name>
+			<resource>clocks_tab</resource>
+			<class>tab_clocks</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>gmnotes</name>
+			<resource>gmnotes_tab</resource>
+			<class>tab_gmnotes</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+	</windowclass>
+	<windowclass name="factions_header" copy="record_header" />
+	
+	<windowclass name="faction_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/faction_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<hn name="goalclocksize" source="goal.clocksize" />
+			<hn name="goalprogress" source="goal.progress" />
+			
+			<label_content_column name="tier_label">
+				<static textres="faction_label_tier" />
+			</label_content_column>
+			<number_content_column name="tier">
+				<min>1</min>
+				<max>5</max>
+				<default>1</default>
+				<rollable />
+				<script>
+					function onDoubleClick(x, y)
+						action();
+						return true;
+					end
+					function onDragStart(button, x, y, draginfo)
+						action(draginfo)
+						return true;
+					end
+					function action(draginfo)
+						local node = window.getDatabaseNode();
+						local sName = DB.getValue(node, "name", "");
+
+						local rAction = {
+							nScore = getValue(),
+							sLabel = string.format("%s - %s", sName, Interface.getString("roll_label_tier"))
+						}
+						ActionFortune.performRoll(draginfo, nil, rAction);
+					end
+				</script>
+			</number_content_column>
+			<label_content_column name="description_label">
+				<static textres="faction_label_description" />
+			</label_content_column>
+			<string_content_column name="description" />
+			
+			<label_content_column name="situation_label">
+				<static textres="faction_label_situation" />
+			</label_content_column>
+			<string_content_column name="situation" />
+
+			<spacer_content_top />
+
+			<header_content_framed_headersimple name="information_header">
+				<static textres="faction_header_information" />
+			</header_content_framed_headersimple>
+			
+			<label_content_column name="turf_label">
+				<static textres="faction_label_turf" />
+			</label_content_column>
+			<string_content_column name="turf" />
+
+			<label_content_column name="npcs_label">
+				<static textres="faction_label_npcs" />
+			</label_content_column>
+			<string_content_column name="npcs" />
+
+			<label_content_column name="assets_label">
+				<static textres="faction_label_assets" />
+			</label_content_column>
+			<string_content_column name="assets" />
+			
+			<label_content_column name="quirks_label">
+				<static textres="faction_label_quirks" />
+			</label_content_column>
+			<string_content_column name="quirks" />
+			
+			<label_content_column name="allies_label">
+				<static textres="faction_label_allies" />
+			</label_content_column>
+			<string_content_column name="allies" />
+			
+			<label_content_column name="enemies_label">
+				<static textres="faction_label_enemies" />
+			</label_content_column>
+			<string_content_column name="enemies" />
+
+			<header_content_framed_headersimple name="npcs_header">
+				<static textres="faction_header_npcs" />
+			</header_content_framed_headersimple>
+
+			<list_content_column name="npclist">
+				<datasource>.npclist</datasource>
+				<class>faction_npc</class>
+				<allowdelete />
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="faction_npc" copy="ref_listitem_linked">
+		<margins control="0,0,0,2" />
+		<sheetdata>            
+			<link_listitem_right name="shortcut">
+				<class>npc</class>
+			</link_listitem_right>
+		</sheetdata>
+	</windowclass>
+</root>

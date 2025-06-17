@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+
+	<template name="buttongroup_rating">
+		<genericcontrol>
+			<anchored height="32" width="28" />
+			<allowsinglespacing />
+			<spacing>17</spacing>
+			<script file="common/scripts/buttongroup_counter.lua" />
+		</genericcontrol>
+	</template>
+	<template name="buttongroup_rating_blue">
+		<buttongroup_rating>
+			<stateicons>
+				<off>button_rating</off>
+				<on>button_rating_down</on>
+			</stateicons>
+		</buttongroup_rating>
+	</template>
+	<template name="buttongroup_rating_red">
+		<buttongroup_rating>
+			<stateicons>
+				<off>button_rating</off>
+				<on>button_rating_red</on>
+			</stateicons>
+		</buttongroup_rating>
+	</template>
+
+	<template name="buttongroup_rating_small">
+		<genericcontrol>
+			<anchored height="22" width="20" />
+			<allowsinglespacing />
+			<spacing>14</spacing>
+			<script file="common/scripts/buttongroup_counter.lua" />
+		</genericcontrol>
+	</template>
+	<template name="buttongroup_rating_small_blue">
+		<buttongroup_rating_small>
+			<stateicons>
+				<off>button_rating_small</off>
+				<on>button_rating_small_down</on>
+			</stateicons>
+		</buttongroup_rating_small>
+	</template>
+	<template name="buttongroup_rating_small_red">
+		<buttongroup_rating_small>
+			<stateicons>
+				<off>button_rating_small</off>
+				<on>button_rating_small_red</on>
+			</stateicons>
+		</buttongroup_rating_small>
+	</template>
+
+	<template name="bg_rating_base">
+		<genericcontrol>
+			<script>
+				function onInit()
+					if source and source[1] then
+						DB.addHandler(DB.getPath(window.getDatabaseNode(), source[1]), "onUpdate", update)
+					end
+				end
+				function onClose()
+					if source and source[1] then
+						DB.removeHandler(DB.getPath(window.getDatabaseNode(), source[1]), "onUpdate", update)
+					end
+				end
+				function onFirstLayout()
+					self.update()
+				end
+				function update()
+					if control and control[1] then
+						local nOffset = 0;
+						if offset and offset[1] then
+							nOffset = tonumber(offset[1]) or 0;
+						end
+
+						window[control[1]].updateSlots()
+						local w = window[control[1]].getAnchoredWidth()
+						setAnchoredWidth(w + nOffset)
+					end
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<template name="bg_rating">
+		<bg_rating_base>
+			<frame name="rating_bg" />
+			<anchored height="32">
+				<top offset="-1" />
+				<right offset="-6" />
+			</anchored>
+			<offset>10</offset>
+		</bg_rating_base>
+	</template>
+
+	<template name="bg_rating_small">
+		<bg_rating_base>
+			<frame name="rating_bg_small" />
+			<anchored height="22">
+				<top offset="-1" />
+				<right offset="-7" />
+			</anchored>
+			<offset>6</offset>
+		</bg_rating_base>
+	</template>
+
+	<template name="buttongroup_listitem_counter_base">
+		<buttongroup_counter>
+			<anchored height="12" />
+			<spacing>16</spacing>
+			<allowsinglespacing />
+		</buttongroup_counter>
+	</template>
+	<template name="buttongroup_column_counter">
+		<buttongroup_counter>
+			<spacing>16</spacing>
+			<allowsinglespacing />
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+		</buttongroup_counter>
+	</template>
+	<template name="buttongroup_listitem_counter_left">
+		<buttongroup_listitem_counter_base>
+			<anchored to="leftanchor">
+				<top offset="2" />
+				<left relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</buttongroup_listitem_counter_base>
+	</template>
+	<template name="buttongroup_listitem_counter_right">
+		<buttongroup_listitem_counter_base>
+			<anchored to="rightanchor">
+				<top offset="2" />
+				<right relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</buttongroup_listitem_counter_base>
+	</template>
+	
+	<template name="ft_listitem_base">
+		<simpleft>
+			<anchored to="contentanchor">
+				<top />
+				<left offset="10" />
+				<right offset="-10" />
+				<sizelimits>
+					<minimum height="20" />
+				</sizelimits>
+			</anchored>
+		</simpleft>
+	</template>
+	<template name="ft_listitem_center">
+		<ft_listitem_base>
+			<anchored to="">
+				<left parent="leftanchor" anchor="right" relation="current" />
+				<right parent="rightanchor" anchor="left" relation="current" />
+			</anchored>
+		</ft_listitem_base>
+	</template>
+	<template name="ft_listitem_center_framed">
+		<ft_listitem_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+			<frame mergerule="replace" name="fielddark" offset="10,5,20,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="10,5,20,5" />
+				<hover name="fieldfocus" offset="10,5,20,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="10,5,20,5" hidereadonly="true" />
+			</stateframe>
+		</ft_listitem_base>
+	</template>
+	<template name="ft_content_column">
+		<ft_content_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<empty merge="delete" />
+		</ft_content_base>
+	</template>
+
+	<template name="ftc_listitem_base">
+		<formattedtextcontrol>
+			<anchored to="contentanchor">
+				<top />
+				<left offset="10" />
+				<right offset="-10" />
+				<sizelimits>
+					<minimum height="20" />
+				</sizelimits>
+			</anchored>
+		</formattedtextcontrol>
+	</template>
+	<template name="ftc_listitem_noframe_center">
+		<ftc_listitem_base>
+			<anchored to="">
+				<left parent="leftanchor" anchor="right" relation="current" />
+				<right parent="rightanchor" anchor="left" relation="current" />
+			</anchored>
+		</ftc_listitem_base>
+	</template>
+
+	<template name="button_details_header">
+		<button_details>
+			<anchored>
+				<top anchor="center" offset="-10" />
+				<right offset="0" />
+			</anchored>
+		</button_details>
+	</template>
+
+	<template name="stringc_listitem_center_underline">
+		<stringc_listitem_static_base>
+			<anchored to="rightanchor">
+				<top />
+				<left parent="leftanchor" relation="current" offset="10" />
+				<right relation="current" offset="-10" />
+			</anchored>
+			<controlline />
+			<readonly />
+			<frame merge="delete" />
+		</stringc_listitem_static_base>
+	</template>
+
+	<template name="string_labeled_content_top">
+		<string_labeled>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="5" postoffset="5" />
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+		</string_labeled>
+	</template>
+	<template name="stringc_labeled_content_top">
+		<stringc_labeled>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="5" postoffset="5" />
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+			<nodrag />
+		</stringc_labeled>
+	</template>
+
+	<template name="label_content_top_center">
+		<label >
+			<anchored to="contentanchor">
+				<top relation="current" offset="3" />
+				<left />
+				<right />
+			</anchored>
+			<center />
+		</label>
+	</template>
+
+	<template name="list_content_column_autopopulate">
+		<list_content_column>
+			<!-- Initializes list. It should only ever do this once -->
+			<script>
+				function onInit()
+					if super and super.onInit then
+						super.onInit();
+					end
+					
+					if manual then
+						return;
+					end
+
+					self.populate();
+				end
+				function populate()
+					local nWindows = DB.getChildCount(getDatabaseNode());
+					if nWindows &gt; 0 then
+						return;
+					end
+
+					local aData = {};
+					if self.getData then
+						aData = self.getData();
+					end
+					for nIndex, tData in ipairs(aData) do
+						local w = createWindow();
+						if w.setData then
+							w.setData(tData);
+						end
+					end
+				end
+			</script>
+		</list_content_column>
+	</template>
+
+	<template name="comboboxc_content_column">
+		<comboboxc>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="110" />
+				<right offset="-10" />
+			</anchored>
+			<frame>
+				<name>fieldlight</name>
+				<offset>10,5,10,5</offset>
+				<hidereadonly />
+			</frame>
+			<listdirection>down</listdirection>
+		</comboboxc>
+	</template>
+
+	<template name="buttonc_checkbox_content_column">
+		<buttonc_checkbox>
+			<anchored to="contentanchor" width="20" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="100" />
+			</anchored>
+		</buttonc_checkbox>
+	</template>
+
+	<template name="linkfield_content_column_right">
+		<linkfield_statich>
+			<anchored height="20" width="20">
+				<top parent="contentanchor" relation="current" offset="3" postoffset="3" />
+				<right />
+			</anchored>
+			<invisible />
+			<readonly />
+		</linkfield_statich>
+	</template>
+
+	<template name="stringc_content_column_systemname">
+		<stringc_content_column_noframe_static>
+			<script>
+				function onInit()
+					DB.addHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+					update();
+				end
+				function onClose()
+					DB.removeHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+				end
+				function update()
+					if not window.systemlink then
+						setValue("");
+					end
+
+					local _, sRecord = window.systemlink.getValue()
+					local systemNode = DB.findNode(sRecord);
+					if not systemNode then
+						setValue("");
+						return;
+					end
+					setValue(DB.getValue(systemNode, "name", ""));
+				end
+			</script>
+		</stringc_content_column_noframe_static>
+	</template>
+
+	<template name="button_listitem_standing">
+		<button_listitem_checkbox_left>
+			<state icon="button_checkoff" tooltipres="quest_tooltip_faction_status_neutral" merge="resetandadd" />
+			<state icon="button_triangle_up_blue" tooltipres="quest_tooltip_faction_status_raise" merge="add" />
+			<state icon="button_triangle_down_red" tooltipres="quest_tooltip_faction_status_lower" merge="add" />
+		</button_listitem_checkbox_left>
+	</template>
+</root>

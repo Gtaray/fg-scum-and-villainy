@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ref_listitem_linked">
+		<margins control="0,0,0,4" />
+		<script file="common/scripts/ref_listitem_linked.lua" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<link_listitem_right name="shortcut" />
+			<stringc_listitem_center_underline name="name" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ref_listitem_ability" copy="ref_listitem_linked">
+		<margins control="0,0,0,4" />
+		<script>
+			function onInit()
+				super.onInit()
+
+				if windowlist.hidegiven then
+					given.setVisible(false);
+				end
+			end
+			function update()
+				super.update();
+
+				local w = UtilityManager.getTopWindow(self);
+				local bReadOnly = WindowManager.getReadOnlyState(w.getDatabaseNode());
+				local bEmpty = shortcut.isEmpty();
+				given.setReadOnly(bReadOnly or bEmpty);
+			end
+		</script>
+		<sheetdata>
+			<button_listitem_checkbox_left name="given" insertbefore="shortcut" />
+		</sheetdata>
+	</windowclass>
+</root>

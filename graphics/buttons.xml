@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<icon name="button_rating" file="graphics/buttons/button_rating.png" />
+	<icon name="button_rating_down" file="graphics/buttons/button_rating_filled.png" />
+	<icon name="button_rating_red" file="graphics/buttons/button_rating_red.png" />
+
+	<icon name="button_rating_small" file="graphics/buttons/button_rating_small.png" />
+	<icon name="button_rating_small_down" file="graphics/buttons/button_rating_small_filled.png" />
+	<icon name="button_rating_small_red" file="graphics/buttons/button_rating_small_red.png" />
+
+	<icon name="button_rating_split" file="graphics/buttons/button_rating_split.png" />
+	<icon name="button_rating_split_top" file="graphics/buttons/button_rating_split_top.png" />
+	<icon name="button_rating_split_bottom" file="graphics/buttons/button_rating_split_bottom.png" />
+	<icon name="button_rating_split_both" file="graphics/buttons/button_rating_split_both.png" />
+
+	<icon name="button_checkon_red" file="graphics/buttons/button_checkon_red.png" />
+
+	<icon name="button_triangle_up_empty" file="graphics/buttons/checkbox_up_arrow_off.png" />
+	<icon name="button_triangle_down_empty" file="graphics/buttons/checkbox_down_arrow_off.png" />
+	<icon name="button_triangle_up_blue" file="graphics/buttons/checkbox_up_arrow_blue.png" />
+	<icon name="button_triangle_down_blue" file="graphics/buttons/checkbox_down_arrow_blue.png" />
+	<icon name="button_triangle_up_red" file="graphics/buttons/checkbox_up_arrow_red.png" />
+	<icon name="button_triangle_down_red" file="graphics/buttons/checkbox_down_arrow_red.png" />
+</root>

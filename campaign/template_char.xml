@@ -1,0 +1,522 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- SUBWINDOWS -->
+	<template name="sub_content_top_right">
+		<sub_content_right>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<bottom merge="delete" />
+			</anchored>
+		</sub_content_right>
+	</template>
+	<template name="sub_content_top_left">
+		<sub_content_left>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+				<bottom merge="delete" />
+			</anchored>
+		</sub_content_left>
+	</template>
+
+	<!-- TITLES-->
+	<template name="anchor_title_left">
+		<genericcontrol name="leftanchor">
+			<anchored height="20" width="0">
+				<top offset="0" />
+				<left offset="5" />
+			</anchored>
+		</genericcontrol>
+		<invisible />
+		<disabled />
+	</template>
+	<template name="anchor_title_right">
+		<genericcontrol name="rightanchor">
+			<anchored height="20" width="0">
+				<top offset="0" />
+				<right offset="-5" />
+			</anchored>
+		</genericcontrol>
+		<invisible />
+		<disabled />
+	</template>
+
+	<template name="char_title_framed_top">
+		<label_charframetop>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="5" postoffset="5" />
+				<left offset="15" />
+				<right offset="-15" />
+			</anchored>
+			<font>charheader_small</font>
+		</label_charframetop>
+	</template>
+	<template name="char_title_framed_top_right">
+		<char_title_framed_top>
+			<center merge="delete" />
+		</char_title_framed_top>
+	</template>
+	<template name="char_title_noframe_center">
+		<label>
+			<anchored to="leftanchor" height="20">
+				<top />
+				<left relation="current" offset="0" />
+				<right parent="rightanchor" relation="current" offset="0" />
+			</anchored>
+			<font>charheader_small</font>
+		</label>
+	</template>
+
+	<template name="char_rating_title_right">
+		<buttongroup_rating_small_blue>
+			<anchored to="rightanchor">
+				<top offset="3" />
+				<right offset="-5" relation="relative" />
+			</anchored>
+		</buttongroup_rating_small_blue>
+	</template>
+	<template name="char_rating_top">
+		<buttongroup_rating_small_blue>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="3" postoffset="3" />
+			</anchored>
+		</buttongroup_rating_small_blue>
+	</template>
+	<template name="char_rating_top_left">
+		<char_rating_top>
+			<anchored>
+				<left offset="20" />
+			</anchored>
+		</char_rating_top>
+	</template>
+
+	<template name="char_red_rating_title_right">
+		<buttongroup_rating_small_red>
+			<anchored to="rightanchor">
+				<top offset="3" />
+				<right offset="-5" relation="relative" />
+			</anchored>
+		</buttongroup_rating_small_red>
+	</template>
+	<template name="char_red_rating_top">
+		<char_red_rating_title_right>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="3" postoffset="3" />
+			</anchored>
+		</char_red_rating_title_right>
+	</template>
+	<template name="char_red_rating_top_left">
+		<char_red_rating_top>
+			<anchored>
+				<left offset="20" />
+			</anchored>
+		</char_red_rating_top>
+	</template>
+	<template name="char_red_rating_top_right">
+		<char_red_rating_top>
+			<anchored>
+				<right anchor="right" offset="-20" />
+			</anchored>
+		</char_red_rating_top>
+	</template>
+
+	<template name="char_rating_bg_title_right">
+		<bg_rating_small>
+			<anchored to="rightanchor">
+				<top />
+				<right offset="-2" relation="current" />
+			</anchored>
+		</bg_rating_small>
+	</template>
+
+	<!-- RATINGS -->
+	<template name="char_rating_column_blue">
+		<buttongroup_rating_small_blue>
+			<anchored to="contentanchor">
+				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
+				<left offset="77" />
+			</anchored>
+		</buttongroup_rating_small_blue>
+	</template>
+	<template name="char_rating_column_red">
+		<buttongroup_rating_small_red>
+			<anchored to="contentanchor">
+				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
+				<left offset="77" />
+			</anchored>
+		</buttongroup_rating_small_red>
+	</template>
+
+	<!-- ATTRIBUTES -->
+	<template name="button_attribute_editor">
+		<button_details>
+			<script>
+				function onButtonPress()
+					local w = Interface.openWindow("editor_charsheet_actions_attribute", window.getDatabaseNode());
+				end
+			</script>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-5" />
+			</anchored>
+		</button_details>
+	</template>
+
+	<template name="char_button_resistance_left">
+		<button_roll>
+			<script>
+				function onButtonPress()
+					self.action()
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					window.performResistanceRoll(draginfo);
+				end
+			</script>
+			<anchored to="header" height="30" width="30" >
+				<top offset="-5" />
+				<right anchor="left" offset="-10" />
+			</anchored>
+		</button_roll>
+	</template>
+
+	<!-- ACTIONS -->
+	<template name="char_button_action_base">
+		<button_roll>
+			<script>
+				function onButtonPress()
+					self.action()
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					window.performActionRoll(draginfo);
+				end
+			</script>
+		</button_roll>
+	</template>
+	<template name="char_button_action_left">
+		<char_button_action_base>
+			<anchored to="leftanchor">
+				<top />
+				<left relation="relative" offset="5" />
+			</anchored>
+		</char_button_action_base>
+	</template>
+	<template name="char_button_action_right">
+		<char_button_action_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-15" />
+			</anchored>
+		</char_button_action_base>
+	</template>
+	
+	<template name="buttongroup_action_left">
+		<buttongroup_listitem_counter_left>
+			<anchored>
+				<top offset="4" />
+				<left offset="5" />
+			</anchored>
+			<values><maximum>3</maximum></values>
+			<sourcefields><current>rating</current></sourcefields>
+		</buttongroup_listitem_counter_left>
+	</template>
+	<template name="buttongroup_action_right">
+		<buttongroup_listitem_counter_right>
+			<anchored>
+				<top offset="4" />
+				<right offset="-5" />
+			</anchored>
+			<values><maximum>3</maximum></values>
+			<sourcefields><current>rating</current></sourcefields>
+		</buttongroup_listitem_counter_right>
+	</template>
+
+	<!-- STRESS / TRAUMA -->
+
+	<template name="button_recoveryclock">
+		<button_content_top_clock>
+			<anchored width="80" height="80">
+				<left anchor="center" offset="-40" />
+			</anchored>
+			<sourcefields>
+				<size>health.recovery.clocksize</size>
+				<progress>health.recovery.progress</progress>
+			</sourcefields>
+		</button_content_top_clock>
+	</template>
+
+	<!-- LOADOUT -->
+	<template name="label_carried">
+		<stringcontrol>
+			<anchored height="20">
+				<top />
+				<left anchor="left" offset="10" />
+			</anchored>
+			<font>charheader_small</font>
+			<script>
+				function onInit()
+					local nodeChar = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(nodeChar, "inventory.load.*"), "onUpdate", update)
+					DB.addHandler(DB.getPath(nodeChar, "inventory.gear.*.load"), "onUpdate", update)
+					DB.addHandler(DB.getPath(nodeChar, "inventory.gear.*.equipped"), "onUpdate", update)
+					self.update()
+				end
+				
+				function onClose()
+					local nodeChar = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(nodeChar, "inventory.load.*"), "onUpdate", update)
+					DB.removeHandler(DB.getPath(nodeChar, "inventory.gear.*.load"), "onUpdate", update)
+					DB.removeHandler(DB.getPath(nodeChar, "inventory.gear.*.equipped"), "onUpdate", update)
+				end
+
+				function update()
+					local nodeChar = window.getDatabaseNode();
+					local nCarried = CharManager.getCurrentCarriedLoad(nodeChar)
+					local nLoad = CharManager.getCurrentMaxLoad(nodeChar)
+					local sText = string.format(Interface.getString("char_label_carried"), nCarried, nLoad)
+
+					setValue(sText);
+
+					if nCarried &gt; nLoad then
+						setColor(ColorManager.getUIColor("field_error"))
+					else
+						setColor(nil);
+					end
+				end
+			</script>
+			<readonly />
+		</stringcontrol>
+	</template>
+	<template name="checkbox_load">
+		<button_checkbox_content_column>
+			<anchored>
+				<top relation="current" />
+				<left parent="load_label" anchor="right" relation="relative" offset="4" postoffset="4" />
+			</anchored>
+		</button_checkbox_content_column>
+	</template>
+	<template name="label_loadcheckbox">	
+		<stringc_content_column_noframe_static>
+			<script>
+				local sRes = ""
+				local sSourceNode = ""
+
+				function onInit()
+					if super and super.onInit then
+						super.onInit();
+					end
+
+					sRes = string.format("char_label_%sload", load[1])
+					sSourceNode = string.format("inventory.load.%samount", load[1]);
+					DB.addHandler(DB.getPath(window.getDatabaseNode(), sSourceNode), "onUpdate", update)
+
+					self.update()
+				end	
+
+				function onClose()
+					DB.removeHandler(DB.getPath(window.getDatabaseNode(), sSourceNode), "onUpdate", update)
+				end
+
+				function update()
+					local nValue = DB.getValue(window.getDatabaseNode(), sSourceNode, 0)
+					setValue(string.format(Interface.getString(sRes), nValue))
+				end
+			</script>
+			<anchored width="60">
+				<top relation="current" />
+				<left parent="load_label" anchor="right" relation="relative" offset="1" postoffset="1" />
+				<right merge="delete" />
+			</anchored>
+		</stringc_content_column_noframe_static>
+	</template>
+
+	<template name="list_inventory">
+		<list_content_noscroll_alternating_top>
+			<script>				
+				local sFilterProperty;
+				local sFilterValue = "";
+				function onInit()
+					if filter and filter[1] then
+						if filter[1].property and filter[1].property[1] then
+							sFilterProperty = filter[1].property[1]
+						end
+						if filter[1].value and filter[1].value[1] then
+							sFilterValue = filter[1].value[1]
+						end
+					end
+					
+					if not sFilterProperty then
+						return;
+					end
+
+					local node = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(node, "inventorylist.*.isplaybook"), "onUpdate", onItemTypeUpdated);
+
+					applyFilter();
+				end
+				function onClose()
+					if not sFilterProperty then
+						return;
+					end
+					
+					local node = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(node, "inventorylist.*.isplaybook"), "onUpdate", onItemTypeUpdated);
+				end
+				function onItemTypeUpdated()
+					applyFilter();
+				end
+				function onFilter(w)
+					if not sFilterProperty then return true end;
+
+					local node = w.getDatabaseNode()
+					local sValue = DB.getValue(node, sFilterProperty, ""):lower();
+					return sValue == sFilterValue:lower();
+				end
+			</script>
+			<anchored>
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<class>charsheet_inventory_item</class>
+			<allowdelete />
+		</list_content_noscroll_alternating_top>
+	</template>
+
+	<template name="buttongroup_loadout">
+		<buttongroup_listitem_counter_left>
+			<script>
+				function onClickRelease(button, x, y)
+					if isReadOnly() then
+						return;
+					end
+
+					local itemnode = window.getDatabaseNode();
+
+					local m = self.getMaxValue();
+					local c = self.getCurrentValue();
+					if c ~= 0 then
+						self.setCurrentValue(0);
+					else
+						self.setCurrentValue(m);
+					end
+					
+					return true;
+				end
+				function getMaxValue()
+					local m = super.getMaxValue();
+					if m == 0 then
+						m = 1;
+					end
+					return m;
+				end
+			</script>
+			<sourcefields>
+				<maximum>load</maximum>
+				<current>equipped</current>
+			</sourcefields>
+		</buttongroup_listitem_counter_left>
+	</template>
+
+	<template name="string_listitem_center_inventoryitem">
+		<string_listitem_center_text>
+			<script>
+				function onInit()
+					local node = window.getDatabaseNode();
+					DB.addHandler(DB.getPath(node, "load"), "onUpdate", update)
+					DB.addHandler(DB.getPath(node, "quality"), "onUpdate", update)
+					self.update();
+				end
+				function onClose()
+					local node = window.getDatabaseNode();
+					DB.removeHandler(DB.getPath(node, "load"), "onUpdate", update)
+					DB.removeHandler(DB.getPath(node, "quality"), "onUpdate", update)
+				end
+				function update()
+					local node = window.getDatabaseNode();
+					local nQuality = DB.getValue(node, "quality", 0);
+					local nLoad = DB.getValue(node, "load", 0);
+
+					local bItalics = nLoad == 0;
+					local bBold = nQuality == 1;
+
+					if bItalics and bBold then
+						setFont("reference-bi");
+					elseif bItalics then
+						setFont("reference-i");
+					elseif bBold then
+						setFont("reference-b");
+					else
+						setFont("reference-r");
+					end
+				end
+			</script>
+			<nodrop />
+		</string_listitem_center_text>
+	</template>
+
+	<template name="char_inventory_cred">
+		<buttongroup_counter>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="3" postoffset="3" />
+				<left anchor="center" offset="-40" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>20</spacing>
+			<maxslotperrow>4</maxslotperrow>
+			<sourcefields>
+				<current>cred.current</current>
+				<maximum>cred.max</maximum>
+			</sourcefields>
+		</buttongroup_counter>
+	</template>
+
+	<template name="char_inventory_stash">
+		<buttongroup_counter>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="6" postoffset="6" />
+				<left anchor="center" offset="-100" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>20</spacing>
+			<maxslotperrow>10</maxslotperrow>
+			<sourcefields>
+				<current>cred.stashed</current>
+				<maximum>cred.stashmax</maximum>
+			</sourcefields>
+		</buttongroup_counter>
+	</template>
+
+	<!-- ABILITIES -->
+	<template name="char_abilities_list">
+		<list_content_top>
+			<anchored>
+				<top offset="6" postoffset="6" />
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<class>charsheet_ability_item</class>
+			<allowdelete />
+		</list_content_top>
+	</template>
+	
+	<!-- NOTES -->
+	<template name="char_contact_state">
+		<button_listitem_checkbox_left>
+			<state icon="button_checkoff" tooltipres="char_tooltip_contact_neutral" merge="resetandadd" />
+			<state icon="button_triangle_up_blue" tooltipres="char_tooltip_contact_friend" merge="add" />
+			<state icon="button_triangle_down_red" tooltipres="char_tooltip_contact_enemy" merge="add" />
+		</button_listitem_checkbox_left>
+	</template>
+</root>

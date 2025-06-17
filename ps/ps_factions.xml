@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_factions">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>ps_factions_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_factions_content">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<list_content_noscroll_top name="list">
+				<datasource>.factions</datasource>
+				<sortby><field>name</field></sortby>
+				<allowdelete />
+				<class>ps_faction</class>
+				<columns width="371" fillwidth="true" />
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_faction">
+		<script file="ps/scripts/ps_faction.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<hn name="status">
+				<default>0</default>
+			</hn>
+
+			<label_crewframe_top_right name="header" />
+
+			<bg_rating name="bg">
+				<anchored to="header">
+					<right offset="-26" />
+				</anchored>
+				<control>status</control>
+				<source>status</source>
+			</bg_rating>
+			<buttongroup_factionstatus name="status">
+				<anchored to="header" />
+			</buttongroup_factionstatus>
+			<linkfield_record name="link">
+				<anchored to="header" height="20" width="20" position="insidetopright" offset="0,5" />
+				<class>faction</class>
+				<gmvisibleonly />
+			</linkfield_record>
+
+			<sub_content_top name="content">
+				<class>ps_faction_content</class>
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_faction_content">
+		<script file="ps/scripts/ps_faction_content.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<hn name="status">
+				<default>0</default>
+			</hn>
+
+			<spacer_content_top />
+
+			<sub_content_top name="goal">
+				<anchored width="110">
+					<top relation="current" />
+					<left offset="5" />
+					<right merge="delete" />
+				</anchored>
+				<class>ps_faction_goal</class>
+			</sub_content_top>
+
+			<stringc_content_noframe_noscroll_static_top name="description">
+				<anchored>
+					<left parent="goal" anchor="right" offset="5" />
+					<right offset="-15" />
+				</anchored>
+				<center />
+			</stringc_content_noframe_noscroll_static_top>
+			<stringu_content_noframe_noscroll_top name="notes">
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_title_playernotes",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
+							sText = getValue(),
+							fnCallback = CrewManager.onFactionNotesEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_text", tData);
+					end
+				</script>
+				<anchored>
+					<left parent="goal" anchor="right" offset="5" />
+					<right offset="-15" />
+				</anchored>
+			</stringu_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_faction_goal">
+		<script>
+			function updateClock(nSize, nProgress)
+				goalclock.update(nSize, nProgress)
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<label_content_top_center name="tier_label">
+				<anchored>
+					<top relation="relative" />
+				</anchored>
+			</label_content_top_center>
+			<button_clock_faction name="goalclock" />
+			<string_content_noframe_static_top name="description">
+				<anchored>
+					<right offset="0" />
+				</anchored>
+				<center />
+			</string_content_noframe_static_top>
+		</sheetdata>
+	</windowclass>
+</root>

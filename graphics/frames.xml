@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<framedef name="rating_bg">
+		<bitmap file="graphics/frames/bg_rating.png" />
+		<offset>15,1,15,1</offset>
+	</framedef>
+
+	<framedef name="rating_bg_small">
+		<bitmap file="graphics/frames/bg_rating_small.png" />
+		<offset>10,1,10,1</offset>
+	</framedef>
+</root>

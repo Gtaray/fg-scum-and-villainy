@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet" copy="charsheet_base">
+		<sizelimits>
+			<minimum width="540" height="650" />
+		</sizelimits>
+		<script>
+			function onDrop(x, y, draginfo)
+				local sDragType = draginfo.getType();
+				if sDragType == "shortcut" then
+					local sClass, sRecord = draginfo.getShortcutData();
+					local node = DB.findNode(sRecord);
+					if node then
+						if RecordDataManager.isRecordTypeDisplayClass("playbook", sClass) then
+							CharManager.addPlaybook(getDatabaseNode(), node);
+						elseif RecordDataManager.isRecordTypeDisplayClass("item", sClass) then
+							CharManager.addGenericItem(getDatabaseNode(), node);
+						elseif RecordDataManager.isRecordTypeDisplayClass("ability", sClass) then
+							CharManager.addAbility(getDatabaseNode(), node);
+						elseif RecordDataManager.isRecordTypeDisplayClass("heritage", sClass) then
+							CharManager.addHeritage(getDatabaseNode(), node);	
+						elseif RecordDataManager.isRecordTypeDisplayClass("background", sClass) then
+							CharManager.addBackground(getDatabaseNode(), node);	
+						elseif RecordDataManager.isRecordTypeDisplayClass("clock", sClass) then
+							CharManager.addClock(getDatabaseNode(), node);	
+						end
+					end
+				end
+			end
+		</script>
+		<tab>
+			<name>main</name>
+			<resource>char_tab_main</resource>
+			<class>charsheet_main</class>
+		</tab>
+		<tab merge="add">
+			<name>actions</name>
+			<resource>char_tab_actions</resource>
+			<class>charsheet_actions</class>
+		</tab>
+		<tab merge="add">
+			<name>inventory</name>
+			<resource>char_tab_inventory</resource>
+			<class>charsheet_inventory</class>
+		</tab>
+		<tab merge="add">
+			<name>abilities</name>
+			<resource>char_tab_abilities</resource>
+			<class>charsheet_abilities</class>
+		</tab>
+		<tab merge="add">
+			<name>clocks</name>
+			<resource>char_tab_clocks</resource>
+			<class>charsheet_clocks</class>
+		</tab>
+		<tab merge="add">
+			<name>notes</name>
+			<resource>char_tab_notes</resource>
+			<class>charsheet_notes</class>
+		</tab>
+	</windowclass>
+</root>

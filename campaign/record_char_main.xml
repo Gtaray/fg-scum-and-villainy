@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_main">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_main_contents</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_contents">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<string_content_top_labeled name="playbook" source="playbook.name">
+				<labelres>char_label_playbook</labelres>
+				<font>charname</font>
+				<multilinespacing>30</multilinespacing>
+				<anchored height="30">
+					<right offset="-180" />
+				</anchored>
+			</string_content_top_labeled>
+
+			<simplestring name="tagline" source="playbook.tagline">
+				<anchored to="playbook">
+					<top offset="-5" />
+					<left anchor="right" offset="20" />
+					<right parent="" offset="-30" />
+				</anchored>
+				<multilinespacing>20</multilinespacing>
+				<center />
+			</simplestring>
+
+			<linkfield_statich name="playbooklink" source="playbook.link">
+				<anchored to="tagline" height="20" width="20">
+					<left anchor="right" />
+					<top parent="playbook" anchor="center" offset="-10" />
+				</anchored>
+				<class>playbook</class>
+			</linkfield_statich>
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+			
+			<sub_content_top name="health">
+				<class>charsheet_main_health</class>
+				<anchored>
+					<top relation="current" />
+					<right offset="-180" />
+				</anchored>
+			</sub_content_top>
+			<sub_content_top name="defenses">
+				<class>charsheet_main_defense</class>
+				<anchored>
+					<top offset="0" postoffset="0" />
+					<left parent="health" anchor="right" offset="0" />
+				</anchored>
+			</sub_content_top>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<sub_content_top name="harm">
+				<class>charsheet_main_harm</class>
+				<anchored>
+					<top relation="current" />
+					<right offset="-180" />
+				</anchored>
+			</sub_content_top>
+			<sub_content_top name="recovery">
+				<class>charsheet_main_recovery</class>
+				<anchored>
+					<left parent="harm" anchor="right" offset="0" />
+					<bottom parent="harm" />
+				</anchored>
+			</sub_content_top>
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+
+			<sub_content_top name="advancement">
+				<class>charsheet_main_advancement</class>
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_health">
+		<margins control="0,0,0,4" />
+		<sheetdata>
+			<hn name="maxstress" source="health.stress.max">
+				<default>8</default>
+			</hn>
+			<hn name="curstress" source="health.stress.current">
+				<default>0</default>
+			</hn>
+			<hn name="maxtrauma" source="health.trauma.max">
+				<default>4</default>
+			</hn>
+			<hn name="curtrauma" source="health.trauma.current">
+				<default>0</default>
+			</hn>
+
+			<anchor_content_top />
+
+			<char_title_framed_top name="health_title">
+				<static textres="char_title_health" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			<button_details_header>
+				<script>					
+					function onButtonPress()
+						Interface.openWindow("editor_charsheet_main_health", window.getDatabaseNode());
+					end
+				</script>
+				<anchored to="health_title" />
+			</button_details_header>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<!-- STRESS -->
+			<label_content_column name="stress_label">
+				<static textres="char_label_stress" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_rating_column_red name="stress">
+				<sourcefields>
+					<current>health.stress.current</current>
+					<maximum>health.stress.max</maximum>
+				</sourcefields>
+				<maxslotperrow>15</maxslotperrow>
+			</char_rating_column_red>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<!-- TRAUMA-->
+			<label_content_column name="trauma_label">
+				<static textres="char_label_trauma" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_rating_column_red name="trauma">
+				<sourcefields>
+					<current>health.trauma.current</current>
+					<maximum>health.trauma.max</maximum>
+				</sourcefields>
+			</char_rating_column_red>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_health" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="120" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_health</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+		
+			<label name="label_stress">
+				<anchored position="insidetopleft" offset="20,50" width="50" />
+				<static textres="char_label_stress" />
+			</label>
+			<basicnumber name="stress_current" source="health.stress.current">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_stress" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>health.stress.max</maxsource>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="stress_current" />
+				<static textres="char_label_health_cur" />
+			</label_fieldtop>
+			<basicnumber name="stress_maximum" source="health.stress.max">
+				<anchored to="stress_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>8</default>
+				<max>12</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="stress_maximum" />
+				<static textres="char_label_health_max" />
+			</label_fieldtop>
+
+			<label name="label_trauma">
+				<anchored position="insidetopleft" offset="20,80" width="50" />
+				<static textres="char_label_trauma" />
+			</label>
+			<basicnumber name="trauma_current" source="health.trauma.current">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_trauma" position="righthigh" offset="15,0" width="45" height="20" />
+				<maxsource>health.trauma.max</maxsource>
+				<min>0</min>
+			</basicnumber>
+			<basicnumber name="trauma_maximum" source="health.trauma.max">
+				<anchored to="trauma_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<max>8</max>
+				<default>4</default>
+			</basicnumber>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_defense">
+		<margins control="0,0,0,4" />
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="armor_spent" source="defenses.armor.spent">
+				<default>0</default>
+			</hn>
+			<hn name="armor_max" source="defenses.armor.max">
+				<default>1</default>
+			</hn>
+			<hn name="heavy_spent" source="defenses.heavy.spent">
+				<default>0</default>
+			</hn>
+			<hn name="heavy_max" source="defenses.heavy.max">
+				<default>1</default>
+			</hn>
+			<hn name="special_spent" source="defenses.special.spent">
+				<default>0</default>
+			</hn>
+			<hn name="special_max" source="defenses.special.max">
+				<default>1</default>
+			</hn>
+
+			<char_title_framed_top name="defenses_title">
+				<static textres="char_title_defenses" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			<button_details_header>
+				<script>					
+					function onButtonPress()
+						Interface.openWindow("editor_charsheet_main_defenses", window.getDatabaseNode());
+					end
+				</script>
+				<anchored to="defenses_title" />
+			</button_details_header>
+
+			<spacer_content_top />
+
+			<label_content_column name="armor_label">
+				<static textres="char_label_armor" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_rating_column_blue name="armor">
+				<sourcefields>
+					<current>defenses.armor.spent</current>
+					<maximum>defenses.armor.max</maximum>
+				</sourcefields>
+			</char_rating_column_blue>
+
+			<spacer_content_top />
+
+			<label_content_column name="heavy_label">
+				<static textres="char_label_heavy" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_rating_column_blue name="armor">
+				<sourcefields>
+					<current>defenses.heavy.spent</current>
+					<maximum>defenses.heavy.max</maximum>
+				</sourcefields>
+			</char_rating_column_blue>
+
+			<spacer_content_top />
+
+			<label_content_column name="special_label">
+				<static textres="char_label_special" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_rating_column_blue name="special">
+				<sourcefields>
+					<current>defenses.special.spent</current>
+					<maximum>defenses.special.max</maximum>
+				</sourcefields>
+			</char_rating_column_blue>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_defenses" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="160" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_defenses</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+		
+			<label name="label_armor">
+				<anchored position="insidetopleft" offset="20,50" width="50" />
+				<static textres="char_label_armor" />
+			</label>
+			<basicnumber name="armor_current" source="defenses.armor.spent">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_armor" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>defenses.armor.max</maxsource>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="armor_current" />
+				<static textres="char_label_defenses_cur" />
+			</label_fieldtop>
+			<basicnumber name="armor_maximum" source="defenses.armor.max">
+				<anchored to="armor_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="armor_maximum" />
+				<static textres="char_label_defenses_max" />
+			</label_fieldtop>
+
+			<label name="label_heavy">
+				<anchored position="insidetopleft" offset="20,80" width="50" />
+				<static textres="char_label_heavy" />
+			</label>
+			<basicnumber name="heavy_current" source="defenses.heavy.spent">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_heavy" position="righthigh" offset="15,0" width="45" height="20" />
+				<maxsource>defenses.heavy.max</maxsource>
+				<min>0</min>
+			</basicnumber>
+			<basicnumber name="heavy_maximum" source="defenses.heavy.max">
+				<anchored to="heavy_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</basicnumber>
+
+			<label name="label_special">
+				<anchored position="insidetopleft" offset="20,110" width="50" />
+				<static textres="char_label_special" />
+			</label>
+			<basicnumber name="special_current" source="defenses.special.spent">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_special" position="righthigh" offset="15,0" width="45" height="20" />
+				<maxsource>defenses.special.max</maxsource>
+				<min>0</min>
+			</basicnumber>
+			<basicnumber name="special_maximum" source="defenses.special.max">
+				<anchored to="special_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</basicnumber>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_harm">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<!-- HARM -->
+			<char_title_framed_top name="harm_title">
+				<static textres="char_title_harm" />
+			</char_title_framed_top>
+			<string_labeled_content_top name="harm_severe" source="health.harm.severe">
+				<labelres>char_label_level3harm</labelres>
+			</string_labeled_content_top>
+			<string_labeled_content_top name="harm_moderate1" source="health.harm.moderate1">
+				<labelres>char_label_level2harm</labelres>
+				<anchored>
+					<top relation="current" />
+					<right anchor="center" />
+				</anchored>
+			</string_labeled_content_top>
+			<string_labeled_content_top name="harm_moderate2" source="health.harm.moderate2">
+				<labelres>char_label_level2harm</labelres>
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</string_labeled_content_top>
+			<string_labeled_content_top name="harm_lesser1" source="health.harm.lesser1">
+				<labelres>char_label_level1harm</labelres>
+				<anchored>
+					<top relation="current" />
+					<right anchor="center" />
+				</anchored>
+			</string_labeled_content_top>
+			<string_labeled_content_top name="harm_lesser2" source="health.harm.lesser1">
+				<labelres>char_label_level1harm</labelres>
+				<anchored>
+					<left anchor="center" />
+				</anchored>
+			</string_labeled_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_recovery">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="progress" source="health.recovery.progress">
+				<default>0</default>
+			</hn>
+			<hn name="clocksize" source="health.recovery.clocksize">
+				<default>6</default>
+			</hn>
+
+			<char_title_framed_top name="recovery_title">
+				<static textres="char_title_recovery" />
+			</char_title_framed_top>
+			<!-- <button_details_header>
+				<script>					
+					function onButtonPress()
+						Interface.openWindow("editor_charsheet_main_recovery", window.getDatabaseNode());
+					end
+				</script>
+				<anchored to="recovery_title" />
+			</button_details_header> -->
+
+			<button_recoveryclock name="recovery" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_recovery">
+		<sheetdata>
+			
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_advancement">
+		<margins control="0,4,0,4" />
+		<script file="campaign/scripts/charsheet_main_advancement.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<char_title_framed_top_right name="header">
+				<static textres="char_title_advancement" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top_right>
+
+			<anchor_title_right>
+				<anchored to="header" />
+			</anchor_title_right>
+
+			<char_rating_bg_title_right name="bg">
+				<control>xp</control>
+			</char_rating_bg_title_right>
+			<char_rating_title_right name="xp">
+				<values>
+					<maximum>8</maximum>
+				</values>
+				<sourcefields>
+					<current>playbook.xp</current>
+				</sourcefields>
+			</char_rating_title_right>
+
+			<ftc_content_framed_groupbox_top name="desc">
+				<frame merge="delete" />
+			</ftc_content_framed_groupbox_top>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_heat">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>ps_heat_main</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_heat_main">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<list_content_noscroll_top name="list">
+				<datasource>.systems</datasource>
+				<sortby><field>name</field></sortby>
+				<allowdelete />
+				<class>ps_system</class>
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_system">
+		<margins control="0,0,0,5" />
+		<script file="ps/scripts/ps_system.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<label_crewframe_top_right name="header" />
+
+			<anchor_header_right>
+				<anchored to="header" />
+			</anchor_header_right>
+
+			<link_listitem_right name="link">
+				<anchored>
+					<top offset="5" />
+					<right anchor="left" relation="relative" />
+				</anchored>
+				<class>system</class>
+			</link_listitem_right>
+
+			<bg_rating name="wanted_bg">
+				<anchored to="rightanchor">
+					<right anchor="left" relation="current" offset="-6" />
+				</anchored>
+				<control>wanted</control>
+				<source>wanted</source>
+			</bg_rating>
+			<ps_buttongroup_rating_title_red name="wanted">
+				<anchored to="rightanchor">
+					<right anchor="left" relation="relative" offset="-10" />
+				</anchored>
+				<values>
+					<maximum>4</maximum>
+				</values>
+				<sourcefields>
+					<current>wanted</current>
+				</sourcefields>
+			</ps_buttongroup_rating_title_red>
+			<label_crewheader name="wanted_header">
+				<static textres="ps_title_wanted" />
+				<anchored to="rightanchor" width="70">
+					<right anchor="left" relation="relative" offset="-5" />
+					<top offset="5" />
+				</anchored>
+			</label_crewheader>
+
+			<bg_rating name="heat_bg">
+				<anchored to="rightanchor">
+					<right anchor="left" relation="current" offset="-16" />
+				</anchored>
+				<control>heat</control>
+				<source>heat</source>
+			</bg_rating>
+			<ps_buttongroup_rating_title_red name="heat">
+				<anchored to="rightanchor">
+					<right anchor="left" relation="relative" offset="-20" />
+				</anchored>
+				<values>
+					<maximum>8</maximum>
+				</values>
+				<sourcefields>
+					<current>heat</current>
+				</sourcefields>
+			</ps_buttongroup_rating_title_red>
+			<label_crewheader name="heat_header">
+				<static textres="ps_title_heat" />
+				<anchored to="rightanchor" width="45">
+					<right anchor="left" relation="relative" offset="-5" />
+					<top offset="5" />
+				</anchored>
+			</label_crewheader>
+
+			<sub_content_top name="content">
+				<class>ps_system_content</class>
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_system_content">
+		<margins control="10,5,5,0" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<stringc_content_noframe_noscroll_static_top name="description" />
+		</sheetdata>
+	</windowclass>
+</root>

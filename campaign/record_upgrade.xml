@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="upgrade" copy="record_window" />
+	<windowclass name="upgrade_header" copy="record_header" />
+
+	<windowclass name="upgrade_main">
+		<script file="campaign/scripts/upgrade_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="type_label">
+				<static textres="upgrade_label_type" />
+			</label_content_column>
+			<combobox_content_column name="type">
+				<listdirection>down</listdirection>
+				<unsorted />
+				<script>
+					function onInit()
+						super.onInit();
+						for nIndex, tData in ipairs(DataManager.getShipSections()) do
+							self.add(tData.sSection, Interface.getString(tData.sResource))
+						end
+						self.add("Auxiliary")
+						self.add("Training")
+						self.add("Ship Gear")
+						self.add("Crew Gear")
+						self.add("Ship/Crew Upgrade")
+					end
+				</script>
+			</combobox_content_column>
+
+			<label_content_column name="cost_label">
+				<static textres="upgrade_label_cost" />
+			</label_content_column>
+			<number_content_column name="cost">
+				<min>1</min>
+				<default>1</default>
+				<max>3</max>
+				<tooltip textres="upgrade_tooltip_cost" />
+			</number_content_column>
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="upgrade_header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_column_full name="description" />
+		</sheetdata>
+	</windowclass>
+</root>

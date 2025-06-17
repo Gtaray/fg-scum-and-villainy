@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_clocks">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="sub_shared">
+				<class>ps_clocks_main</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_clocks_main">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header">
+				<static textres="ps_title_clocks" />
+			</label_crewframe_top_right>
+			<list_content_alternating name="list">
+				<anchored>
+					<top offset="10" />
+				</anchored>
+				<datasource>.clocks</datasource>
+				<class>ps_clock</class>
+				<allowdelete />
+			</list_content_alternating>
+			<scrollbar_content_list name="scrollbar_content_list" />
+
+			<button_iadd name="list_iadd">
+				<anchored to="list" position="aboveright" offset="5,15" />
+				<target>list</target>
+				<visible />
+				<script>
+					function onButtonPress()
+						if not Session.IsHost then
+							CrewManager.sendPlayerCreateClockOobMsg()
+							return;
+						end
+						super.onButtonPress();
+					end
+				</script>
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_clock">
+		<margins control="0,0,0,10" />
+		<script>
+			function onInit()
+				if Session.IsHost then
+					return;
+				end
+
+				registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
+				registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+			end
+			function onMenuSelection(selection, subselection)
+				if not Session.IsHost then
+					CrewManager.sendPlayerDeleteClockOobMsg(getDatabaseNode());
+				end
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+			<hn name="size">
+				<default>4</default>
+			</hn>
+			<hn name="progress">
+				<default>0</default>
+			</hn>
+			
+			<ps_comboboxc_clockselector name="selector">
+				<anchored width="100" />
+				<control>size</control>
+			</ps_comboboxc_clockselector>
+
+			<ps_button_clock name="clock">
+				<sourcefields>
+					<size>size</size>
+					<progress>progress</progress>
+				</sourcefields>
+			</ps_button_clock>
+
+			<linkcontrol_record name="shortcut">
+				<anchored height="20" width="20">
+					<top />
+					<right offset="-10" />
+				</anchored>
+				<class>clock</class>
+			</linkcontrol_record>
+
+			<string_labeled name="name">
+				<anchored to="selector" height="20">
+					<top />
+					<left anchor="right" offset="20" />
+					<right parent="shortcut" anchor="left" offset="-10" />
+				</anchored>
+				<labelres>ps_label_clockname</labelres>
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_title_clockname",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "name"),
+							sText = getValue(),
+							fnCallback = CrewManager.onClockEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_text", tData);
+					end
+				</script>
+			</string_labeled>
+
+			<simpleft name="notes">
+				<anchored to="clock">
+					<top />
+					<bottom />
+					<left anchor="right" offset="20" />
+					<right parent="" offset="-20" />
+				</anchored>
+				<frame mergerule="replace" name="fielddark" offset="10,5,20,5" hidereadonly="true" />
+				<stateframe>
+					<keyedit name="fieldfocus" offset="10,5,20,5" />
+					<hover name="fieldfocus" offset="10,5,20,5" hidereadonly="true" />
+					<drophilight name="fieldfocus" offset="10,5,20,5" hidereadonly="true" />
+				</stateframe>
+				<empty textres="ft_empty" hidereadonly="true" />
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_title_clocknotes",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
+							sText = getValue(),
+							fnCallback = CrewManager.onClockEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_text", tData);
+					end
+				</script>
+			</simpleft>
+		</sheetdata>
+	</windowclass>
+</root>

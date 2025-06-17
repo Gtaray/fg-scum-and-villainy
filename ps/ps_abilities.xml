@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_abilities">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="sub_shared">
+				<class>ps_abilities_main</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_abilities_main">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header">
+				<static textres="ps_title_specialabilities" />
+			</label_crewframe_top_right>
+			<list_content_noscroll_top name="specialabilities">
+				<datasource>.upgrades.specialabilities</datasource>
+				<class>ps_specialability</class>
+				<allowdelete />
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_specialability">
+		<margins control="0,0,0,3" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<linkc_listitem_left name="shortcut">
+				<class>ability</class>
+			</linkc_listitem_left>
+			<ps_buttongroup_listitem_counter_left name="paid">
+				<anchored height="12">
+					<left offset="5" />
+				</anchored>
+				<sourcefields>
+					<current>paid</current>
+					<maximum>cost</maximum>
+				</sourcefields>
+			</ps_buttongroup_listitem_counter_left>
+			<string_listitem_center name="name">
+				<anchored>
+					<left offset="5" />
+				</anchored>
+				<font>subwindowsmalltitle</font>
+				<readonly />
+			</string_listitem_center>
+			<ft_listitem_center name="description">
+				<anchored to="">
+					<top parent="name" anchor="bottom" offset="4" />
+					<left offset="0" />
+					<right offset="0" />
+				</anchored>
+				<readonly />
+			</ft_listitem_center>
+		</sheetdata>
+	</windowclass>
+</root>

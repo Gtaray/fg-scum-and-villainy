@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="js_gmnotes">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>js_gmnotes_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_gmnotes_content">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+
+			<sub_content_top name="sub_header">
+				<class>js_main_header</class>
+			</sub_content_top>
+
+			<sub_content_top name="sub_crew">
+				<anchored width="270">
+					<right merge="delete" />
+					<top relation="current" />
+				</anchored>
+				<class>js_main_crew</class>
+				<noscroll />
+			</sub_content_top>
+
+			<sub_content_top name="sub_details">
+				<anchored>
+					<left parent="sub_crew" anchor="right" offset="20" />
+				</anchored>
+				<class>sub_gmnotes_details</class>
+				<noscroll />
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="sub_gmnotes_details">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="header_details">
+				<static textres="js_header_gmnotes" />
+			</header_content_framed_headersimple>
+
+			<ft_content_top name="gmnotes" source="job.gmnotes" />
+		</sheetdata>
+	</windowclass>
+</root>

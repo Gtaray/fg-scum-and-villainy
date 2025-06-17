@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- General -->
+	<string name="sidebar_tooltip_ct">Job Sheet</string>
+	<string name="button_toolbar_export_job">Export job to crew sheet</string>
+
+	<string name="js_window_title">Job Sheet</string>
+	<string name="js_tab_main">Job</string>
+	<string name="js_tab_notes">Notes</string>
+	<string name="js_tab_gmnotes">GM Notes</string>
+	<string name="js_tab_clocks">Clocks</string>
+
+	<!-- Main Tab -->
+	<string name="js_label_name">Job Name</string>
+
+	<string name="js_header_details">Details</string>
+	<string name="js_label_payout">Payout</string>
+	<string name="js_label_system">System</string>
+
+	<string name="js_header_factions">Factions</string>
+	
+	<string name="js_header_engagement">Engagement</string>
+	<string name="js_label_engagement_plan">Plan</string>
+	<string name="js_label_engagement_roll">Number of Dice</string>
+	<string name="js_label_engagement_dice">Dice</string>
+	<string name="js_label_engagement_starting_position">Starting Position</string>
+
+	<string name="js_header_crew">Crew</string>
+	<string name="js_emptycrewlist">Drop PCs here to add crew members.</string>
+
+	<!-- Notes Tab -->
+	<string name="js_header_notes">Notes</string>
+
+	<!-- GM Notes Tab -->
+	<string name="js_header_gmnotes">GM Notes</string>
+
+	<!-- Clocks Tab -->
+	<string name="js_header_clocks">Clocks</string>
+
+	<!-- Export -->
+	<string name="js_title_export_prompt">Export Job</string>
+	<string name="js_text_export_prompt">Are you sure you want to add this job to the crew sheet and clear all data on the job sheet?</string>
+</root>

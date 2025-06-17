@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- General -->
+	<string name="ps_window_title">Crew Sheet</string>
+	<string name="ps_tab_main">Crew</string>
+	<string name="ps_tab_abilities">Abilities</string>
+	<string name="ps_tab_upgrades">Upgrades</string>
+	<string name="ps_tab_factions">Factions</string>
+	<string name="ps_tab_heat">Heat</string>
+	<string name="ps_tab_clocks">Clocks</string>
+	<string name="ps_tab_jobs">Jobs</string>
+
+	<string name="ps_tooltip_upgrade_off">This upgrade is locked to this ship system, but must be bought or installed before use.</string>
+	<string name="ps_tooltip_upgrade_on">This upgrade is installed on this ship.</string>
+
+	<!-- Crew Tab -->
+	<string name="ps_title_crew">Crew</string>
+	<string name="ps_label_name">Ship Name</string>
+	<string name="ps_label_designation">Ship Class</string>
+	<string name="ps_label_reputation">Crew Reputation</string>
+	<string name="ps_label_look">Colors/Look</string>
+	<string name="ps_label_size">Ship Size</string>
+
+	<string name="ps_title_cred">Cred</string>
+	<string name="ps_title_debt">Debt</string>
+	<string name="ps_title_cred_editor">Cred</string>
+	<string name="ps_label_cred">Cred</string>
+	<string name="ps_label_cred_current">Current</string>
+	<string name="ps_label_cred_maximum">Maximum</string>
+	<string name="ps_label_debt">Debt</string>
+	<string name="ps_label_debt_current">Current</string>
+	<string name="ps_label_debt_maximum">Maximum</string>
+
+	<string name="ps_title_defenses">Defense</string>
+	<string name="ps_label_armor">Armor</string>
+	<string name="ps_label_heavy">Heavy</string>
+	<string name="ps_label_special">Special</string>
+
+	<string name="ps_title_gambits">Gambits</string>
+	<string name="ps_text_gambits">Reset to %s Gambit%s at the start of every job</string>
+	<string name="ps_title_gambits_editor">Gambits</string>
+	<string name="ps_label_gambits">Gambits</string>
+	<string name="ps_label_gambits_default">Deafult</string>
+	<string name="ps_label_gambits_maximum">Maximum</string>
+
+	<string name="ps_title_upkeep">Upkeep</string>
+	<string name="ps_title_upkeepskips">Skips</string>
+	<string name="ps_text_upkeep">(Systems + Crew) / 4\nPaid at the start of every downtime</string>
+
+	<string name="ps_title_shipsection_editor">System Editor</string>
+	<string name="ps_label_sectionrating">Rating</string>
+	<string name="ps_label_sectionrating_current">Current</string>
+	<string name="ps_label_sectionrating_maximum">Maximum</string>
+	<string name="ps_label_sectiondamage">Damage</string>
+
+	<string name="ps_title_crewxp">Crew XP</string>
+
+	<!-- Special Abilities Tab -->
+	<string name="ps_title_specialabilities">Special Abilities</string>
+
+	<!-- Upgrades Tab -->
+	<string name="ps_title_crewupgrades">Crew Upgrades</string>
+	<string name="ps_title_auxiliary">Auxiliary</string>
+	<string name="ps_title_training">Training</string>
+	<string name="ps_title_shipgear">Ship Gear</string>
+	<string name="ps_title_crewgear">Crew Gear</string>
+
+	<!-- Factions Tab -->
+	<string name="ps_title_factions">Factions</string>
+	<string name="ps_label_goal">Goal</string>
+	<string name="ps_tooltip_factionstatus_-3">At War</string>
+	<string name="ps_tooltip_factionstatus_-2">Hostile</string>
+	<string name="ps_tooltip_factionstatus_-1">Interfering</string>
+	<string name="ps_tooltip_factionstatus_0">Neutral</string>
+	<string name="ps_tooltip_factionstatus_1">Helpful</string>
+	<string name="ps_tooltip_factionstatus_2">Friendly</string>
+	<string name="ps_tooltip_factionstatus_3">Allies</string>
+	<string name="ps_title_playernotes">Faction Notes</string>
+
+	<!-- Heat Tab -->
+	<string name="ps_title_wanted">Wanted</string>
+	<string name="ps_title_heat">Heat</string>
+
+	<!-- Clocks -->
+	<string name="ps_title_clocks">Clocks, Projects, and Timers</string>
+	<string name="ps_label_clockname">Name</string>
+	<string name="ps_title_clockname">Clock Name</string>
+	<string name="ps_title_clocknotes">Clock Notes</string>
+
+	<!-- Jobs -->
+	 <string name="ps_title_jobs">Jobs</string>
+	 <string name="ps_label_payout">Payout</string>
+	 <string name="ps_label_engagement">Engagement</string>
+	 <string name="ps_label_job_system">System</string>
+
+	 <string name="ps_job_editor_tab_main">Main</string>
+	 <string name="ps_job_editor_tab_notes">Notes</string>
+</root>

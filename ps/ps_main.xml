@@ -1,0 +1,606 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_main" merge="join">
+		<script file="ps/scripts/ps_main.lua" />
+	</windowclass>
+
+	<windowclass name="ps_main_content">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<list_crew_shipsections name="sections">
+				<anchored width="250">
+					<top offset="20" />
+					<right />
+				</anchored>
+			</list_crew_shipsections>
+
+			<sub_content_top name="overview">
+				<anchored>
+					<top offset="8" />
+					<left offset="10" />
+					<right parent="sections" anchor="left" offset="-10" />
+				</anchored>
+				<class>ps_main_overview</class>
+				<activate />
+			</sub_content_top>
+
+			<sub_content_top name="gambits">
+				<anchored width="180">
+					<top relation="current" />
+					<left offset="10" />
+					<right merge="delete" />
+				</anchored>
+				<class>ps_main_gambits</class>
+			</sub_content_top>
+
+			<sub_content_top name="cred">
+				<anchored width="180">
+					<top parent="gambits" anchor="bottom" relative="relative" offset="5" />
+					<left parent="gambits" anchor="left" offset="0" />
+					<right merge="delete" />
+				</anchored>
+				<class>ps_main_cred</class>
+				<activate />
+			</sub_content_top>
+
+			<sub_content_top name="upkeep">
+				<anchored width="140">
+					<top relation="current" />
+					<left parent="gambits" anchor="right" offset="10" />
+					<right merge="delete" />
+				</anchored>
+				<class>ps_main_upkeep</class>
+			</sub_content_top>
+
+			<sub_content_top name="defenses">
+				<anchored>
+					<left parent="upkeep" anchor="right" offset="10" />
+					<right parent="sections" anchor="left" offset="-10" />
+				</anchored>
+				<class>ps_main_defenses</class>
+			</sub_content_top>
+
+			<subwindow name="xp">
+				<anchored>
+					<left offset="10" />
+					<right parent="sections" anchor="left" offset="-20" />
+					<bottom offset="-10" />
+				</anchored>
+				<class>ps_main_crewxp</class>
+				<activate />
+			</subwindow>
+		</sheetdata>
+	</windowclass>
+
+	<!-- INFORMATION -->
+	<windowclass name="ps_main_overview">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<string_content_top_labeled name="crewname" source="crew.name">
+				<labelres>ps_label_name</labelres>
+				<font>crewname</font>
+				<multilinespacing>40</multilinespacing>
+				<anchored height="40" />
+			</string_content_top_labeled>
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header_crew">
+				<static textres="ps_title_crew" />
+			</label_crewframe_top_right>
+			
+			<bg_rating name="bg">
+				<anchored to="header_crew" />
+				<control>crewrating</control>
+			</bg_rating>
+			<ps_buttongroup_rating_title name="crewrating">
+				<anchored to="header_crew" />
+				<values>
+					<maximum>3</maximum>
+				</values>
+				<sourcefields>
+					<current>crew.rating</current>
+				</sourcefields>
+			</ps_buttongroup_rating_title>
+			<spacer_content_top />
+
+			<string_content_top_labeled name="reputation" source="crew.reputation">
+				<labelres>ps_label_reputation</labelres>
+				<anchored width="140">
+					<top relation="current" />
+					<left merge="delete" />
+				</anchored>
+			</string_content_top_labeled>
+
+			<string_content_top_labeled name="size" source="ship.size">
+				<labelres>ps_label_size</labelres>
+				<anchored width="100">
+					<top relation="current" />
+					<right parent="reputation" anchor="left" />
+					<left merge="delete" />
+				</anchored>
+			</string_content_top_labeled>
+			
+			<string_content_top_labeled name="designation" source="ship.class">
+				<labelres>ps_label_designation</labelres>
+				<anchored>
+					<right parent="size" anchor="left" />
+				</anchored>
+			</string_content_top_labeled>
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+			<string_content_top_labeled name="look" source="ship.look">
+				<labelres>ps_label_look</labelres>
+			</string_content_top_labeled>
+			
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<!-- XP -->
+	<windowclass name="ps_main_crewxp">
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_crewframe_top_right name="header_xp">
+				<static textres="ps_title_crewxp" />
+			</label_crewframe_top_right>
+			<bg_rating name="bg">
+				<anchored to="header_xp" />
+				<control>xp</control>
+			</bg_rating>
+			<ps_buttongroup_rating_title name="xp">
+				<anchored to="header_xp">
+					<right offset="-10" />
+				</anchored>
+				<values>
+					<maximum>8</maximum>
+				</values>
+				<sourcefields>
+					<current>advancement.xp</current>
+				</sourcefields>
+			</ps_buttongroup_rating_title>
+
+			<list_crewxptriggers name="xptriggers" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_main_crewxptrigger">
+		<sheetdata>
+			<hn name="order" />
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+			<string_listitem_center_noframe_static name="description">
+				<multilinespacing>20</multilinespacing>
+			</string_listitem_center_noframe_static>
+		</sheetdata>
+	</windowclass>
+
+	<!-- UPKEEP -->
+	<windowclass name="ps_main_upkeep">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_crewframe_top_right name="header_upkeep">
+				<static textres="ps_title_upkeep" />
+			</label_crewframe_top_right>
+			<number_content_base name="upkeep" source="upkeep.total">
+				<anchored to="contentanchor" height="20" width="30">
+					<top anchor="bottom" relation="relative" offset="10" postoffset="10" />
+					<left anchor="center" offset="-15" />
+				</anchored>
+				<readonly />
+				<font>upkeep</font>
+			</number_content_base>
+
+			<stringc_static_upkeep name="description" />
+
+			<label_crewframe_top_right name="header_skips">
+				<static textres="ps_title_upkeepskips" />
+				<anchored height="20" />
+				<font>crewheader_small</font>
+				<frame merge="delete" />
+			</label_crewframe_top_right>
+			<buttongroup_checkbox_upkeepskips name="upkeepskips">
+				<anchored to="header_skips" />
+			</buttongroup_checkbox_upkeepskips>
+		</sheetdata>
+	</windowclass>
+
+	<!-- CRED -->
+	<windowclass name="ps_main_cred">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="cred_current" source="cred.current">
+				<default>0</default>
+			</hn>
+			<hn name="cred_current" source="cred.max">
+				<default>4</default>
+			</hn>
+			<hn name="cred_current" source="debt.current">
+				<default>0</default>
+			</hn>
+			<hn name="cred_current" source="debt.max">
+				<default>8</default>
+			</hn>
+
+			<label_crewframe_top_right name="header_cred">
+				<static textres="ps_title_cred" />
+			</label_crewframe_top_right>
+			<buttongroup_checkbox_cred name="cred" />
+			<!-- <button_creddetails>
+				<anchored to="header_cred" />
+			</button_creddetails> -->
+
+			<label_crewframe_top_right name="header_debt">
+				<static textres="ps_title_debt" />
+				<anchored height="20">
+					<top offset="0" postoffset="0" />
+				</anchored>
+				<font>crewheader_small</font>
+				<frame merge="delete" />
+			</label_crewframe_top_right>
+			<buttongroup_checkbox_debt name="debt">
+				<anchored to="header_debt" />
+			</buttongroup_checkbox_debt>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_cred_editor" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="120" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title">
+				<prefix>ps_title_cred_editor</prefix>
+				<field>crew.name</field>
+			</windowtitlebar_utilitybox>
+		
+			<label name="label_cred">
+				<anchored position="insidetopleft" offset="20,50" width="50" />
+				<static textres="ps_label_cred" />
+			</label>
+			<basicnumber name="cred_current" source="cred.current">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_cred" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>cred.max</maxsource>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="cred_current" />
+				<static textres="ps_label_cred_current" />
+			</label_fieldtop>
+			<basicnumber name="cred_maximum" source="cred.max">
+				<anchored to="cred_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<max>24</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="cred_maximum" />
+				<static textres="ps_label_cred_maximum" />
+			</label_fieldtop>
+
+			<label name="label_debt">
+				<anchored position="insidetopleft" offset="20,90" width="50" />
+				<static textres="ps_label_debt" />
+			</label>
+			<basicnumber name="debt_current" source="debt.current">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_debt" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>debt.max</maxsource>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="debt_current" />
+				<static textres="ps_label_debt_current" />
+			</label_fieldtop>
+			<basicnumber name="debt_maximum" source="debt.max">
+				<anchored to="debt_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<max>24</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="debt_maximum" />
+				<static textres="ps_label_debt_current" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+
+	<!-- DEFENSES -->
+	<windowclass name="ps_main_defenses">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="armor_spent" source="defenses.armor.spent">
+				<default>0</default>
+			</hn>
+			<hn name="armor_max" source="defenses.armor.max">
+				<default>1</default>
+			</hn>
+			<hn name="heavy_spent" source="defenses.heavy.spent">
+				<default>0</default>
+			</hn>
+			<hn name="heavy_max" source="defenses.heavy.max">
+				<default>1</default>
+			</hn>
+			<hn name="special_spent" source="defenses.special.spent">
+				<default>0</default>
+			</hn>
+			<hn name="special_max" source="defenses.special.max">
+				<default>1</default>
+			</hn>
+
+			<label_crewframe_top_right name="header_defeses">
+				<static textres="ps_title_defenses" />
+			</label_crewframe_top_right>
+			<!-- <button_defensesdetails>
+				<anchored to="header_defeses" />
+			</button_defensesdetails> -->
+
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+
+			<label_content_column name="armor_label">
+				<static textres="ps_label_armor" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<ps_buttongroup_rating_armor name="armor">
+				<sourcefields>
+					<current>defenses.armor.spent</current>
+					<maximum>defenses.armor.max</maximum>
+				</sourcefields>
+			</ps_buttongroup_rating_armor>
+
+			<spacer_content_top />
+
+			<label_content_column name="heavy_label">
+				<static textres="ps_label_heavy" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<ps_buttongroup_rating_armor name="armor">
+				<sourcefields>
+					<current>defenses.heavy.spent</current>
+					<maximum>defenses.heavy.max</maximum>
+				</sourcefields>
+			</ps_buttongroup_rating_armor>
+
+			<spacer_content_top />
+
+			<label_content_column name="special_label">
+				<static textres="ps_label_special" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<ps_buttongroup_rating_armor name="special">
+				<sourcefields>
+					<current>defenses.special.spent</current>
+					<maximum>defenses.special.max</maximum>
+				</sourcefields>
+			</ps_buttongroup_rating_armor>
+		</sheetdata>
+	</windowclass>
+
+	<!-- GAMBITS -->
+	<windowclass name="ps_main_gambits">
+		<margins control="0,0,0,6" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<hn name="default" source="gambits.default">
+				<script>
+					function onValueChanged()
+						window.description.update();
+					end
+				</script>
+				<default>2</default>
+			</hn>
+			<hn name="max" source="gambits.max">
+				<default>8</default>
+			</hn>
+			<label_crewframe_top_right name="header_gambits">
+				<static textres="ps_title_gambits" />
+			</label_crewframe_top_right>
+			<button_gambitdetails>
+				<anchored to="header_gambits" />
+			</button_gambitdetails>
+
+			<buttongroup_checkbox_gambits name="gambits">
+				<anchored to="header_gambits" />
+			</buttongroup_checkbox_gambits>
+			<stringc_static_gambits name="description" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_gambits_editor" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="120" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title">
+				<prefix>ps_title_gambits_editor</prefix>
+				<field>crew.name</field>
+			</windowtitlebar_utilitybox>
+		
+			<label name="label_gambits">
+				<anchored position="insidetopleft" offset="20,50" width="50" />
+				<static textres="ps_label_gambits" />
+			</label>
+			<basicnumber name="gambits_default" source="gambits.default">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_gambits" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<maxsource>gambits.max</maxsource>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="gambits_default" />
+				<static textres="ps_label_gambits_default" />
+			</label_fieldtop>
+			<basicnumber name="gambits_maximum" source="gambits.max">
+				<anchored to="gambits_default" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<max>24</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="gambits_maximum" />
+				<static textres="ps_label_gambits_maximum" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+
+	<!-- SHIP SECTIONS -->
+	<windowclass name="ps_main_shipsection">
+		<margins control="0,2,0,10" />
+		<script file="ps/scripts/ps_main_section.lua" />
+		<sheetdata>
+			<hs name="name">
+				<script>
+					function onValueChanged()
+						window.updateHeader();
+					end
+				</script>
+			</hs>
+			<hn name="maxrating">
+				<default>3</default>
+			</hn>
+			
+			<label_crewframetop name="header">
+				<anchored>
+					<top />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<font>crewheader_shipsystem</font>
+			</label_crewframetop>
+			<anchor_header_right>
+				<anchored to="header" />
+			</anchor_header_right>
+
+			<button_sectiondetails name="button_details" />
+			<button_section_fortuneroll name="" />
+
+			<bg_rating name="bg">
+				<anchored to="header">
+					<right parent="rightanchor" relation="current" offset="0" postoffset="0" />
+				</anchored>
+				<control>rating</control>
+				<source>maxrating</source>
+			</bg_rating>
+			<buttongroup_sectionrating name="rating">
+				<anchored to="header" />
+			</buttongroup_sectionrating>
+
+			<list_section_upgrades name="upgrades">
+				<anchored to="header" />
+			</list_section_upgrades>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_shipsection_editor" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="120" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>ps_title_shipsection_editor</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+		
+			<label name="label_rating">
+				<anchored position="insidetopleft" offset="20,50" width="50" />
+				<static textres="ps_label_sectionrating" />
+			</label>
+			<basicnumber name="rating_current" source="rating">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_rating" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>maxrating</maxsource>
+				<readonly />
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="rating_current" />
+				<static textres="ps_label_sectionrating_current" />
+			</label_fieldtop>
+			<basicnumber name="rating_maximum" source="maxrating">
+				<anchored to="rating_current" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<max>5</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="rating_maximum" />
+				<static textres="ps_label_sectionrating_maximum" />
+			</label_fieldtop>
+
+			<label name="label_damage">
+				<anchored position="insidetopleft" offset="20,80" width="50" />
+				<static textres="ps_label_sectiondamage" />
+			</label>
+			<basicnumber name="damage" source="damage">
+				<script file="common/scripts/number_linkedmaximum.lua" />
+				<anchored to="label_damage" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>0</min>
+				<maxsource>rating</maxsource>
+			</basicnumber>
+		</sheetdata>
+	</windowclass>
+
+	<!-- COMMON UPGRADE -->
+	<windowclass name="ps_ship_upgrade">
+		<margins control="0,0,0,0" />
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+			<hn name="paid" />
+			<hn name="cost">
+				<min>1</min>
+				<default>1</default>
+			</hn>
+
+			<ps_buttongroup_listitem_counter_left name="paid">
+				<anchored height="12" />
+				<sourcefields>
+					<current>paid</current>
+					<maximum>cost</maximum>
+				</sourcefields>
+			</ps_buttongroup_listitem_counter_left>
+			<linkc_listitem_right name="shortcut">
+				<class>upgrade</class>
+			</linkc_listitem_right>
+			<string_listitem_center_underline name="name">
+				<script>
+					function onInit()
+						self.onValueChanged()
+					end
+					function onValueChanged()
+						local bEmpty = getValue() == ""
+						window.paid.setReadOnly(bEmpty)
+						window.shortcut.setVisible(not bEmpty)
+					end
+				</script>
+				<readonly />
+			</string_listitem_center_underline>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- COMMON -->
+	<template name="label_crewframetop">
+		<label_charframetop name="header_crew">
+			<anchored height="30" />
+			<center merge="delete" />
+			<font>crewheader</font>
+		</label_charframetop>
+	</template>
+	<template name="label_crewframe_top">
+		<label_charframetop>
+			<anchored to="contentanchor" height="30">
+				<top relation="relative" offset="3" />
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<font>crewheader</font>
+		</label_charframetop>
+	</template>
+	<template name="label_crewframe_top_right">
+		<label_crewframe_top>
+			<center merge="delete" />
+		</label_crewframe_top>
+	</template>
+	<template name="label_crewheader">
+		<label>
+			<font>crewheader_small</font>
+		</label>
+	</template>
+
+	<template name="anchor_header_right">
+		<genericcontrol name="rightanchor">
+			<anchored position="insidetopright" offset="0,0" width="0" height="0" />
+			<invisible />
+		</genericcontrol>
+	</template>
+
+	<template name="string_content_top_labeled">
+		<string_labeled>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<multilinespacing>20</multilinespacing>
+		</string_labeled>
+	</template>
+
+	<!-- PS Rating and Counter controls -->
+	<template name="ps_buttongroup_counter">
+		<buttongroup_counter>
+			<script file="ps/scripts/ps_buttongroup_counter.lua" />
+		</buttongroup_counter>
+	</template>
+
+	<template name="ps_buttongroup_rating">
+		<genericcontrol>
+			<anchored height="32" width="28" />
+			<allowsinglespacing />
+			<spacing>17</spacing>
+			<script file="ps/scripts/ps_buttongroup_counter.lua" />
+		</genericcontrol>
+	</template>
+	<template name="ps_buttongroup_rating_blue">
+		<ps_buttongroup_rating>
+			<stateicons>
+				<off>button_rating</off>
+				<on>button_rating_down</on>
+			</stateicons>
+		</ps_buttongroup_rating>
+	</template>
+	<template name="ps_buttongroup_rating_red">
+		<ps_buttongroup_rating>
+			<stateicons>
+				<off>button_rating</off>
+				<on>button_rating_red</on>
+			</stateicons>
+		</ps_buttongroup_rating>
+	</template>
+
+	<template name="ps_buttongroup_rating_title">
+		<ps_buttongroup_rating_blue>
+			<anchored>
+				<top offset="7" />
+				<right offset="-10" />
+			</anchored>
+		</ps_buttongroup_rating_blue>
+	</template>
+	<template name="ps_buttongroup_rating_title_red">
+		<ps_buttongroup_rating_red>
+			<anchored>
+				<top offset="7" />
+				<right offset="-10" />
+			</anchored>
+		</ps_buttongroup_rating_red>
+	</template>
+
+	<template name="ps_buttongroup_listitem_counter_left">
+		<ps_buttongroup_counter>
+			<anchored to="leftanchor" height="12">
+				<top offset="2" />
+				<left relation="relative" offset="0" postoffset="0" />
+			</anchored>
+			<spacing>16</spacing>
+			<allowsinglespacing />
+		</ps_buttongroup_counter>
+	</template>
+
+	<template name="ps_buttongroup_rating_armor">
+		<genericcontrol>
+			<anchored to="contentanchor" height="22" width="20">
+				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
+				<left offset="77" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>14</spacing>
+			<script file="ps/scripts/ps_buttongroup_counter.lua" />
+			<stateicons>
+				<off>button_rating_small</off>
+				<on>button_rating_small_down</on>
+			</stateicons>
+		</genericcontrol>
+	</template>
+
+	<!-- SECTIONS -->
+	<template name="button_sectiondetails">
+		<button_details_header>
+			<script>					
+				function onButtonPress()
+					Interface.openWindow("ps_shipsection_editor", window.getDatabaseNode());
+				end
+			</script>
+			<anchored to="header">
+				<top anchor="center" offset="-10" />
+				<right parent="rightanchor" relation="relative" />
+			</anchored>
+			<gmvisibleonly />
+		</button_details_header>
+	</template>
+	<template name="button_section_fortuneroll">
+		<button_roll>
+			<script>
+				function onButtonPress()
+					self.action();
+					return true;
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					return window.performFortuneRoll(draginfo);
+				end
+			</script>
+			<anchored to="header" height="20" width="20">
+				<top anchor="center" offset="-10" />
+				<right parent="rightanchor" relation="relative" offset="-3" postoffset="-3" />
+			</anchored>
+		</button_roll>
+	</template>
+	<template name="list_crew_shipsections">
+		<windowlist>
+			<!-- Initializes the ship systems. It should only ever do this once -->
+			<script>
+				function onInit()
+					if super and super.onInit then
+						super.onInit()
+					end
+					if getWindowCount() &gt; 0 then
+						return
+					end
+					for nIndex, tData in pairs(DataManager.getShipSections()) do
+						local w = createWindow()
+						w.setData(tData);
+					end
+				end
+			</script>
+			<datasource>.sections</datasource>
+			<class>ps_main_shipsection</class>
+			<noscroll />
+		</windowlist>
+	</template>
+	<template name="list_section_upgrades">
+		<windowlist>
+			<anchored>
+				<top anchor="bottom" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<datasource>.upgrades</datasource>
+			<class>ps_ship_upgrade</class>
+			<sortby><control desc="true">given</control></sortby>
+			<sortby><control>name</control></sortby>
+			<noscroll />
+			<child merge="resetandadd"></child>
+			<child merge="add"><backcolor>1A40301E</backcolor></child>
+			<!-- <allowdelete /> -->
+		</windowlist>
+	</template>
+
+	<template name="buttongroup_sectionrating">
+		<genericcontrol>
+			<script file="ps/scripts/ps_buttongroup_counter_split.lua" />
+			<anchored height="32" width="28">
+				<top offset="7" />
+				<right parent="rightanchor" relation="relative" offset="-4" postoffset="-4" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>17</spacing>
+			<stateicons>
+				<off>button_rating_split</off>
+				<top>button_rating_split_top</top>
+				<bottom>button_rating_split_bottom</bottom>
+				<both>button_rating_split_both</both>
+			</stateicons>
+			<sourcefields>
+				<top>rating</top>
+				<bottom>damage</bottom>
+				<maximum>maxrating</maximum>
+			</sourcefields>
+		</genericcontrol>
+	</template>
+
+	<!-- CRED -->
+	<template name="buttongroup_checkbox_cred">
+		<ps_buttongroup_counter>
+			<anchored to="contentanchor">
+				<top anchor="bottom" relation="relative" offset="6" postoffset="6" />
+				<left anchor="center" offset="-40" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>20</spacing>
+			<maxslotperrow>4</maxslotperrow>
+			<sourcefields>
+				<current>cred.current</current>
+				<maximum>cred.max</maximum>
+			</sourcefields>
+		</ps_buttongroup_counter>
+	</template>
+	<template name="buttongroup_checkbox_debt">
+		<ps_buttongroup_counter>
+			<anchored>
+				<top anchor="center" offset="-6" />
+				<right />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>14</spacing>
+			<stateicons>
+				<on>button_checkon_red</on>
+			</stateicons>
+			<maxslotperrow>8</maxslotperrow>
+			<sourcefields>
+				<current>debt.current</current>
+				<maximum>debt.max</maximum>
+			</sourcefields>
+		</ps_buttongroup_counter>
+	</template>
+	<template name="button_creddetails">
+		<button_details_header>
+			<script>					
+				function onButtonPress()
+					Interface.openWindow("ps_cred_editor", window.getDatabaseNode());
+				end
+			</script>
+		</button_details_header>
+	</template>
+
+	<!-- UPKEEP -->
+	<template name="stringc_static_upkeep">
+		<stringc_content_noframe_noscroll_static_top>
+			<static textres="ps_text_upkeep" />
+			<center />
+		</stringc_content_noframe_noscroll_static_top>
+	</template>
+	<template name="buttongroup_checkbox_upkeepskips">
+		<ps_buttongroup_counter>
+			<anchored>
+				<top anchor="center" offset="-6" />
+				<right />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>14</spacing>
+			<stateicons>
+				<on>button_checkon_red</on>
+			</stateicons>
+			<values>
+				<maximum>4</maximum>
+			</values>
+			<sourcefields>
+				<current>upkeep.skips</current>
+			</sourcefields>
+		</ps_buttongroup_counter>
+	</template>
+
+	<!-- Defenses -->
+	<template name="button_defensesdetails">
+		<button_details_header>
+			<script>					
+				function onButtonPress()
+					Interface.openWindow("ps_defenses_editor", window.getDatabaseNode());
+				end
+			</script>
+		</button_details_header>
+	</template>
+
+	<!-- GAMBITS -->
+	<template name="buttongroup_checkbox_gambits">
+		<ps_buttongroup_counter>
+			<anchored>
+				<top parent="contentanchor" anchor="bottom" relation="relative" offset="10" postoffset="10" />
+				<left anchor="center" offset="-56" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>14</spacing>
+			<maxslotperrow>8</maxslotperrow>
+			<sourcefields>
+				<current>gambits.current</current>
+				<maximum>gambits.max</maximum>
+			</sourcefields>
+		</ps_buttongroup_counter>
+	</template>
+	<template name="stringc_static_gambits">
+		<stringc_content_noframe_noscroll_static_top>
+			<script>
+				function onInit()
+					self.update()
+				end
+				function update()
+					local nDefault = window.default.getValue();
+					local sPlural = "";
+					if nDefault ~= 1 then
+						sPlural = "s"
+					end
+
+					setValue(string.format(Interface.getString("ps_text_gambits"), nDefault, sPlural))
+				end
+			</script>
+			<center />
+		</stringc_content_noframe_noscroll_static_top>
+	</template>
+	<template name="button_gambitdetails">
+		<button_details_header>
+			<script>					
+				function onButtonPress()
+					Interface.openWindow("ps_gambits_editor", window.getDatabaseNode());
+				end
+			</script>
+			<gmvisibleonly />
+		</button_details_header>
+	</template>
+
+	<!-- CREW EXP -->
+	<template name="list_crewxptriggers">
+		<list_content_top>
+			<anchored height="100">
+				<left offset="5" />
+			</anchored>
+			<datasource>.advancement.xptriggers</datasource>
+			<class>ps_main_crewxptrigger</class>
+			<sortby><control>order</control></sortby>
+			<allowdelete />
+		</list_content_top>
+	</template>
+
+	<!-- UPGRADES -->
+	<template name="list_shipupgrades">
+		<list_content_noscroll_alternating_top>
+			<class>ps_ship_upgrade</class>
+			<sortby><control>name</control></sortby>
+			<allowdelete />
+		</list_content_noscroll_alternating_top>
+	</template>
+
+	<!-- FACTIONS -->
+	<template name="buttongroup_factionstatus">
+		<genericcontrol>
+			<script file="ps/scripts/ps_buttongroup_factionstatus.lua" />
+			<anchored height="32" width="28">
+				<top offset="7" />
+				<right offset="-30" />
+			</anchored>
+			<allowsinglespacing />
+			<spacing>17</spacing>
+			<stateicons>
+				<base>button_rating</base>
+				<positive>button_rating_down</positive>
+				<negative>button_rating_red</negative>
+			</stateicons>
+			<values>
+				<minimum>-3</minimum>
+				<maximum>3</maximum>
+			</values>
+			<sourcefields>
+				<current>status</current>
+			</sourcefields>
+		</genericcontrol>
+	</template>
+
+	<template name="button_clock_faction">
+		<button_clock_base>
+			<script>
+				function update(nSize, nProgress)
+					local i = self.getStateIndex(nSize)
+					if i then
+						setValue(i + nProgress);
+					end
+				end
+
+				function onButtonPress()
+					return true;
+				end
+			</script>
+			<anchored to="contentanchor" height="80">
+				<top relation="relative" offset="5" />
+				<left />
+				<right />
+			</anchored>
+			<readonly />
+		</button_clock_base>
+	</template>
+
+	<!-- CLOCKS -->
+	<template name="ps_comboboxc_clockselector">
+		<comboboxc_sizeselector>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="10" />
+			</anchored>
+			<script>
+				function setControlValue(nValue)
+					if not control or not control[1] then
+						return;	
+					end
+
+					if Session.IsHost then
+						super.setControlValue(nValue)
+					else
+						local sPath = DB.getPath(window[control[1]].getDatabaseNode())
+						CrewManager.sendPlayerUpdateOobMsg(sPath, "number", nValue)
+					end
+				end
+			</script>
+		</comboboxc_sizeselector>
+	</template>
+
+	<template name="ps_button_clock">
+		<button_clock_base>
+			<script file="ps/scripts/ps_button_clock.lua" />
+			<anchored to="contentanchor" width="100" height="100">
+				<top relation="relative" offset="10" />
+				<left />
+			</anchored>
+		</button_clock_base>
+	</template>
+
+	<!-- Jobs -->
+	<template name="button_job_expand_base">
+		<genericcontrol name="expander">
+			<script>
+				function onClickDown()
+					return true
+				end
+				function onClickRelease()
+					return window.onClickRelease();
+				end
+			</script>
+			<anchored to="leftanchor" width="40" height="40">
+				<top />
+				<left relation="current" offset="2" postoffset="2" />
+			</anchored>
+		</genericcontrol>
+	</template>
+	<template name="button_job_expand_icon">
+		<genericcontrol>
+			<anchored to="leftanchor" width="20" height="20">
+				<top />
+				<left relation="relative" offset="2" postoffset="2" />
+			</anchored>
+			<icon>sidebar_dock_category_expanded</icon>
+			<disabled />
+		</genericcontrol>
+	</template>
+</root>

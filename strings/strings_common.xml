@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+    <!-- Attributes and Actions -->
+    <string name="attribute_label_insight">Insight</string>
+    <string name="attribute_label_prowess">Prowess</string>
+    <string name="attribute_label_resolve">Resolve</string>
+
+    <string name="action_label_doctor">Doctor</string>
+    <string name="action_label_hack">Hack</string>
+    <string name="action_label_rig">Rig</string>
+    <string name="action_label_study">Study</string>
+
+    <string name="action_label_helm">Helm</string>
+    <string name="action_label_scramble">Scramble</string>
+    <string name="action_label_skulk">Skulk</string>
+    <string name="action_label_scrap">Scrap</string>
+
+    <string name="action_label_attune">Attune</string>
+    <string name="action_label_command">Command</string>
+    <string name="action_label_consort">Consort</string>
+    <string name="action_label_sway">Sway</string>
+
+    <string name="shipsection_label_hull">Hull</string>
+    <string name="shipsection_label_engines">Engines</string>
+    <string name="shipsection_label_weapons">Weapons</string>
+    <string name="shipsection_label_comms">Comms</string>
+
+	<string name="shipsize_label_personal">Personal</string>
+	<string name="shipsize_label_freighter">Freighter</string>
+	<string name="shipsize_label_corvette">Corvette</string>
+	<string name="shipsize_label_frigate">Frigate</string>
+	<string name="shipsize_label_dreadnaught">Dreadnaught</string>
+
+	<string name="crewxptrigger_challenge">You contended with challenges above your current station.</string>
+	<string name="crewxptrigger_reputation">You bolstered your crew's reputation or developed a new one.</string>
+	<string name="crewxptrigger_goals">You expressed the goals, drives, inner conflict, or essential nature of the crew.</string>
+
+	<!-- Position and Effect -->
+	<string name="position_controlled">Controlled</string>
+	<string name="position_risky">Risky</string>
+	<string name="position_desperate">Desperate</string>
+
+	<string name="effect_great">Great</string>
+	<string name="position_standard">Standard</string>
+	<string name="position_limited">Limited</string>
+
+	<!-- Engagement Rolls -->
+	 <string name="engagement_assault_label">Assault</string>
+	 <string name="engagement_assault_description">Do violence to a target.</string>
+	 <string name="engagement_assault_detail">The point of attack.</string>
+
+	 <string name="engagement_deception_label">Deception</string>
+	 <string name="engagement_deception_description">Lure, trick, or manipulate.</string>
+	 <string name="engagement_deception_detail">The method of deception.</string>
+
+	 <string name="engagement_infiltration_label">Infiltration</string>
+	 <string name="engagement_infiltration_description">Trespass unseen.</string>
+	 <string name="engagement_infiltration_detail">The point of infiltration.</string>
+
+	 <string name="engagement_mystic_label">Mystic</string>
+	 <string name="engagement_mystic_description">Engage mystic, druidic, or magitech powers.</string>
+	 <string name="engagement_mystic_detail">The magical power.</string>
+
+	 <string name="engagement_social_label">Social</string>
+	 <string name="engagement_social_description">Negotiate, bargain, or persuade.</string>
+	 <string name="engagement_social_detail">The social connection.</string>
+
+	 <string name="engagement_transport_label">Transport</string>
+	 <string name="engagement_transport_description">Carry cargo or people through danger.</string>
+	 <string name="engagement_transport_detail">The route and means.</string>
+</root>

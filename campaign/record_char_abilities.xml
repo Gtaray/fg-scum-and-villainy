@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_abilities">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_abilities_contents</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_abilities_contents">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<char_title_framed_top name="abilities_title">
+				<static textres="char_title_abilities" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			
+			<char_abilities_list name="abilities">
+				<datasource>.abilities</datasource>
+			</char_abilities_list>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_ability_item">
+		<margins control="0,0,0,10" />
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<buttongroup_listitem_counter_left name="paid">
+				<anchored height="12">
+					<left offset="5" />
+				</anchored>
+				<sourcefields>
+					<current>paid</current>
+					<maximum>cost</maximum>
+				</sourcefields>
+			</buttongroup_listitem_counter_left>
+
+			<linkc_listitem_right name="shortcut">
+				<class>ability</class>
+			</linkc_listitem_right>
+
+			<ftc_listitem_noframe_center name="desc">
+				<script file="campaign/scripts/charsheet_ability_item_desc.lua" />
+				<anchored>
+					<left offset="5" />
+				</anchored>
+				<readonly />
+			</ftc_listitem_noframe_center>
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="item_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/item_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<sub_record_nonid_notes name="sub_nonid" />
+			
+			<label_content_column name="load_label">
+				<static textres="item_label_load" />
+			</label_content_column>
+			<number_content_column name="load">
+				<min>0</min>
+				<default>1</default>
+			</number_content_column>
+
+			<label_content_column name="quality_label">
+				<static textres="item_label_quality" />
+			</label_content_column>
+			<button_checkbox_content_column name="quality" />
+
+			<line_content_top name="divider" />
+			
+			<ft_content_columnh_full name="notes" />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_inventory">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_inventory_contents</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_contents">
+		<script file="campaign/scripts/charsheet_inventory_contents.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<char_title_framed_top name="loadout_title">
+				<static textres="char_title_loadout" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			<button_details_header>
+				<script>					
+					function onButtonPress()
+						Interface.openWindow("editor_charsheet_inventory_loadout", window.getDatabaseNode());
+					end
+				</script>
+				<anchored to="loadout_title" />
+			</button_details_header>
+			<button_iedit name="inventory_iedit">
+				<anchored to="loadout_title" position="insidetopright" offset="22,0" />
+			</button_iedit>
+			<button_iadd name="inventory_iadd">
+				<anchored to="loadout_title" position="insidetopright" offset="42,0" />
+				<edittarget>genericitems</edittarget>
+			</button_iadd>
+			<label_carried name="carried">
+				<anchored to="loadout_title" />
+			</label_carried>
+
+			<sub_content_top name="load">
+				<class>charsheet_inventory_load</class>
+				<anchored width="312">
+					<top offset="5" />
+					<left anchor="center" offset="-156" />
+				</anchored>
+			</sub_content_top>
+
+			<list_inventory name="genericitems">
+				<script>
+					function addEntry()
+						local wNew = createWindow(nil, true);
+						DB.setValue(wNew.getDatabaseNode(), "type", "string", "Generic");
+					end
+				</script>
+				<anchored>
+					<top relation="current" offset="0" />
+					<bottom parent="bottomanchor" relation="current" offset="0" />
+					<left anchor="center" />
+				</anchored>
+				<datasource>.inventory.gear</datasource>
+				<filter>
+					<property>type</property>
+					<value>generic</value>
+				</filter>
+			</list_inventory>
+
+			<list_inventory name="playbookitems">
+				<anchored>
+					<top relation="relative" offset="0" />
+					<right anchor="center" />
+				</anchored>
+				<datasource>.inventory.gear</datasource>
+				<filter>
+					<property>type</property>
+					<value>playbook</value>
+				</filter>
+			</list_inventory>
+
+			<sub_content_top name="coin">
+				<class>charsheet_inventory_coin</class>
+				<anchored>
+					<top offset="10" />
+					<right anchor="center" />
+				</anchored>
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_load">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<hn name="lightloadamount" source="inventory.load.lightamount">
+				<default>3</default>
+			</hn>
+			<hn name="normalloadamount" source="inventory.load.normalamount">
+				<default>5</default>
+			</hn>
+			<hn name="heavyloadamount" source="inventory.load.heavyamount">
+				<default>6</default>
+			</hn>
+
+			<label_content_column name="load_label">
+				<anchored width="60">
+					<left offset="0" />
+				</anchored>
+				<static textres="char_label_load"/>
+			</label_content_column>
+			<checkbox_load name="lightload" source="inventory.load.light" />
+			<label_loadcheckbox name="lightload_label">
+				<load>light</load>
+			</label_loadcheckbox>
+			<checkbox_load name="normalload" source="inventory.load.normal" />
+			<label_loadcheckbox name="normalload_label">
+				<load>normal</load>
+			</label_loadcheckbox>
+			<checkbox_load name="heavyload" source="inventory.load.heavy" />
+			<label_loadcheckbox name="heavyload_label">
+				<load>heavy</load>
+				<!-- This pushes the relative vertical anchor down -->
+				<anchored>
+					<top relation="relative" />
+				</anchored>
+			</label_loadcheckbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_coin">
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="curcred" source="cred.current">
+				<default>0</default>
+			</hn>
+			<hn name="maxcred" source="cred.max">
+				<default>4</default>
+			</hn>
+			<hn name="stashcur" source="cred.stashed">
+				<deafult>0</deafult>
+			</hn>
+			<hn name="stashcur" source="cred.stashmax">
+				<default>40</default>
+			</hn>
+
+			<char_title_framed_top name="cred_title">
+				<static textres="char_title_cred" />
+			</char_title_framed_top>
+			<char_inventory_cred name="cred" />
+
+			<char_title_framed_top name="stash_title">
+				<static textres="char_title_stash" />
+			</char_title_framed_top>
+			<char_inventory_stash name="stash" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_item">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<buttongroup_loadout name="equipped" />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>inventory_iedit</editmode>
+			</button_listitem_idelete>
+			<linkc_listitem_right name="shortcut">
+				<class>charsheet_inventory_item_editor</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_inventoryitem name="name" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_item_editor" copy="item">
+		<tab merge="resetandadd">
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>charsheet_inventory_item_editor_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>pictures</name>
+			<resource>tab_pictures</resource>
+			<class>record_content_pictures</class>
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="charsheet_inventory_item_editor_main" copy="item_main">
+		<sheetdata>
+			<label_content_column name="type_label" insertbefore="load_label">
+				<static textres="charitem_label_type" />
+			</label_content_column>
+			<combobox_content_column name="type" insertbefore="load_label">
+				<script>
+					function onInit()
+						super.onInit()
+
+						self.add("generic", Interface.getString("charitem_type_generic"));
+						self.add("playbook", Interface.getString("charitem_type_playbook"));
+					end
+				</script>
+			</combobox_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_inventory_loadout" copy="charsheethelper_base">
+		<sizelimits>
+			<minimum width="350" height="80" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_loadout</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+		
+			<label name="label_load">
+				<anchored position="insidetopleft" offset="20,50" width="100" />
+				<static textres="char_label_load_amount" />
+			</label>
+
+			<basicnumber name="light" source="inventory.load.lightamount">
+				<anchored to="label_load" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>3</default>
+				<max>20</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="light" />
+				<static textres="char_label_load_light" />
+			</label_fieldtop>
+
+			<basicnumber name="normal" source="inventory.load.normalamount">
+				<anchored to="light" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>5</default>
+				<max>20</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="normal" />
+				<static textres="char_label_load_normal" />
+			</label_fieldtop>
+
+			<basicnumber name="heavy" source="inventory.load.heavyamount">
+				<anchored to="normal" position="righthigh" offset="15,0" width="45" height="20" />
+				<min>1</min>
+				<default>6</default>
+				<max>20</max>
+			</basicnumber>
+			<label_fieldtop>
+				<anchored to="heavy" />
+				<static textres="char_label_load_heavy" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+</root>

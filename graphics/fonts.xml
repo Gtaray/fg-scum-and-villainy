@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- Charsheet -->
+	<font name="charname">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="30" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="charheader_small">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="12" />
+		<color value="FFFFFF" />
+	</font>
+
+	<!-- Crew Sheet -->
+	<font name="crewheader">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="16" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="crewheader_shipsystem">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="13" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="crewheader_small">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="12" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="crewheader_large">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="18" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="crewname">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="40" />
+		<color value="FFFFFF" />
+	</font>
+	<font name="upkeep">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="24" />
+		<color value="FFFFFF" />
+	</font>
+
+	<!-- Job Sheet -->
+	<font name="jobname">
+		<ttf file="graphics/fonts/Metro.ttf" name="Metro" size="24" />
+		<color value="FFFFFF" />
+	</font>
+</root>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="playbook" copy="record_window_tabbed">
+		<tab>
+			<name>main</name>
+			<resource>playbook_tab_main</resource>
+			<class>playbook_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>stats</name>
+			<resource>playbook_tab_stats</resource>
+			<class>playbook_stats</class>
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="playbook_main">
+		<script file="campaign/scripts/playbook_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="playbook_header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_column_full name="description" />
+		</sheetdata>
+	</windowclass>
+
+  	<windowclass name="playbook_stats">
+		<script file="campaign/scripts/playbook_stats.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<stringc_content_noframe_noscroll_static_top>
+				<static textres="playbook_label_abilities_empty" />
+				<center />
+			</stringc_content_noframe_noscroll_static_top>
+
+			<label_content_column name="tagline_label">
+				<static textres="playbook_label_tagline" />
+			</label_content_column>
+			<string_content_column name="tagline" />
+
+			<label_content_column name="xptrigger_label">
+				<static textres="playbook_label_xptrigger" />
+			</label_content_column>
+			<string_content_column name="xptrigger" />
+
+			<header_content_framed_headersimple name="actions_header">
+				<static textres="playbook_header_actions" />
+			</header_content_framed_headersimple>
+			<list_content_column_autopopulate name="actions">
+				<script>
+					function getData()
+						return DataManager.getActions();
+					end
+					function getDataCount()
+						return DB.getChildCount(window.getDatabaseNode(), "actions")
+					end			
+				</script>
+				<datasource>.actions</datasource>
+				<class>playbook_action</class>
+			</list_content_column_autopopulate>
+
+			<header_content_framed_headersimple name="abilities_header">
+				<static textres="playbook_header_abilities" />
+			</header_content_framed_headersimple>
+			<list_content_column name="abilities">
+				<datasource>.abilities</datasource>
+				<sortby>
+					<control desc="true">given</control>
+					<control>name</control>
+				</sortby>
+				<class>playbook_ability</class>
+				<allowdelete />
+			</list_content_column>
+
+			<header_content_framed_headersimple name="items_header">
+				<static textres="playbook_header_items" />
+			</header_content_framed_headersimple>
+			<list_content_column name="items">
+				<datasource>.items</datasource>
+				<sortby><control>name</control></sortby>
+				<class>playbook_item</class>
+				<hidegiven />
+				<allowdelete />
+			</list_content_column>
+
+			<header_content_framed_headersimple name="contacts_header">
+				<static textres="playbook_header_contacts" />
+			</header_content_framed_headersimple>
+			<button_iedit name="contacts_iedit">
+				<anchored to="contacts_header" position="insidetopright" offset="2,0" />
+				<edittarget>contacts</edittarget>
+			</button_iedit>
+			<button_iadd name="contacts_iadd">
+				<anchored to="contacts_header" position="insidetopright" offset="22,0" />
+				<target>contacts</target>
+			</button_iadd>
+			<list_content_column name="contacts">
+				<datasource>.contacts</datasource>
+				<sortby><control>name</control></sortby>
+				<class>playbook_contact</class>
+				<allowdelete />
+			</list_content_column>
+		</sheetdata>
+  	</windowclass>
+
+	<windowclass name="playbook_action">
+		<margins control="0,0,0,4" />
+		<script file="campaign/scripts/playbook_action.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<hs name="action" />
+
+			<label_content_column name="action_label" />
+			<number_content_column name="rating">
+				<default>0</default>
+				<min>0</min>
+				<max>3</max>
+			</number_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="playbook_ability" copy="ref_listitem_ability">
+		<sheetdata>
+			<button_listitem_checkbox_left name="given">
+				<state icon="button_checkoff" tooltipres="playbook_tooltip_ability_off" merge="resetandadd" />
+				<state icon="button_checkon" tooltipres="playbook_tooltip_ability_on" merge="add" />
+			</button_listitem_checkbox_left>
+		</sheetdata>
+	</windowclass>
+	
+	<windowclass name="playbook_item" copy="ref_listitem_ability" />
+
+	<windowclass name="playbook_contact">
+		<margins control="0,0,0,4" />
+		<script>
+			function onInit()
+				self.update()
+			end
+			function update()
+				local w = UtilityManager.getTopWindow(self);
+				local bReadOnly = WindowManager.getReadOnlyState(w.getDatabaseNode());
+				contact.setReadOnly(bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>contacts_iedit</editmode>
+			</button_listitem_idelete>
+
+			<string_listitem_center_underline name="contact" />
+		</sheetdata>
+	</windowclass>
+</root>

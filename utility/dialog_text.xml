@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="dialog_text" copy="dialog_okcancel">
+		<script>
+			local fSetData;
+			local fProcessOK;
+			local _tData;
+
+			function onInit()
+				fSetData = super.setData;
+				super.setData = setData;
+
+				fProcessOK = super.processOK;
+				super.processOK = processOK
+			end
+
+			function setData(tData)
+				_tData = tData
+				fSetData(tData);
+			end
+
+			function processOK()
+				_tData.sText = text.getValue()
+				fProcessOK()	
+			end
+		</script>
+		<sheetdata>
+			<stringc_content_framed_groupbox name="text">
+				<readonly merge="delete" />
+			</stringc_content_framed_groupbox>
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+</root>

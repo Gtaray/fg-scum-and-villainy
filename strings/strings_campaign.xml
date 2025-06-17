@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<string name="library_category_label_crew">Crew</string>
+
+	<string name="library_recordtype_label_playbook">Playbooks</string>
+	<string name="library_recordtype_empty_playbook">&#171; New Playbook &#187;</string>
+	<string name="library_recordtype_label_ability">Abilities</string>
+	<string name="library_recordtype_single_ability">Ability</string>
+	<string name="library_recordtype_empty_ability">&#171; New Ability &#187;</string>
+	<string name="library_recordtype_label_background">Backgrounds</string>
+	<string name="library_recordtype_empty_background">&#171; New Background &#187;</string>
+	<string name="library_recordtype_label_heritage">Heritages</string>
+	<string name="library_recordtype_empty_heritage">&#171; New Heritage &#187;</string>
+	<string name="library_recordtype_label_crew">Crews</string>
+	<string name="library_recordtype_empty_crew">&#171; New Crew &#187;</string>
+	<string name="library_recordtype_label_shiptype">Ship Types</string>
+	<string name="library_recordtype_empty_shiptype">&#171; New Ship Type &#187;</string>
+	<string name="library_recordtype_label_crewtype">Crew Types</string>
+	<string name="library_recordtype_empty_crewtype">&#171; New Crew Type &#187;</string>
+	<string name="library_recordtype_label_upgrade">Upgrades</string>
+	<string name="library_recordtype_empty_upgrade">&#171; New Upgrade &#187;</string>
+	<string name="library_recordtype_label_clock">Clocks</string>
+	<string name="library_recordtype_empty_clock">&#171; New Clock &#187;</string>
+	<string name="library_recordtype_label_system">Systems</string>
+	<string name="library_recordtype_empty_system">&#171; New System &#187;</string>
+	<string name="library_recordtype_label_faction">Factions</string>
+	<string name="library_recordtype_empty_faction">&#171; New Faction &#187;</string>
+	<string name="library_recordtype_label_quest">Jobs</string>
+	<string name="library_recordtype_single_quest">Job</string>
+	<string name="library_recordtype_empty_quest">&#171; New Job &#187;</string>
+
+	<!-- Character -->
+	<string name="char_tab_main">Main</string>
+	<string name="char_label_alias">Alias</string>
+	<string name="char_label_playbook">Playbook</string>
+	<string name="char_title_health">Health</string>
+	<string name="char_label_stress">Stress</string>
+	<string name="char_label_trauma">Trauma</string>
+	<string name="char_label_health_cur">Current</string>
+	<string name="char_label_health_max">Maximum</string>
+	
+	<string name="char_title_defenses">Defenses</string>
+	<string name="char_label_armor">Armor</string>
+	<string name="char_label_heavy">Heavy</string>
+	<string name="char_label_special">Special</string>
+	<string name="char_label_defenses_cur">Current</string>
+	<string name="char_label_defenses_max">Maximum</string>
+
+	<string name="char_title_harm">Harm</string>
+	<string name="char_label_level1harm">1 [Less Effect]</string>
+	<string name="char_label_level2harm">2 [-1D]</string>
+	<string name="char_label_level3harm">3 [Need Help]</string>
+
+	<string name="char_title_recovery">Recovery</string>
+
+	<string name="char_title_advancement">Playbook Advancement</string>
+	<string name="char_label_advancement">At the end of each session, for each item below, [b]mark 1 xp[/b] (in your playbook or attribute) or [b]2 xp[/b] if that item occurred multiple times.</string>
+	<string name="char_label_advancement_desperate">Every time you roll a desperate action, [b]mark xp[/b] in that action's attribute.</string>
+	<string name="char_label_advancement_expression">You expressed your beliefs, drives, heritage, or background.</string>
+	<string name="char_label_advancement_traumas">You struggled with issues from your vice or traumas during the session.</string>
+	
+	<string name="char_tab_actions">Actions</string>
+	<string name="char_title_attribute">Attribute</string>
+	<string name="char_label_attribute_xp">Attribute XP</string>
+	<string name="char_label_attribute_current">Current</string>
+	<string name="char_label_attribute_maximum">Maximum</string>
+	<string name="char_header_attribute_bonusdice">Bonus Dice</string>
+	<string name="char_label_attribute_resistance">Resistance</string>
+
+	<string name="char_tab_inventory">Loadout</string>
+	<string name="char_title_loadout">Loadout</string>
+	<string name="char_title_cred">Cred</string>
+	<string name="char_title_stash">Stash</string>
+	<string name="char_label_carried">%s / %s</string>
+	<string name="char_label_load">Load</string>
+	<string name="char_label_lightload">%s light</string>
+	<string name="char_label_normalload">%s normal</string>
+	<string name="char_label_heavyload">%s heavy</string>
+	<string name="char_label_load_amount">Load Amounts</string>
+	<string name="char_label_load_light">Light</string>
+	<string name="char_label_load_normal">Normal</string>
+	<string name="char_label_load_heavy">Heavy</string>
+	<string name="charitem_label_type">Type</string>
+	<string name="charitem_type_generic">Generic</string>
+	<string name="charitem_type_playbook">Playbook</string>
+
+	<string name="char_tab_abilities">Abilities</string>
+	<string name="char_title_abilities">Abilities</string>
+	
+	<string name="char_tab_clocks">Clocks</string>
+	<string name="char_title_clocks">Clocks</string>
+
+	<string name="char_tab_notes">Notes</string>
+	<string name="char_title_details">Details</string>
+	<string name="char_label_crew">Crew</string>
+	<string name="char_label_heritage">Heritage</string>
+	<string name="char_label_background">Background</string>
+	<string name="char_label_vice">Vice</string>
+	<string name="char_label_look">Look</string>
+
+	<string name="char_title_contacts">Contacts</string>
+	<string name="char_tooltip_contact_neutral">Neutral</string>
+	<string name="char_tooltip_contact_friend">Friend</string>
+	<string name="char_tooltip_contact_enemy">Enemy</string>
+	<string name="contact_label_relationship">Relationship</string>
+
+	<string name="char_title_notes">Notes</string>
+
+    <!-- Abilities -->
+    <string name="ability_label_type">Type</string>
+	<string name="ability_label_cost">Cost</string>
+	<string name="ability_tooltip_cost">How many upgrade points does this ability cost</string>
+    <string name="ability_header_description">Description</string>
+	<string name="ability_header_notes">Notes</string>
+
+	<!-- Crew -->
+	<string name="crew_label_name">Name</string>
+	<string name="crew_label_designation">Designation</string>
+	<string name="crew_label_reputation">Crew Reputation</string>
+	<string name="crew_label_look">Colors/Look</string>
+	<string name="crew_label_size">Ship Size</string>
+
+	<string name="crew_title_crew">Crew</string>
+	<string name="crew_title_cred">Cred</string>
+	<string name="crew_title_debt">Debt</string>
+	<string name="crew_title_gambits">Gambits</string>
+	<string name="crew_title_upkeep">Upkeep</string>
+
+	<string name="crew_title_section_editor">System Editor</string>
+	<string name="crew_label_sectionrating">Rating</string>
+	<string name="crew_label_sectionrating_current">Current</string>
+	<string name="crew_label_sectionrating_maximum">Maximum</string>
+	<string name="crew_label_sectiondamage">Damage</string>
+	<string name="crew_tooltip_upgrade_off">This upgrade is locked to this ship system, but must be bought or installed before use.</string>
+	<string name="crew_tooltip_upgrade_on">This upgrade is installed on this ship.</string>
+
+    <!-- Ship Type -->
+    <string name="shiptype_tab_main">Main</string>
+    <string name="shiptype_tab_stats">Stats</string>
+
+    <string name="shiptype_header_description">Description</string>
+
+	<string name="shiptype_label_upgrades_empty">Drop an upgrade on this window to add it to the ship template.</string>
+    <string name="shiptype_header_stats">Stats</string>
+    <string name="shiptype_label_size">Size</string>
+    <string name="shiptype_label_gambits">Gambits</string>
+	<string name="shiptype_label_crewrating">Crew Rating</string>
+	<string name="shiptype_label_cred">Cred</string>
+	<string name="shiptype_label_debt">Debt</string>
+
+    <string name="shiptype_label_rating">Rating</string>
+	<string name="shiptype_label_rating_starting">Starting</string>
+	<string name="shiptype_label_rating_maximum">Maximum</string>
+	<string name="shiptype_tooltip_upgrade_off">This upgrade is locked to this ship, but must be bought or installed before use.</string>
+	<string name="shiptype_tooltip_upgrade_on">This upgrade comes pre-installed on the ship.</string>
+
+	<string name="shiptype_header_upgrades">Other Upgrades</string>
+
+	<!-- Crew Type -->
+	<string name="crewtype_tab_main">Main</string>
+    <string name="crewtype_tab_data">Data</string>
+
+    <string name="crewtype_header_description">Description</string>
+
+	<string name="crewtype_label_abilities_empty">Drop an upgrade or ability on this window to add it to the crew template.</string>
+	<string name="crewtype_header_abilities">Special Abilities</string>
+	<string name="crewtype_tooltip_ability_off">This ability is an option for the crew to take, but must be unlocked.</string>
+	<string name="crewtype_tooltip_ability_on">This ability is unlocked and able to be used.</string>
+	<string name="crewtype_header_upgrades">Crew Upgrades</string>
+	<string name="crewtype_tooltip_upgrade_off">This upgrade is an option for the crew to take, but must be unlocked.</string>
+	<string name="crewtype_tooltip_upgrade_on">This upgrade is unlocked and able to be used.</string>
+	<string name="crewtype_header_contacts">Contacts</string>
+	<string name="crewtype_header_xptriggers">XP Triggers</string>
+
+	<!-- Upgrades -->
+	<string name="upgrade_label_type">Upgrade Type</string>
+	<string name="upgrade_label_cost">Cost</string>
+	<string name="upgrade_tooltip_cost">How many upgrade points does this upgrade cost</string>
+	<string name="upgrade_header_description">Description</string>
+
+	<!-- Clocks -->
+	<string name="clock_label_name">Name</string>
+	<string name="clock_label_size">Size</string>
+	<string name="clock_label_segments">%s Segments</string>
+	<string name="clock_label_progress">Progress</string>
+	<string name="clock_tooltip_chat">Show clock progress in chat</string>
+
+	<string name="clock_header_clocks">Clocks</string>
+
+	<!-- Factions -->
+	<string name="faction_tab_main">Main</string>
+	<string name="faction_label_description">Description</string>
+	<string name="faction_label_situation">Situation</string>
+	<string name="faction_label_tier">Tier</string>
+
+	<string name="faction_header_goal">Goal</string>
+	<string name="faction_label_goaldescription">Summary</string>
+	<string name="faction_label_goalclocksize">Clock Size</string>
+
+	<string name="faction_header_information">Information</string>
+	<string name="faction_label_turf">Turf</string>
+	<string name="faction_label_assets">Assets</string>
+	<string name="faction_label_quirks">Quirks</string>
+	<string name="faction_label_allies">Allies</string>
+	<string name="faction_label_enemies">Enemies</string>
+	<string name="faction_label_npcs">NPCs</string>
+
+	<string name="faction_header_npcs">NPCs</string>
+	<string name="faction_header_clocks">Clocks</string>
+
+	<!-- System -->
+	<string name="system_tab_main">Main</string>
+	<string name="system_header_description">Description</string>
+	<string name="system_header_notablelocations">Notable Locations</string>
+	<string name="system_header_locations">Locations</string>
+
+	<!-- Location -->
+	<string name="location_label_description">Description</string>
+	<string name="location_label_scene">Scene</string>
+	<string name="location_header_stats">Stats</string>
+	<string name="location_label_wealth">Wealth</string>
+	<string name="location_label_crime">Crime/Syndicate</string>
+	<string name="location_label_tech">Tech Level</string>
+	<string name="location_label_weird">Weird</string>
+	<string name="location_label_effect">Effect</string>
+	<string name="location_header_npcs">Notable NPCs</string>
+
+	<!-- Playbook -->
+	<string name="playbook_tab_main">Main</string>
+	<string name="playbook_header_description">Description</string>
+
+	<string name="playbook_tab_stats">Stats</string>
+	<string name="playbook_label_tagline">Tagline</string>
+	<string name="playbook_label_xptrigger">XP Trigger</string>
+	<string name="playbook_label_abilities_empty">Drop an ability or item on this window to add it to the playbook.</string>
+	<string name="playbook_header_actions">Actions</string>
+	<string name="playbook_header_abilities">Abilities</string>
+	<string name="playbook_tooltip_ability_off">Characters start with this ability unlocked.</string>
+	<string name="playbook_tooltip_ability_on">Characters must unlock this ability.</string>
+	<string name="playbook_header_items">Items</string>
+	<string name="playbook_header_contacts">Contacts</string>
+
+	<!-- Items -->
+	<string name="item_label_load">Load</string>
+	<string name="item_label_quality">Quality</string>
+
+	<!-- Quests / Jobs -->
+	<string name="quest_tab_main">Main</string>
+	<string name="quest_header_information">Information</string>
+	<string name="quest_label_payout">Payout</string>
+	<string name="quest_label_system">System</string>
+	<string name="quest_header_factions">Factions</string>
+	<string name="quest_tooltip_faction_status_neutral">Reputation Unchanged</string>
+	<string name="quest_tooltip_faction_status_raise">Improved Reputation</string>
+	<string name="quest_tooltip_faction_status_lower">Lowered Reputation</string>
+	<string name="quest_header_description">Description</string>
+
+	<!-- Misc -->
+	<string name="gmnotes_tab">GM Notes</string>
+	<string name="clocks_tab">Clocks</string>
+
+	<!-- Roll Prompt -->
+	<string name="dialog_roll_title">Position and Effect</string>
+	<string name="dialog_roll_label_position">Position</string>
+	<string name="dialog_roll_label_effect">Effect</string>
+	<string name="dialog_roll_header_bonusdice">Dice Modifiers</string>
+	<string name="dialog_roll_label_push">Push Yourself</string>
+	<string name="dialog_roll_label_bargain">Devil's Bargain</string>
+	<string name="dialog_roll_label_assist">Assist</string>
+	<string name="dialog_roll_label_gambit">Spend a Gambit</string>
+	<string name="dialog_roll_label_injured">Injured</string>
+
+	<!-- Rolling -->
+	<string name="roll_text_push_yourself">You pushed yourself for an extra die, and gain 2 Stress.</string>
+	<string name="roll_text_devils_bargain">You accepted a devil's bargain. Hope it was worth it.</string>
+	<string name="roll_text_assisted">You were assisted. Your helper gains 1 Stress.</string>
+	<string name="roll_text_spent_gambit">You spent one of your crew's gambits.</string>
+	<string name="roll_text_desperate_action">Desperate roll: Add an XP to %s.</string>
+	<string name="roll_text_resistance">Resisted the effect, but gain %s Stress.</string>
+	<string name="roll_text_injured">Your injurity hindered your action.</string>
+	<string name="roll_text_engagement_result">Starting position</string>
+
+	<string name="roll_label_tier">Tier</string>
+</root>

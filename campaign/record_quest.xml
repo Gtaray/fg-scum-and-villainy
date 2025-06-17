@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>    
+    <windowclass name="quest" copy="record_window_tabbed">
+		<sizelimits>
+			<minimum height="500" />
+		</sizelimits>
+		<tab>
+			<name>main</name>
+			<resource>quest_tab_main</resource>
+			<class>quest_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>gmnotes</name>
+			<resource>gmnotes_tab</resource>
+			<class>tab_gmnotes</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="quest_main">
+		<script file="campaign/scripts/quest_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<header_content_framed_headersimple name="information_header">
+				<static textres="quest_header_information" />
+			</header_content_framed_headersimple>
+			<label_content_column name="payout_label">
+				<static textres="quest_label_payout" />
+			</label_content_column>
+			<number_content_column name="payout">
+				<min>0</min>
+				<max>20</max>
+				<default>4</default>
+			</number_content_column>
+			<label_content_column name="system_label">
+				<static textres="quest_label_system" />
+			</label_content_column>
+			<linkfield_content_column_right name="systemlink"/>
+			<stringc_content_column_systemname name="system">
+				<anchored>
+					<right parent="systemlink" anchor="left" offset="3" />
+				</anchored>
+			</stringc_content_column_systemname>
+
+			<header_content_framed_headersimple name="faction_header">
+				<static textres="quest_header_factions" />
+			</header_content_framed_headersimple>
+
+			<list_content_column name="factionlist">
+				<datasource>.factions</datasource>
+				<class>quest_faction</class>
+				<allowdelete />
+				<script>
+					function update()
+						local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+						for _, w in ipairs(getWindows()) do
+							w.standing.setReadOnly(bReadOnly);
+						end
+					end
+				</script>
+			</list_content_column>
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="quest_header_description" />
+			</header_content_framed_headersimple>
+
+			<ft_content_columnh_full name="notes" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="quest_faction" copy="ref_listitem_linked">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<button_listitem_standing name="standing" insertbefore="shortcut" />
+
+			<link_listitem_right name="shortcut">
+				<class>faction</class>
+			</link_listitem_right>
+		</sheetdata>
+	</windowclass>
+</root>

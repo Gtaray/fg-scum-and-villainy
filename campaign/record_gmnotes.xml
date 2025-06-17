@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="tab_gmnotes">
+		<margins control="0,0,0,2" />
+		<script>
+			function onInit()
+				self.update();
+			end
+			function update()
+				local bReadOnly = WindowManager.getReadOnlyState(getDatabaseNode());
+				local tFields = { "gmnotes" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<ft_content_column_full name="gmnotes">
+				<anchored>
+					<bottom parent="bottomanchor" relation="relative" offset="-3" postoffset="-3" />
+				</anchored>
+			</ft_content_column_full>
+		</sheetdata>
+	</windowclass>
+</root>

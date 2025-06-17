@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="location" copy="record_window_tabbed">
+		<script>
+			function onDrop(x, y, draginfo)
+				ClockManager.handleClockDrop(draginfo, self);
+			end
+		</script>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>location_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>clocks</name>
+			<resource>clocks_tab</resource>
+			<class>tab_clocks</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>gmnotes</name>
+			<resource>gmnotes_tab</resource>
+			<class>tab_gmnotes</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>pictures</name>
+			<resource>tab_pictures</resource>
+			<class>record_content_pictures</class>
+			<embed />
+		</tab>
+	</windowclass>
+
+	<windowclass name="location_main">
+		<margins control="0,0,0,2" />
+		<script file="campaign/scripts/location_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="description_label">
+				<static textres="location_label_description" />
+			</label_content_column>
+			<string_content_columnh name="description">
+				<delaykeyupdate />
+			</string_content_columnh>
+
+			<label_content_column name="scene_label">
+				<static textres="location_label_scene" />
+			</label_content_column>
+			<string_content_columnh name="scene">
+				<delaykeyupdate />
+			</string_content_columnh>
+
+			<header_content_framed_headersimple name="stats_header">
+				<static textres="location_header_stats" />
+			</header_content_framed_headersimple>
+
+			<label_content_column name="wealth_label">
+				<static textres="location_label_wealth" />
+			</label_content_column>
+			<buttongroup_column_counter name="wealth">
+				<values><maximum>3</maximum></values>
+				<sourcefields><current>stats.wealth</current></sourcefields>
+			</buttongroup_column_counter>
+
+			<label_content_column name="crime_label">
+				<static textres="location_label_crime" />
+			</label_content_column>
+			<buttongroup_column_counter name="crime">
+				<values><maximum>3</maximum></values>
+				<sourcefields><current>stats.crime</current></sourcefields>
+			</buttongroup_column_counter>
+
+			<label_content_column name="tech_label">
+				<static textres="location_label_tech" />
+			</label_content_column>
+			<buttongroup_column_counter name="tech">
+				<values><maximum>3</maximum></values>
+				<sourcefields><current>stats.tech</current></sourcefields>
+			</buttongroup_column_counter>
+
+			<label_content_column name="weird_label">
+				<static textres="location_label_weird" />
+			</label_content_column>
+			<buttongroup_column_counter name="weird">
+				<values><maximum>3</maximum></values>
+				<sourcefields><current>stats.weird</current></sourcefields>
+			</buttongroup_column_counter>
+
+			<label_content_column name="effect_label">
+				<static textres="location_label_effect" />
+			</label_content_column>
+			<ft_content_column name="effect">
+				<delaykeyupdate />
+			</ft_content_column>
+
+			<header_content_framed_headersimple name="npcs_header">
+				<static textres="location_header_npcs" />
+			</header_content_framed_headersimple>
+			<button_iedit name="npcs_iedit">
+				<anchored to="npcs_header" position="insidetopright" offset="2,0" />
+				<edittarget>npcs</edittarget>
+			</button_iedit>
+			<button_iadd name="npcs_iadd">
+				<anchored to="npcs_header" position="insidetopright" offset="22,0" />
+				<target>npcs</target>
+			</button_iadd>
+			<list_content_column name="npcs">
+				<datasource>.npcs</datasource>
+				<class>location_npc</class>
+				<sortby><control>name</control></sortby>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="location_npc">
+		<margins control="0,0,0,4" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "description", };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>npcs_iedit</editmode>
+			</button_listitem_idelete>
+
+			<ft_listitem_center_framed name="description">
+				<anchored>
+					<right offset="-20" />
+				</anchored>
+			</ft_listitem_center_framed>
+		</sheetdata>
+	</windowclass>
+</root>

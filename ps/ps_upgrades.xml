@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_upgrades">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="sub_shared">
+				<class>ps_upgrades_main</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_main">
+		<sheetdata>
+			<list_crew_shipsections name="sections">
+				<anchored width="250">
+					<top offset="20" />
+					<right />
+				</anchored>
+			</list_crew_shipsections>
+
+			<subwindow name="auxiliary">
+				<anchored width="250">
+					<top offset="10" />
+					<left offset="10" />
+				</anchored>
+				<class>ps_upgrades_auxiliary</class>
+				<activate />
+			</subwindow>
+
+			<subwindow name="crewupgrades">
+				<anchored to="auxiliary" width="250">
+					<top anchor="bottom" offset="20" />
+					<left  />
+				</anchored>
+				<class>ps_upgrades_crew</class>
+				<activate />
+			</subwindow>
+
+			<subwindow name="training">
+				<anchored to="crewupgrades" width="250">
+					<top anchor="bottom" offset="20" />
+					<left  />
+				</anchored>
+				<class>ps_upgrades_training</class>
+				<activate />
+			</subwindow>
+
+			<subwindow name="shipgear">
+				<anchored to="auxiliary">
+					<top />
+					<left anchor="right" offset="20" />
+					<right parent="sections" anchor="left" offset="-20" />
+				</anchored>
+				<class>ps_upgrades_shipgear</class>
+				<activate />
+			</subwindow>
+
+			<subwindow name="crewgear">
+				<anchored to="shipgear">
+					<top anchor="bottom" offset="20" />
+					<left />
+					<right />
+				</anchored>
+				<class>ps_upgrades_crewgear</class>
+				<activate />
+			</subwindow>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_crew">
+		<sheetdata>	
+			<anchor_content_top />
+			
+			<label_crewframe_top name="header">
+				<static textres="ps_title_crewupgrades" />
+			</label_crewframe_top>
+			<list_shipupgrades name="crewupgrades">
+				<datasource>.upgrades.crewupgrades</datasource>
+				<sortby><control>cost</control></sortby>
+				<sortby><control>name</control></sortby>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_auxiliary">
+		<sheetdata>	
+			<anchor_content_top />
+			
+			<label_crewframe_top>
+				<static textres="ps_title_auxiliary" />
+			</label_crewframe_top>
+			<list_shipupgrades name="auxiliary">
+				<datasource>.upgrades.auxiliary</datasource>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_training">
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_crewframe_top>
+				<static textres="ps_title_training" />
+			</label_crewframe_top>
+			<list_shipupgrades name="training">
+				<datasource>.upgrades.training</datasource>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_crewgear">
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_crewframe_top>
+				<static textres="ps_title_crewgear" />
+			</label_crewframe_top>
+			<list_shipupgrades name="crewgear">
+				<datasource>.upgrades.crewgear</datasource>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_upgrades_shipgear">
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_crewframe_top>
+				<static textres="ps_title_shipgear" />
+			</label_crewframe_top>
+			<list_shipupgrades name="shipgear">
+				<datasource>.upgrades.shipgear</datasource>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+</root>

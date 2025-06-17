@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+   Attribution and copyright information:
+'Fantasy Grounds' is a trademark of SmiteWorks USA, LLC. 'Fantasy Grounds' is Copyright 2004-2022 SmiteWorks USA LLC.
+
+The CoreRPG ruleset and all included files are copyright 2004-2023, Smiteworks USA LLC.
+
+Any copyright or licensing of data modules distributed by Smiteworks for use with this ruleset are addressed within the data modules themselves.
+-->
+
+<root version="3.0" release="2.0" logo="logo.png">
+	<announcement text="Scum and Villainy ruleset by Saagael" font="emotefont" icon="" />
+	
+	<!-- Attributes -->
+	<description>
+		<displayname>Scum and Villainy</displayname>
+		<author>Saagael</author>
+		<text>A fan made ruleset based on Scum and Villainy by One Seven Design and John Harper</text>
+	</description>
+
+	<!-- Layers -->
+	<importruleset source="CoreRPG" />
+
+	<!-- Common -->
+	<includefile source="common/ref_listitem_linked.xml" />
+	<includefile source="common/template_clocks.xml" />
+	<includefile source="common/template_common.xml" />
+	
+	<!-- Campaign -->
+	<includefile source="campaign/record_playbook.xml" />
+	<includefile source="campaign/record_ability.xml" />
+	<includefile source="campaign/record_background.xml" />
+	<includefile source="campaign/record_heritage.xml" />
+	<includefile source="campaign/record_item.xml" />
+
+	<includefile source="campaign/record_shiptype.xml" />
+	<includefile source="campaign/record_crewtype.xml" />
+	<includefile source="campaign/record_upgrade.xml" />
+
+	<includefile source="campaign/record_system.xml" />
+	<includefile source="campaign/record_location.xml" />
+	<includefile source="campaign/record_faction.xml" />
+	<includefile source="campaign/record_clock.xml" />
+	<includefile source="campaign/record_quest.xml" />
+	<includefile source="campaign/record_gmnotes.xml" />
+	<includefile source="campaign/template_campaign.xml" />
+
+	<includefile source="campaign/record_char.xml" />
+	<includefile source="campaign/record_char_main.xml" />
+	<includefile source="campaign/record_char_actions.xml" />
+	<includefile source="campaign/record_char_inventory.xml" />
+	<includefile source="campaign/record_char_abilities.xml" />
+	<includefile source="campaign/record_char_clocks.xml" />
+	<includefile source="campaign/record_char_notes.xml" />
+	<includefile source="campaign/template_char.xml" />
+	
+	<includefile source="campaign/record_crew.xml" />
+	<includefile source="campaign/record_crew_main.xml" />
+
+	<includefile source="campaign/record_gmnotes.xml" />
+
+	<!-- Crew Sheet -->
+	<includefile source="ps/ps.xml" />
+	<includefile source="ps/ps_main.xml" />
+	<includefile source="ps/ps_abilities.xml" />
+	<includefile source="ps/ps_upgrades.xml" />
+	<includefile source="ps/ps_factions.xml" />
+	<includefile source="ps/ps_heat.xml" />
+	<includefile source="ps/ps_clocks.xml" />
+	<includefile source="ps/ps_jobs.xml" />
+	<includefile source="ps/template_ps.xml" />
+
+	<!-- Job Sheet -->
+	<includefile source="js/js.xml" />
+	<includefile source="js/js_main.xml" />
+	<includefile source="js/js_notes.xml" />
+	<includefile source="js/js_gmnotes.xml" />
+	<includefile source="js/js_clocks.xml" />
+	<includefile source="js/template_js.xml" />
+
+	<!-- Graphics -->
+	<includefile source="graphics/buttons.xml" />
+	<includefile source="graphics/icons.xml" />
+	<includefile source="graphics/clocks.xml" />
+	<includefile source="graphics/fonts.xml" />
+	<includefile source="graphics/frames.xml" />
+
+	<!-- Utility -->
+	<includefile source="utility/dialog_roll.xml" />
+	<includefile source="utility/dialog_text.xml" />
+
+	<!-- Strings -->
+	<includefile source="strings/strings_campaign.xml" />
+	<includefile source="strings/strings_common.xml" />
+	<includefile source="strings/strings_ps.xml" />
+	<includefile source="strings/strings_js.xml" />
+
+	<!-- Scripts -->
+	<script name="GameSystem" file="scripts/manager_gamesystem.lua" />
+	<script name="DataManager" file="scripts/manager_data.lua" />
+
+	<script name="CharManager" file="scripts/manager_char.lua" />
+	<script name="CrewManager" file="scripts/manager_crew.lua" />
+	<script name="JobManager" file="scripts/manager_job.lua" />
+	<script name="ClockManager" file="scripts/manager_clock.lua" />
+	<script name="RollManager" file="scripts/manager_roll.lua" />
+
+	<script name="ActionDice" file="scripts/manager_action_dice.lua" />
+	<script name="ActionRoll" file="scripts/manager_action_roll.lua" />
+	<script name="ActionEngagement" file="scripts/manager_action_engagement.lua" />
+	<script name="ActionFortune" file="scripts/manager_action_fortune.lua" />
+	<script name="ActionResistance" file="scripts/manager_action_resistance.lua" />
+	<script name="ActionStress" file="scripts/manager_action_stress.lua" />
+	
+</root>

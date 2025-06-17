@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="js_clocks">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>js_clocks_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_clocks_content">
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+
+			<sub_content_top name="sub_header">
+				<class>js_main_header</class>
+			</sub_content_top>
+
+			<sub_content_top name="sub_crew">
+				<anchored width="270">
+					<right merge="delete" />
+					<top relation="current" />
+				</anchored>
+				<class>js_main_crew</class>
+				<noscroll />
+			</sub_content_top>
+
+			<sub_content_top name="sub_details">
+				<anchored>
+					<left parent="sub_crew" anchor="right" offset="20" />
+				</anchored>
+				<class>js_clocks_details</class>
+				<noscroll />
+			</sub_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_clocks_details">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top />
+			<header_content_framed_headersimple name="header_clocks">
+				<static textres="js_header_clocks" />
+			</header_content_framed_headersimple>
+
+			<button_iadd name="clocks_iadd">
+				<anchored to="header_clocks" position="insidetopright" offset="2,0" />
+				<target>clocks</target>
+				<gmvisibleonly />
+			</button_iadd>
+
+			<list_content_noscroll_top name="clocks">
+				<datasource>.clocks</datasource>
+				<class>js_clocks_clock</class>
+				<columns>
+					<width>225</width>
+					<fillwidth />
+				</columns>
+				<allowdelete />
+			</list_content_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="js_clocks_clock" copy="clock_listitem" />
+</root>

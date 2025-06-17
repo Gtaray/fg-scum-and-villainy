@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="crew">
+		<frame>charsheet</frame>
+		<sizelimits>
+			<minimum height="500" width="700" />
+			<dynamic />
+		</sizelimits>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>crew_main</class>
+		</tab>
+		<tooltip field="name" />
+		<script file="campaign/scripts/crew.lua" />
+		<sheetdata>
+			<anchor_content_charsheet_tabbed_top />
+			<anchor_content_charsheet_bottom />
+
+			<close_charsheet />
+			<resize_charsheet />
+		</sheetdata>
+	</windowclass>
+</root>

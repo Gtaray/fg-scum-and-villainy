@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="comboboxc_sizeselector">
+		<comboboxc>
+			<frame>
+				<name>fieldlight</name>
+				<offset>10,5,10,5</offset>
+				<hidereadonly />
+			</frame>
+			<listdirection>down</listdirection>
+			<unsorted />
+			<script file="common/scripts/comboboxc_sizeselector.lua" />
+		</comboboxc>
+	</template>
+	<template name="comboboxc_content_top_sizeselector">
+		<comboboxc_sizeselector>
+			<anchored to="contentanchor" height="20">
+				<top relation="relative" offset="3" postoffset="3" />
+			</anchored>
+		</comboboxc_sizeselector>
+	</template>
+	<template name="comboboxc_content_column_sizeselector">
+		<comboboxc_content_top_sizeselector>
+			<anchored to="contentanchor" height="20">
+				<left offset="110" />
+				<right offset="-10" />
+			</anchored>
+		</comboboxc_content_top_sizeselector>
+	</template>
+
+	<template name="number_content_column_clockprogress">
+		<number_content_column>
+			<script file="common/scripts/number_linkedmaximum.lua" />
+			<min>0</min>
+		</number_content_column>
+	</template>
+
+	<template name="button_clock_base">
+		<buttoncontrol>
+			<script>
+				local _tStateIndex = {
+					[4] = 0,
+					[6] = 5,
+					[8] = 12,
+					[10] = 21,
+					[12] = 32,
+				}
+				function getStateIndex(nSize)
+					return _tStateIndex[nSize]
+				end
+			</script>
+			<state icon="button_clock_4_0" merge="add" />
+			<state icon="button_clock_4_1" merge="add" />
+			<state icon="button_clock_4_2" merge="add" />
+			<state icon="button_clock_4_3" merge="add" />
+			<state icon="button_clock_4_4" merge="add" />
+
+			<state icon="button_clock_6_0" merge="add" />
+			<state icon="button_clock_6_1" merge="add" />
+			<state icon="button_clock_6_2" merge="add" />
+			<state icon="button_clock_6_3" merge="add" />
+			<state icon="button_clock_6_4" merge="add" />
+			<state icon="button_clock_6_5" merge="add" />
+			<state icon="button_clock_6_6" merge="add" />
+
+			<state icon="button_clock_8_0" merge="add" />
+			<state icon="button_clock_8_1" merge="add" />
+			<state icon="button_clock_8_2" merge="add" />
+			<state icon="button_clock_8_3" merge="add" />
+			<state icon="button_clock_8_4" merge="add" />
+			<state icon="button_clock_8_5" merge="add" />
+			<state icon="button_clock_8_6" merge="add" />
+			<state icon="button_clock_8_7" merge="add" />
+			<state icon="button_clock_8_8" merge="add" />
+
+			<state icon="button_clock_10_0" merge="add" />
+			<state icon="button_clock_10_1" merge="add" />
+			<state icon="button_clock_10_2" merge="add" />
+			<state icon="button_clock_10_3" merge="add" />
+			<state icon="button_clock_10_4" merge="add" />
+			<state icon="button_clock_10_5" merge="add" />
+			<state icon="button_clock_10_6" merge="add" />
+			<state icon="button_clock_10_7" merge="add" />
+			<state icon="button_clock_10_8" merge="add" />
+			<state icon="button_clock_10_9" merge="add" />
+			<state icon="button_clock_10_10" merge="add" />
+
+			<state icon="button_clock_12_0" merge="add" />
+			<state icon="button_clock_12_1" merge="add" />
+			<state icon="button_clock_12_2" merge="add" />
+			<state icon="button_clock_12_3" merge="add" />
+			<state icon="button_clock_12_4" merge="add" />
+			<state icon="button_clock_12_5" merge="add" />
+			<state icon="button_clock_12_6" merge="add" />
+			<state icon="button_clock_12_7" merge="add" />
+			<state icon="button_clock_12_8" merge="add" />
+			<state icon="button_clock_12_9" merge="add" />
+			<state icon="button_clock_12_10" merge="add" />
+			<state icon="button_clock_12_11" merge="add" />
+			<state icon="button_clock_12_12" merge="add" />
+		</buttoncontrol>
+	</template>
+	<template name="button_clock">
+		<button_clock_base>
+			<script file="common/scripts/button_clock.lua" />
+		</button_clock_base>
+	</template>
+	<template name="button_content_top_clock">
+		<button_clock>
+			<anchored to="contentanchor" height="150">
+				<top relation="relative" offset="10" />
+			</anchored>
+		</button_clock>
+	</template>
+	<template name="button_content_top_clock_center">
+		<button_content_top_clock>
+			<anchored height="150">
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+		</button_content_top_clock>
+	</template>
+
+	<!-- CLOCK WINDOW -->
+	 <template name="button_clock_listitem">
+		<button_content_top_clock>
+			<gmeditonly />
+			<anchored height="100">
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+			<sourcefields>
+				<size>size</size>
+				<progress>progress</progress>
+			</sourcefields>
+		</button_content_top_clock>
+	</template>
+
+	<template name="button_clock_to_chat">
+		<buttoncontrol>
+			<script file="common/scripts/button_clock_to_chat.lua" />
+			<anchored width="20" height="20" />
+			<icon normal="button_toolbar_speak" />
+			<color>000000</color>
+			<frame name="windowmenubar_button" offset="2,2,2,2" />
+			<stateframe>
+				<pressed name="windowmenubar_button_down" offset="2,2,2,2" nobaseframe="true" />
+			</stateframe>
+			<tooltip textres="clock_tooltip_chat" />
+			<gmvisibleonly />
+		</buttoncontrol>
+	</template>
+</root>

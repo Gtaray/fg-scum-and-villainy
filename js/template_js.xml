@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- COMMON -->
+	 <template name="string_js">
+		<stringu>
+			<anchored height="20" />
+			<readonly />
+			<nodrag />
+			<script file="common/scripts/string_crosslink.lua" />
+		</stringu>
+	</template>
+
+	<!-- CREW LIST -->
+	<template name="portrait_js">
+		<genericcontrol>
+			<script>
+				function onInit()
+					self.update();
+				end
+				
+				function getTargetNode()
+					return JobManager.mapJStoChar(window.getDatabaseNode());
+				end
+				function isOwner()
+					return Session.IsHost or DB.isOwner(self.getTargetNode());
+				end
+				function update()
+					local _,sCharNode = window.link.getValue();
+					local sCharNodeName = sCharNode:match("%.([%w-]+)$");
+					if sCharNodeName then
+						setIcon("portrait_" .. sCharNodeName .. "_charlist", true);
+					else
+						setIcon("charlist_base");
+					end
+				end
+
+				function onClickDown()
+					return self.isOwner();
+				end
+				function onClickRelease()
+					if self.isOwner() then
+						window.link.activate();
+						return true;
+					end
+				end
+				function onDragStart(button, x, y, draginfo)
+					local nodeChar = self.getTargetNode();
+					if DB.isOwner(nodeChar) then
+						draginfo.setType("shortcut");
+						draginfo.setIcon("portrait_" .. DB.getName(nodeChar) .. "_charlist");
+						local sToken = DB.getValue(nodeChar, "token", "");
+						if sToken ~= "" then
+							draginfo.setTokenData(sToken);
+						end
+						draginfo.setShortcutData("charsheet", DB.getPath(nodeChar));
+						draginfo.setDescription(DB.getValue(nodeChar, "name", ""));
+						return true;
+					end
+				end
+			</script>
+		</genericcontrol>
+	</template>
+
+	<template name="stress_js">
+		<buttongroup_rating_small_red>
+			<sourcefields>
+				<current>health.stress.current</current>
+				<maximum>health.stress.max</maximum>
+			</sourcefields>
+			<maxslotperrow>15</maxslotperrow>
+			<readonly />
+		</buttongroup_rating_small_red>
+	</template>
+
+	<!-- ENGAGEMENT -->
+	<template name="stringc_engagement">
+		<stringc_content_noframe_noscroll_static_top name="description">
+			<script>
+				local sProperty = ""
+				local sPrefix = "";
+
+				function onInit()
+					if property and property[1] then
+						sProperty = property[1];
+					end
+					if prefixres and prefixres[1] then
+						sPrefix = Interface.getString(prefixres[1]);
+					end
+
+					DB.addHandler(DB.getPath(window.getDatabaseNode(), "engagement.plan"), "onUpdate", update);
+					update();
+				end
+				function onClose()
+					DB.removeHandler(DB.getPath(window.getDatabaseNode(), "engagement.plan"), "onUpdate", update);
+				end
+				function update()
+					if sProperty == "" then
+						return;
+					end
+
+					local sId = DB.getValue(window.getDatabaseNode(), "engagement.plan", "");
+					local tPlan = DataManager.getEngagementPlan(sId);
+					if not tPlan then
+						setValue("");
+					else
+						local sValue = tPlan[sProperty];
+						if sPrefix ~= "" then
+							sValue = string.format("%s: %s", sPrefix, sValue);
+						end
+						setValue(sValue);
+					end
+					setVisible(getValue() ~= "");
+				end
+			</script>
+		</stringc_content_noframe_noscroll_static_top>
+	</template>
+
+	<template name="button_engagement">
+		<button_roll>
+			<script>
+				function onButtonPress()
+					self.action()
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					JobManager.performEngagementRoll();
+				end
+			</script>
+			<anchored to="contentanchor" height="30" width="30" >
+				<top relation="current" offset="-2" />
+				<right offset="-10" />
+			</anchored>
+		</button_roll>
+	</template>
+
+	<!-- CLOCKS -->
+	 <template name="js_button_clock">
+		<button_content_top_clock>
+			<gmeditonly />
+			<anchored height="100">
+				<left offset="5" />
+				<right offset="-5" />
+			</anchored>
+			<sourcefields>
+				<size>size</size>
+				<progress>progress</progress>
+			</sourcefields>
+		</button_content_top_clock>
+	</template>
+</root>

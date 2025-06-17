@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ability" copy="record_window" />
+	<windowclass name="ability_header" copy="record_header" />
+
+	<windowclass name="ability_main">
+		<script file="campaign/scripts/ability_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="type_label">
+				<static textres="ability_label_type" />
+			</label_content_column>
+			<string_content_column name="type" />
+
+			<label_content_column name="cost_label">
+				<static textres="ability_label_cost" />
+			</label_content_column>
+			<number_content_column name="cost">
+				<min>1</min>
+				<default>1</default>
+				<max>3</max>
+				<tooltip textres="ability_tooltip_cost" />
+			</number_content_column>
+
+			<header_content_framed_headersimple name="description_header">
+				<static textres="ability_header_description" />
+			</header_content_framed_headersimple>
+			<ft_content_column_full name="description" />
+
+			<header_content_framed_headersimple name="notes_header">
+				<static textres="ability_header_notes" />
+			</header_content_framed_headersimple>
+			<ft_content_column_full name="notes" />
+		</sheetdata>
+	</windowclass>
+</root>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="system" copy="record_window_tabbed">
+		<script>
+			function onDrop(x, y, draginfo)
+				ClockManager.handleClockDrop(draginfo, self);
+			end
+		</script>
+		<tab>
+			<name>main</name>
+			<resource>tab_main</resource>
+			<class>system_main</class>
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>clocks</name>
+			<resource>clocks_tab</resource>
+			<class>tab_clocks</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+		<tab merge="add">
+			<name>gmnotes</name>
+			<resource>gmnotes_tab</resource>
+			<class>tab_gmnotes</class>
+			<gmvisibleonly />
+			<embed />
+		</tab>
+	</windowclass>
+	<windowclass name="system_header" copy="record_header" />
+
+	<windowclass name="system_main">
+		<script file="campaign/scripts/system_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<label_content_column name="description_label">
+				<static textres="location_label_description" />
+			</label_content_column>
+			<string_content_columnh name="description">
+				<delaykeyupdate />
+			</string_content_columnh>
+
+			<header_content_framed_headersimple name="notable_locations_header">
+				<static textres="system_header_notablelocations"/>
+			</header_content_framed_headersimple>
+			<button_iedit name="notables_iedit">
+				<anchored to="notable_locations_header" position="insidetopright" offset="2,0" />
+				<edittarget>notables</edittarget>
+			</button_iedit>
+			<button_iadd name="notables_iadd">
+				<anchored to="notable_locations_header" position="insidetopright" offset="22,0" />
+				<target>notables</target>
+			</button_iadd>
+			<list_content_column name="notables">
+				<datasource>.notables</datasource>
+				<class>system_notable</class>
+				<sortby><control>name</control></sortby>
+			</list_content_column>
+
+			<header_content_framed_headersimple name="locations_header">
+				<static textres="system_header_locations"/>
+			</header_content_framed_headersimple>
+			<button_iedit name="locations_iedit">
+				<anchored to="locations_header" position="insidetopright" offset="2,0" />
+				<edittarget>locations</edittarget>
+			</button_iedit>
+			<list_content_column name="locations">
+				<datasource>.locations</datasource>
+				<class>system_location</class>
+				<sortby><control>name</control></sortby>
+				<hidegiven />
+				<allowdelete />
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="system_notable">
+		<margins control="0,0,0,4" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "description", };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>notables_iedit</editmode>
+			</button_listitem_idelete>
+
+			<ft_listitem_center_framed name="description">
+				<anchored>
+					<right offset="-20" />
+				</anchored>
+			</ft_listitem_center_framed>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="system_location" copy="ref_listitem_linked" />
+</root>

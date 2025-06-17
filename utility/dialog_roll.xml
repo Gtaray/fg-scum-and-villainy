@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="dialog_roll">
+		<frame>utilitybox</frame>
+		<placement>
+			<size width="400" height="450" />
+			<nosave />
+		</placement>
+		<sizelimits>
+			<dynamic />
+		</sizelimits>
+		<script>
+			local _tData;
+			local _sResult;
+			function setData(tData)
+				_tData = tData;
+				self.initDisplay();
+			end
+			function initDisplay()
+			end
+			function onClose()
+				content.subwindow.updateData(_tData);
+				DialogManager.onDialogClose(_sResult, _tData);
+			end
+			function processOK()
+				_sResult = "ok"; 
+				close();
+			end
+			function processCancel()
+				_sResult = "cancel";
+				close();
+			end
+		</script>
+		<sheetdata>
+			<windowtitlebar_utilitybox name="title">
+				<resource>dialog_roll_title</resource>
+			</windowtitlebar_utilitybox>
+			<windowmenubar_utilitybox name="menubar" />
+
+			<anchor_content_utilitybox_top />
+			
+			<anchor_content_utilitybox_bottom />
+			<sub_content_bottom name="sub_buttons">
+				<class>dialog_buttons_okcancel</class>
+			</sub_content_bottom>
+
+			<sub_content_framed_groupbox name="content">
+				<class>dialog_roll_content</class>
+			</sub_content_framed_groupbox>
+
+			<resize_utilitybox />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="dialog_roll_content">
+		<script>
+			function updateData(_tData)
+				_tData.rRoll.sPosition = position.getSelectedValue();
+				_tData.rRoll.sEffect = effect.getSelectedValue();
+				_tData.rRoll.bPush = push.getValue() == 1;
+				_tData.rRoll.bBargain = bargain.getValue() == 1;
+				_tData.rRoll.bAssist = assist.getValue() == 1;
+				_tData.rRoll.bGambit = gambit.getValue() == 1;
+				_tData.rRoll.bInjured = injured.getValue() == 1;
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="position_label">
+				<static textres="dialog_roll_label_position" />
+			</label_content_column>
+			<comboboxc_content_column name="position">
+				<script>
+					function onInit()
+						super.onInit();
+						self.add(Interface.getString("position_controlled"));
+						self.add(Interface.getString("position_risky"));
+						self.add(Interface.getString("position_desperate"));
+						self.setListIndex(2);
+					end
+				</script>
+				<unsorted />
+			</comboboxc_content_column>
+
+			<label_content_column name="effect_label">
+				<static textres="dialog_roll_label_effect" />
+			</label_content_column>
+			<comboboxc_content_column name="effect">
+				<script>
+					function onInit()
+						super.onInit();
+						self.add(Interface.getString("effect_great"));
+						self.add(Interface.getString("position_standard"));
+						self.add(Interface.getString("position_limited"));
+						self.setListIndex(2);
+					end
+				</script>
+				<unsorted />
+			</comboboxc_content_column>
+
+			<header_content_framed_headersimple name="bonusdice_header">
+				<static textres="dialog_roll_header_bonusdice" />
+			</header_content_framed_headersimple>
+			<label_content_column name="push_label">
+				<static textres="dialog_roll_label_push" />
+			</label_content_column>
+			<buttonc_checkbox_content_column name="push">
+				<script>
+					local bUpdate = false;
+					function onValueChanged()
+						if bUpdate then
+							return;
+						end
+
+						bUpdate = true;
+						if getValue() == 1 then
+							window.bargain.setValue(0)
+						end
+						bUpdate = false;
+					end
+				</script>
+			</buttonc_checkbox_content_column>
+
+			<label_content_column name="bargain_label">
+				<static textres="dialog_roll_label_bargain" />
+			</label_content_column>
+			<buttonc_checkbox_content_column name="bargain">
+				<script>
+					local bUpdate = false;
+					function onValueChanged()
+						if bUpdate then
+							return;
+						end
+
+						bUpdate = true;
+						if getValue() == 1 then
+							window.push.setValue(0)
+						end
+						bUpdate = false;
+					end
+				</script>
+			</buttonc_checkbox_content_column>
+
+			<label_content_column name="assist_label">
+				<static textres="dialog_roll_label_assist" />
+			</label_content_column>
+			<buttonc_checkbox_content_column name="assist" />
+
+			<label_content_column name="gambit_label">
+				<static textres="dialog_roll_label_gambit" />
+			</label_content_column>
+			<buttonc_checkbox_content_column name="gambit" />
+
+			<label_content_column name="injured_label">
+				<static textres="dialog_roll_label_injured" />
+			</label_content_column>
+			<buttonc_checkbox_content_column name="injured" />
+		</sheetdata>
+	</windowclass>
+</root>
