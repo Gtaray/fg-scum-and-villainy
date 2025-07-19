@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="charsheet_contacts">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>charsheet_contacts_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_contacts_content">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<char_title_framed_top name="contacts_title">
+				<static textres="char_title_contacts" />
+				<anchored>
+					<top offset="0" postoffset="0" />
+				</anchored>
+			</char_title_framed_top>
+			<button_iadd name="contacts_iadd">
+				<anchored to="contacts_title" position="insidetopright" offset="2,0" />
+				<target>contacts</target>
+			</button_iadd>
+
+			<list_content_top name="contacts">
+				<datasource>.contacts</datasource>
+				<class>charsheet_contacts_contact</class>
+				<allowdelete />
+				<anchored>
+					<left offset="5" />
+					<right offset="0" />
+				</anchored>
+			</list_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_contacts_contact">
+		<margins control="0,0,15,2" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_listitem_right />
+			<anchor_listitem_left />
+
+			<char_contact_state name="relationship" />
+
+			<linkc_listitem_right name="link">
+				<class>contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name" />
+
+			<spacer_content_top>
+				<anchored height="22" />
+			</spacer_content_top>
+
+			<ft_content_noframe_noscroll_top name="notes">
+				<anchored>
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</ft_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+</root>

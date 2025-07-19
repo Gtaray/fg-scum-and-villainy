@@ -64,8 +64,8 @@
 	 <string name="engagement_infiltration_detail">The point of infiltration.</string>
 
 	 <string name="engagement_mystic_label">Mystic</string>
-	 <string name="engagement_mystic_description">Engage mystic, druidic, or magitech powers.</string>
-	 <string name="engagement_mystic_detail">The magical power.</string>
+	 <string name="engagement_mystic_description">Engage mystic, Way, or Ur power.</string>
+	 <string name="engagement_mystic_detail">Arcane power.</string>
 
 	 <string name="engagement_social_label">Social</string>
 	 <string name="engagement_social_description">Negotiate, bargain, or persuade.</string>

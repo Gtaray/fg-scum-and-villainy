@@ -31,23 +31,10 @@
 				<anchored height="15" />
 			</spacer_content_top>
 
-			<sub_content_right name="notes">
+			<sub_content_top name="notes">
 				<class>charsheet_notes_notes</class>
-				<anchored>
-					<left offset="-20" />
-					<bottom merge="delete" />
-				</anchored>
 				<noscroll />
-			</sub_content_right>
-
-			<sub_content_left name="contacts">
-				<class>charsheet_notes_contacts</class>
-				<anchored>
-					<right offset="-20" />
-					<bottom merge="delete" />
-				</anchored>
-				<noscroll />
-			</sub_content_left>
+			</sub_content_top>
 		</sheetdata>
 	</windowclass>
 
@@ -161,33 +148,6 @@
 		</sheetdata>
 	</windowclass>
 
-	<windowclass name="charsheet_notes_contacts">
-		<sheetdata>
-			<anchor_content_top />
-
-			<char_title_framed_top name="contacts_title">
-				<static textres="char_title_contacts" />
-				<anchored>
-					<top offset="0" postoffset="0" />
-				</anchored>
-			</char_title_framed_top>
-			<button_iadd name="contacts_iadd">
-				<anchored to="contacts_title" position="insidetopright" offset="2,0" />
-				<target>contacts</target>
-			</button_iadd>
-
-			<list_content_top name="contacts">
-				<datasource>.contacts</datasource>
-				<class>charsheet_notes_contact</class>
-				<allowdelete />
-				<anchored>
-					<left offset="5" />
-					<right offset="0" />
-				</anchored>
-			</list_content_top>
-		</sheetdata>
-	</windowclass>
-
 	<windowclass name="charsheet_notes_notes">
 		<sheetdata>
 			<anchor_content_top />
@@ -206,79 +166,6 @@
 					<right offset="-15" />
 				</anchored>
 			</stringu_content_noframe_noscroll_top>
-		</sheetdata>
-	</windowclass>
-
-	<windowclass name="charsheet_notes_contact">
-		<margins control="0,0,0,2" />
-		<sheetdata>
-			<anchor_listitem_right />
-			<anchor_listitem_left />
-
-			<char_contact_state name="relationship" />
-
-			<linkc_listitem_right name="link">
-				<class>charsheet_contact</class>
-			</linkc_listitem_right>
-
-			<string_listitem_center_underline name="name" />
-		</sheetdata>
-	</windowclass>
-
-	<windowclass name="charsheet_contact" copy="record_window" />
-
-	<windowclass name="charsheet_contact_main">
-		<sheetdata>
-			<anchor_content_top />
-			<anchor_content_bottom />
-
-			<hn name="relationship">
-				<script>
-					function onValueChanged()
-						window.relationship_combo.update();
-					end
-				</script>
-			</hn>
-			
-			<label_content_column name="relationship_label">
-				<static textres="contact_label_relationship" />
-			</label_content_column>
-			<comboboxc_content_column name="relationship_combo">
-				<script>
-					local bUpdating = false;
-					function onInit()
-						super.onInit();
-
-						self.add(Interface.getString("char_tooltip_contact_neutral"));
-						self.add(Interface.getString("char_tooltip_contact_friend"));
-						self.add(Interface.getString("char_tooltip_contact_enemy"));
-
-						self.update();
-					end
-					function onValueChanged()
-						bUpdating = true
-						local n = 0;
-						local s = self.getSelectedValue();
-						if s == Interface.getString("char_tooltip_contact_neutral") then
-							n = 0;
-						elseif s == Interface.getString("char_tooltip_contact_friend") then
-							n = 1;
-						elseif s == Interface.getString("char_tooltip_contact_enemy") then
-							n = 2;
-						end
-						window.relationship.setValue(n);
-						bUpdating = false;
-					end
-					function update()
-						if not bUpdating then
-							self.setListIndex(window.relationship.getValue() + 1);
-						end
-					end
-				</script>
-				<unsorted />
-			</comboboxc_content_column>
-
-			<ft_content_noframe_noscroll name="notes" />
 		</sheetdata>
 	</windowclass>
 </root>

@@ -87,6 +87,7 @@
 					<left offset="105" />
 					<right parent="systemlink" anchor="left" offset="3" />
 				</anchored>
+				<source>job.systemlink</source>
 			</stringc_content_column_systemname>
 
 			<label_content_column name="payout_label">
@@ -181,11 +182,7 @@
 	<windowclass name="js_main_faction" copy="ref_listitem_linked">
 		<margins control="0,0,0,2" />
 		<sheetdata>
-			<button_listitem_checkbox_left name="standing" insertbefore="shortcut">
-				<state icon="button_checkoff" tooltipres="quest_tooltip_faction_status_neutral" merge="resetandadd" />
-				<state icon="button_triangle_up_blue" tooltipres="quest_tooltip_faction_status_raise" merge="add" />
-				<state icon="button_triangle_down_red" tooltipres="quest_tooltip_faction_status_lower" merge="add" />
-			</button_listitem_checkbox_left>
+			<button_listitem_standing name="standing" insertbefore="shortcut" />
 
 			<link_listitem_right name="shortcut">
 				<class>faction</class>

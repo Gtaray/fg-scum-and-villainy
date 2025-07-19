@@ -15,6 +15,7 @@
 	<string name="ps_tab_heat">Heat</string>
 	<string name="ps_tab_clocks">Clocks</string>
 	<string name="ps_tab_jobs">Jobs</string>
+	<string name="ps_tab_contacts">Contacts</string>
 
 	<string name="ps_tooltip_upgrade_off">This upgrade is locked to this ship system, but must be bought or installed before use.</string>
 	<string name="ps_tooltip_upgrade_on">This upgrade is installed on this ship.</string>
@@ -101,4 +102,10 @@
 
 	 <string name="ps_job_editor_tab_main">Main</string>
 	 <string name="ps_job_editor_tab_notes">Notes</string>
+
+	 <!-- Contacts -->
+	<string name="ps_title_contacts">Contacts</string>
+	<string name="ps_title_contactname">Contact Name</string>
+	<string name="ps_title_contactnotes">Contact Notes</string>
+	<string name="ps_title_contactrelationship">Contact Relationship</string>
 </root>

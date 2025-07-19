@@ -52,6 +52,7 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="campaign/record_char_inventory.xml" />
 	<includefile source="campaign/record_char_abilities.xml" />
 	<includefile source="campaign/record_char_clocks.xml" />
+	<includefile source="campaign/record_char_contacts.xml" />
 	<includefile source="campaign/record_char_notes.xml" />
 	<includefile source="campaign/template_char.xml" />
 	
@@ -59,6 +60,7 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="campaign/record_crew_main.xml" />
 
 	<includefile source="campaign/record_gmnotes.xml" />
+	<includefile source="campaign/record_contact.xml" />
 
 	<!-- Crew Sheet -->
 	<includefile source="ps/ps.xml" />
@@ -69,6 +71,7 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="ps/ps_heat.xml" />
 	<includefile source="ps/ps_clocks.xml" />
 	<includefile source="ps/ps_jobs.xml" />
+	<includefile source="ps/ps_contacts.xml" />
 	<includefile source="ps/template_ps.xml" />
 
 	<!-- Job Sheet -->
@@ -89,6 +92,7 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<!-- Utility -->
 	<includefile source="utility/dialog_roll.xml" />
 	<includefile source="utility/dialog_text.xml" />
+	<includefile source="utility/dialog_formattedtext.xml" />
 
 	<!-- Strings -->
 	<includefile source="strings/strings_campaign.xml" />

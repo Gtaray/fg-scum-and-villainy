@@ -343,20 +343,22 @@
 	<template name="stringc_content_column_systemname">
 		<stringc_content_column_noframe_static>
 			<script>
+				local _sSourcePath = "systemlink";
 				function onInit()
-					DB.addHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+					if source and source[1] then
+						_sSourcePath = source[1];
+					end
+
+					DB.addHandler(DB.getPath(window.getDatabaseNode(), _sSourcePath), "onUpdate", update);
 					update();
 				end
 				function onClose()
-					DB.removeHandler(DB.getPath(window.getDatabaseNode(), "systemlink"), "onUpdate", update);
+					DB.removeHandler(DB.getPath(window.getDatabaseNode(), _sSourcePath), "onUpdate", update);
 				end
 				function update()
-					if not window.systemlink then
-						setValue("");
-					end
-
-					local _, sRecord = window.systemlink.getValue()
+					local _, sRecord = DB.getValue(window.getDatabaseNode(), _sSourcePath, "", "");
 					local systemNode = DB.findNode(sRecord);
+
 					if not systemNode then
 						setValue("");
 						return;

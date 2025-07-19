@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+	Please see the license.html file included with this distribution for
+	attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ps_contacts">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<sub_content_framed_groupbox name="content">
+				<class>ps_contacts_content</class>
+			</sub_content_framed_groupbox>
+			<scrollbar_content />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_contacts_content">
+		<margins control="0,0,0,5" />
+		<sheetdata>
+			<anchor_content_top>
+				<anchored>
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+			</anchor_content_top>
+			<anchor_content_bottom />
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header">
+				<static textres="ps_title_contacts" />
+			</label_crewframe_top_right>
+			<list_content_noscroll_top name="list">
+				<anchored>
+					<top offset="10" />
+				</anchored>
+				<datasource>.contacts</datasource>
+				<sortby><field>name</field></sortby>
+				<allowdelete />
+				<class>ps_contact</class>
+				<columns width="371" fillwidth="true" />
+			</list_content_noscroll_top>
+			<scrollbar_content_list name="scrollbar_content_list" />
+
+			<button_iadd name="list_iadd">
+				<anchored to="list" position="aboveright" offset="20,15" />
+				<target>list</target>
+				<visible />
+				<script>
+					function onButtonPress()
+						if not Session.IsHost then
+							CrewManager.sendPlayerCreateContactOobMsg()
+							return;
+						end
+						super.onButtonPress();
+					end
+				</script>
+			</button_iadd>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="ps_contact">
+		<margins control="0,0,15,2" />
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_listitem_right />
+			<anchor_listitem_left />
+
+			<char_contact_state name="relationship">
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local nodeWin = window.getDatabaseNode()
+						local nValue = getValue();
+						if nValue == 2 then
+							nValue = 0
+						else
+							nValue = nValue + 1
+						end
+						CrewManager.sendPlayerUpdateOobMsg(DB.getPath(nodeWin, "relationship"), "number", nValue)
+					end
+				</script>
+			</char_contact_state>
+
+			<linkc_listitem_right name="link">
+				<class>contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name">
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_title_contactname",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "name"),
+							sText = getValue(),
+							fnCallback = CrewManager.onContactNameEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_text", tData);
+					end
+				</script>
+			</string_listitem_center_underline>
+
+			<spacer_content_top>
+				<anchored height="22" />
+			</spacer_content_top>
+
+			<ft_content_noframe_noscroll_top name="notes">
+				<anchored>
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_title_contactnotes",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
+							sText = getValue(),
+							fnCallback = CrewManager.onContactNotesEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_formattedtext", tData);
+					end
+				</script>
+			</ft_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+</root>

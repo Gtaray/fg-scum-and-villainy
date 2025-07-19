@@ -96,6 +96,9 @@
 	<string name="char_tab_clocks">Clocks</string>
 	<string name="char_title_clocks">Clocks</string>
 
+	<string name="char_tab_contacts">Contacts</string>
+	<string name="char_title_contacts">Contacts</string>
+
 	<string name="char_tab_notes">Notes</string>
 	<string name="char_title_details">Details</string>
 	<string name="char_label_crew">Crew</string>
@@ -103,12 +106,6 @@
 	<string name="char_label_background">Background</string>
 	<string name="char_label_vice">Vice</string>
 	<string name="char_label_look">Look</string>
-
-	<string name="char_title_contacts">Contacts</string>
-	<string name="char_tooltip_contact_neutral">Neutral</string>
-	<string name="char_tooltip_contact_friend">Friend</string>
-	<string name="char_tooltip_contact_enemy">Enemy</string>
-	<string name="contact_label_relationship">Relationship</string>
 
 	<string name="char_title_notes">Notes</string>
 
@@ -260,6 +257,12 @@
 	<string name="quest_tooltip_faction_status_raise">Improved Reputation</string>
 	<string name="quest_tooltip_faction_status_lower">Lowered Reputation</string>
 	<string name="quest_header_description">Description</string>
+	
+	<!-- Contacts-->
+	<string name="contact_tooltip_neutral">Neutral</string>
+	<string name="contact_tooltip_friend">Friend</string>
+	<string name="contact_tooltip_enemy">Enemy</string>
+	<string name="contact_label_relationship">Relationship</string>
 
 	<!-- Misc -->
 	<string name="gmnotes_tab">GM Notes</string>

@@ -33,7 +33,9 @@ function addPlaybook(nodeChar, nodePlaybook)
 
 	-- Contacts
 	for _, contact in ipairs(DB.getChildList(nodePlaybook, "contacts")) do
-		CharManager.addContact(nodeChar, DB.getValue(contact, "contact", ""));
+		local sName = DB.getValue(contact, "name", "");
+		local sNotes = DB.getValue(contact, "notes", "");
+		CharManager.addContact(nodeChar, sName, sNotes);
 	end
 
 	-- Items
@@ -631,7 +633,7 @@ function getContactNodes(rActor)
     return DB.getChildList(nodeChar, "contacts");
 end
 
-function addContact(rActor, sContact)
+function addContact(rActor, sName, sNotes)
 	local nodeChar;
 	if type(rActor) == "databasenode" then
 		nodeChar = rActor;
@@ -650,7 +652,9 @@ function addContact(rActor, sContact)
 
 	local node = DB.createChild(listnode);
 	if node then
-		DB.setValue(node, "name", "string", sContact)
+		DB.setValue(node, "name", "string", sName);
+		DB.setValue(node, "notes", "formattedtext", sNotes);
+		DB.setValue(node, "relationship", "number", 0);
 	end
 	return node;
 end

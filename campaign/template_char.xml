@@ -514,9 +514,9 @@
 	<!-- NOTES -->
 	<template name="char_contact_state">
 		<button_listitem_checkbox_left>
-			<state icon="button_checkoff" tooltipres="char_tooltip_contact_neutral" merge="resetandadd" />
-			<state icon="button_triangle_up_blue" tooltipres="char_tooltip_contact_friend" merge="add" />
-			<state icon="button_triangle_down_red" tooltipres="char_tooltip_contact_enemy" merge="add" />
+			<state icon="button_checkoff" tooltipres="contact_tooltip_neutral" merge="resetandadd" />
+			<state icon="button_triangle_up_blue" tooltipres="contact_tooltip_friend" merge="add" />
+			<state icon="button_triangle_down_red" tooltipres="contact_tooltip_enemy" merge="add" />
 		</button_listitem_checkbox_left>
 	</template>
 </root>

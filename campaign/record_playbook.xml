@@ -141,7 +141,7 @@
 	<windowclass name="playbook_item" copy="ref_listitem_ability" />
 
 	<windowclass name="playbook_contact">
-		<margins control="0,0,0,4" />
+		<margins control="0,0,0,5" />
 		<script>
 			function onInit()
 				self.update()
@@ -149,18 +149,36 @@
 			function update()
 				local w = UtilityManager.getTopWindow(self);
 				local bReadOnly = WindowManager.getReadOnlyState(w.getDatabaseNode());
-				contact.setReadOnly(bReadOnly);
+				name.setReadOnly(bReadOnly);
+				notes.setReadOnly(bReadOnly);
 			end
 		</script>
 		<sheetdata>
-			<anchor_listitem_left />
+			<anchor_content_top />
 			<anchor_listitem_right />
+			<anchor_listitem_left />
 
 			<button_listitem_idelete name="idelete">
 				<editmode>contacts_iedit</editmode>
 			</button_listitem_idelete>
 
-			<string_listitem_center_underline name="contact" />
+			<linkc_listitem_right name="link">
+				<class>contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name" />
+
+			<spacer_content_top>
+				<anchored height="22" />
+			</spacer_content_top>
+
+			<ft_content_noframe_noscroll_top name="notes">
+				<anchored>
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</ft_content_noframe_noscroll_top>
 		</sheetdata>
 	</windowclass>
 </root>

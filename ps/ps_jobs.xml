@@ -321,6 +321,25 @@
 			<anchor_content_bottom />
 
 			<ft_content_column_full name="notes">
+				<script>
+					function onClickDown(button, x, y)
+						if not Session.IsHost then
+							return button == 1;
+						end
+					end
+					function onClickRelease()
+						if Session.IsHost then
+							return;
+						end
+						local tData = {
+							sTitleRes = "ps_job_editor_tab_notes",
+							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
+							sText = getValue(),
+							fnCallback = CrewManager.onJobNotesEditedByPlayer
+						}
+						DialogManager.openDialog("dialog_formattedtext", tData);
+					end
+				</script>
 				<anchored>
 					<bottom parent="bottomanchor" relation="relative" offset="-3" postoffset="-3" />
 				</anchored>
@@ -338,6 +357,4 @@
 			</link_listitem_right>
 		</sheetdata>
 	</windowclass>
-
-	<!-- Player Job Editor -->
 </root>

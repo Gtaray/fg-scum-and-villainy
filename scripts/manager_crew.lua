@@ -12,6 +12,8 @@ OOB_MSGTYPE_PARTYSHEET_CREATECLOCK = "partysheetcreateclock"
 OOB_MSGTYPE_PARTYSHEET_DELETECLOCK = "partysheetdeleteclock"
 OOB_MSGTYPE_PARTYSHEET_CREATEJOB = "partysheetcreatejob"
 OOB_MSGTYPE_PARTYSHEET_DELETEJOB = "partysheetdeletejob"
+OOB_MSGTYPE_PARTYSHEET_CREATECONTACT = "partysheetcreatecontact"
+OOB_MSGTYPE_PARTYSHEET_DELETECONTACT = "partysheetdeletecontact"
 
 local _psNode;
 
@@ -22,6 +24,8 @@ function onInit()
 	OOBManager.registerOOBMsgHandler(CrewManager.OOB_MSGTYPE_PARTYSHEET_DELETECLOCK, CrewManager.handlePlayerDeleteClock);
 	OOBManager.registerOOBMsgHandler(CrewManager.OOB_MSGTYPE_PARTYSHEET_CREATEJOB, CrewManager.handlePlayerCreateJob);
 	OOBManager.registerOOBMsgHandler(CrewManager.OOB_MSGTYPE_PARTYSHEET_DELETEJOB, CrewManager.handlePlayerDeleteJob);
+	OOBManager.registerOOBMsgHandler(CrewManager.OOB_MSGTYPE_PARTYSHEET_CREATECONTACT, CrewManager.handlePlayerCreateContact);
+	OOBManager.registerOOBMsgHandler(CrewManager.OOB_MSGTYPE_PARTYSHEET_DELETECONTACT, CrewManager.handlePlayerDeleteContact);
 
 	WindowTabManager.unregisterTab("partysheet_host", "main");
 	WindowTabManager.unregisterTab("partysheet_host", "inventory");
@@ -30,6 +34,7 @@ function onInit()
 	WindowTabManager.registerTab("partysheet_host", { sName = "upgrades", sTabRes = "ps_tab_upgrades", sClass = "ps_upgrades" });
 	WindowTabManager.registerTab("partysheet_host", { sName = "abilities", sTabRes = "ps_tab_abilities", sClass = "ps_abilities" });
 	WindowTabManager.registerTab("partysheet_host", { sName = "factions", sTabRes = "ps_tab_factions", sClass = "ps_factions" });
+	WindowTabManager.registerTab("partysheet_host", { sName = "contacts", sTabRes = "ps_tab_contacts", sClass = "ps_contacts" });
 	WindowTabManager.registerTab("partysheet_host", { sName = "heat", sTabRes = "ps_tab_heat", sClass = "ps_heat" });
 	WindowTabManager.registerTab("partysheet_host", { sName = "clocks", sTabRes = "ps_tab_clocks", sClass = "ps_clocks" });
 	WindowTabManager.registerTab("partysheet_host", { sName = "jobs", sTabRes = "ps_tab_jobs", sClass = "ps_jobs" });
@@ -41,6 +46,7 @@ function onInit()
 	WindowTabManager.registerTab("partysheet_client", { sName = "upgrades", sTabRes = "ps_tab_upgrades", sClass = "ps_upgrades" });
 	WindowTabManager.registerTab("partysheet_client", { sName = "abilities", sTabRes = "ps_tab_abilities", sClass = "ps_abilities" });
 	WindowTabManager.registerTab("partysheet_client", { sName = "factions", sTabRes = "ps_tab_factions", sClass = "ps_factions" });
+	WindowTabManager.registerTab("partysheet_client", { sName = "contacts", sTabRes = "ps_tab_contacts", sClass = "ps_contacts" });
 	WindowTabManager.registerTab("partysheet_client", { sName = "heat", sTabRes = "ps_tab_heat", sClass = "ps_heat" });
 	WindowTabManager.registerTab("partysheet_client", { sName = "clocks", sTabRes = "ps_tab_clocks", sClass = "ps_clocks" });
 	WindowTabManager.registerTab("partysheet_client", { sName = "jobs", sTabRes = "ps_tab_jobs", sClass = "ps_jobs" });
@@ -264,6 +270,37 @@ function handlePlayerDeleteJob(msgOOB)
 	CrewManager.deleteJob(msgOOB.sJobNode)
 end
 
+function sendPlayerCreateContactOobMsg()
+	local msg = {
+		type = CrewManager.OOB_MSGTYPE_PARTYSHEET_CREATECONTACT
+	}
+	Comm.deliverOOBMessage(msg);
+end
+
+function handlePlayerCreateContact(msgOOB)
+	if not Session.IsHost then
+		return;
+	end
+
+	CrewManager.addEmptyContact()
+end
+
+function sendPlayerDeleteContactOobMsg(jobNode)
+	local msg = {
+		type = CrewManager.OOB_MSGTYPE_PARTYSHEET_DELETEContact,
+		sContactNode = DB.getPath(jobNode)
+	}
+	Comm.deliverOOBMessage(msg);
+end
+
+function handlePlayerDeleteContact(msgOOB)
+	if not Session.IsHost then
+		return;
+	end
+
+	CrewManager.deleteContact(msgOOB.sContactNode)
+end
+
 -------------------------------------------------------------------------------
 -- ON DROP
 -------------------------------------------------------------------------------
@@ -367,7 +404,9 @@ function addCrewType(nodeCrewType)
 
 	DB.deleteChildren(_psNode, "crew.contacts");
 	for _, contactnode in ipairs(DB.getChildList(nodeCrewType, "contacts")) do
-		CrewManager.addContact(DB.getValue(contactnode, "contact", ""));
+		local sName = DB.getValue(contactnode, "name", "");
+		local sNotes = DB.getValue(contactnode, "notes", "");
+		CrewManager.addContact(sName, sNotes);
 	end
 
 	for _, xptriggernode in ipairs(DB.getChildList(nodeCrewType, "xptriggers")) do
@@ -467,15 +506,6 @@ end
 
 function getContactNodes()
 	DB.getValue(_psNode, "crew.contacts")
-end
-function addContact(sContact)
-	local listnode = DB.createChild(_psNode, "crew.contacts");
-	if not listnode then
-		return;
-	end
-
-	local node = DB.createChild(listnode);
-	DB.setValue(node, "contact", "string", sContact);
 end
 
 -------------------------------------------------------------------------------
@@ -991,4 +1021,68 @@ function deleteJob(jobNode)
 	end
 
 	DB.deleteNode(jobNode);
+end
+
+function onJobNotesEditedByPlayer(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "formattedtext", tData.sText)
+end
+
+-------------------------------------------------------------------------------
+-- Jobs
+-------------------------------------------------------------------------------
+function getContactListNode()
+	return DB.createChild(_psNode, "contacts");
+end
+
+function addEmptyContact()
+	if not Session.IsHost then
+		return;
+	end
+
+	local node = CrewManager.getContactListNode();
+	if not node then
+		return;
+	end
+
+	return DB.createChild(node);
+end
+
+function addContact(sName, sNotes)
+	local node = CrewManager.addEmptyContact();
+	DB.setValue(node, "name", "string", sName);
+	DB.setValue(node, "notes", "formattedtext", sNotes);
+	DB.setValue(node, "relationship", "number", 0);
+	return node;
+end
+
+function deleteContact(contactNode)
+	if not Session.IsHost then
+		return;
+	end
+
+	if not contactNode then
+		return;
+	end
+
+	DB.deleteNode(contactNode);
+end
+
+function onContactNameEditedByPlayer(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "string", tData.sText)
+end
+
+function onContactNotesEditedByPlayer(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "formattedtext", tData.sText)
 end

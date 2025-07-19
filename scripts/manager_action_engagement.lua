@@ -40,7 +40,9 @@ function onRoll(rSource, rTarget, rRoll)
     Comm.deliverChatMessage(rMessage);
 
 	-- Write the result back to the Job Sheet / Combat Tracker
-	JobManager.setEngagementRollResult(rRoll.nTotal);
-
-	-- TODO: OOB that sets the engagement roll result on the party sheet
+	if Session.IsHost then
+		JobManager.setEngagementRollResult(rRoll.nTotal);
+	else
+		JobManager.sendEngagementResultOobMsg(rRoll.nTotal);
+	end
 end

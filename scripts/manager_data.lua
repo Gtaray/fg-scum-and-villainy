@@ -210,7 +210,7 @@ function addShipSection(sSection, sResource)
 	table.insert(_shipSections, section);
 end
 
-function removeShipSystem(sSection)
+function removeShipSection(sSection)
 	local nIndex = getShipSectionIndex(sSection)
     if not nIndex then
         return;
@@ -258,7 +258,7 @@ function addShipSize(sSize, sResource)
 	table.insert(_shipSizes, size);
 end
 
-function removeShipSystem(sSize)
+function removeShipSize(sSize)
     local nIndex = getShipSizeIndex(sSize)
     if not nIndex then
         return;

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!--
+  Please see the license.html file included with this distribution for
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="contact" copy="record_window">
+		<sheetdata>
+			<sub_content_framed_groupbox_top name="header">
+				<class>contact_header</class>
+			</sub_content_framed_groupbox_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="contact_header" copy="record_header" />
+
+	<windowclass name="contact_main">
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_content_bottom />
+
+			<hn name="relationship">
+				<script>
+					function onValueChanged()
+						window.relationship_combo.update();
+					end
+				</script>
+			</hn>
+			
+			<label_content_column name="relationship_label">
+				<static textres="contact_label_relationship" />
+			</label_content_column>
+			<comboboxc_content_column name="relationship_combo">
+				<script>
+					local bUpdating = false;
+					function onInit()
+						super.onInit();
+
+						self.add(Interface.getString("contact_tooltip_neutral"));
+						self.add(Interface.getString("contact_tooltip_friend"));
+						self.add(Interface.getString("contact_tooltip_enemy"));
+
+						self.update();
+					end
+					function onValueChanged()
+						bUpdating = true
+						local n = 0;
+						local s = self.getSelectedValue();
+						if s == Interface.getString("contact_tooltip_neutral") then
+							n = 0;
+						elseif s == Interface.getString("contact_tooltip_friend") then
+							n = 1;
+						elseif s == Interface.getString("contact_tooltip_enemy") then
+							n = 2;
+						end
+						window.relationship.setValue(n);
+						bUpdating = false;
+					end
+					function update()
+						if not bUpdating then
+							self.setListIndex(window.relationship.getValue() + 1);
+						end
+					end
+				</script>
+				<unsorted />
+			</comboboxc_content_column>
+
+			<ft_content_noframe_noscroll name="notes" />
+		</sheetdata>
+	</windowclass>
+</root>
