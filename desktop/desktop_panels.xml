@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<panel name="modifierstack" merge="delete" />
+
+	<panel name="positioneffectpanel">
+		<class>position_and_effect</class>
+		<anchored height="70" width="280">
+			<left offset="8" />
+			<top anchor="bottom" offset="-110" />
+		</anchored>
+		<dynamic />
+		<locked />
+	</panel>
+
+	<panel name="actionmodifiers">
+		<class>action_modifiers</class>
+		<anchored height="70" width="300">
+			<left offset="300" />
+			<top anchor="bottom" offset="-110" />
+		</anchored>
+		<dynamic />
+		<locked />
+	</panel>
+
+	<panel name="dicepanel" merge="join">
+		<anchored width="50" height="50">
+			<top anchor="bottom" offset="-105" />
+			<left offset="500" />
+		</anchored>
+	</panel>
+</root>

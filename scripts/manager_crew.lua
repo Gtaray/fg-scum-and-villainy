@@ -335,6 +335,11 @@ function handleDropNode(sClass, node)
 		ClockManager.handleClockDroppedOnRecord(_psNode, node);
 	elseif RecordDataManager.isRecordTypeDisplayClass("quest", sClass) then
 		return CrewManager.addJob(node);
+	elseif sClass == "contact" then
+		local sName = DB.getValue(node, "name", "");
+		local sNotes = DB.getValue(node, "notes", "");
+		local nRelationship = DB.getValue(node, "relationship", 0);
+		return CrewManager.addContact(sName, sNotes, nRelationship);
 	end
 end
 
@@ -857,6 +862,9 @@ function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
 		DB.setValue(emptynode, "paid", "number", nCost);
 	end
 
+	-- Initialize to 0
+	DB.setValue(emptynode, "used", "number", 0);
+
 	return true, emptynode;
 end
 
@@ -897,7 +905,7 @@ function onClockEditedByPlayer(sResult, tData)
 		return;
 	end
 
-	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "string", tData.sText)
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "formattedtext", tData.sText)
 end
 
 -------------------------------------------------------------------------------
@@ -1051,11 +1059,15 @@ function addEmptyContact()
 	return DB.createChild(node);
 end
 
-function addContact(sName, sNotes)
+function addContact(sName, sNotes, nRelationship)
+	if not nRelationship then
+		nRelationship = 0;
+	end
+
 	local node = CrewManager.addEmptyContact();
 	DB.setValue(node, "name", "string", sName);
 	DB.setValue(node, "notes", "formattedtext", sNotes);
-	DB.setValue(node, "relationship", "number", 0);
+	DB.setValue(node, "relationship", "number", nRelationship);
 	return node;
 end
 

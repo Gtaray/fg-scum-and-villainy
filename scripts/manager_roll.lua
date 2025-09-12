@@ -1,19 +1,136 @@
--------------------------------------------------------------------------------
---- PROMPTS
--------------------------------------------------------------------------------
-function promptForPositionAndEffect(rActor, rRoll)
-	local tData = {
-		rActor = rActor,
-		rRoll = rRoll,
-		fnCallback = RollManager.processRollPrompt
-	}
-	DialogManager.openDialog("dialog_roll", tData);
+function onInit()
+	if Session.IsHost then
+		RollManager.initializePositionAndEffectDbNodes();
+	end
 end
 
-function processRollPrompt(sResult, tData)
-	if sResult == "ok" then
-		ActionsManager.performAction(nil, tData.rActor, tData.rRoll);
+-------------------------------------------------------------------------------
+--- POSITION AND EFFECT
+-------------------------------------------------------------------------------
+local _positionDbPath = "global.position";
+local _effectDbPath = "global.effect";
+
+function initializePositionAndEffectDbNodes()
+	if not Session.IsHost then
+		return;
 	end
+
+	RollManager.initializeGlobalNode(_positionDbPath, "string", "risky");
+	RollManager.initializeGlobalNode(_effectDbPath, "string", "standard");
+end
+
+function initializeGlobalNode(sPath, sType, vInitialValue)
+	local node = DB.findNode(sPath);
+	if not node then
+		node = DB.createNode(sPath, sType);
+		DB.setValue(node, "", sType, vInitialValue);
+	end
+
+	if node then
+		local globalnode = DB.getParent(node);
+		DB.setPublic(node, true);
+		DB.setPublic(globalnode, true);
+	end
+end
+
+--
+-- POSITION
+--
+
+function addPositionUpdateHandler(fHandler)
+	DB.addHandler(_positionDbPath, "onUpdate", fHandler);
+end
+
+function getPosition()
+	return DB.getValue(_positionDbPath, "risky");
+end
+
+function setPosition(sPosition)
+	DB.setValue(_positionDbPath, "string", sPosition);
+end
+
+--
+-- EFFECT
+--
+
+function addEffectUpdateHandler(fHandler)
+	DB.addHandler(_effectDbPath, "onUpdate", fHandler);
+end
+
+function getEffect()
+	return DB.getValue(_effectDbPath, "standard");
+end
+
+function setEffect(sEffect)
+	DB.setValue(_effectDbPath, "string", sEffect);
+end
+
+--
+-- DESKTOP PANEL
+--
+
+function registerPositionAndEffectPanel(w)
+	self.resetPositionAndEffectPanel();
+end
+
+function resetPositionAndEffectPanel()
+	RollManager.setPosition("risky");
+	RollManager.setEffect("standard");
+end
+
+-------------------------------------------------------------------------------
+--- DESKTOP MODIFIERS
+-------------------------------------------------------------------------------
+local _actionRollModWindow = nil;
+function registerActionRollModWindow(w)
+	_actionRollModWindow = w;
+end
+
+function getActionRollModPush(bRetain)
+	return RollManager.getActionRollModWindowData("push", bRetain);
+end
+
+function getActionRollModBargain(bRetain)
+	return RollManager.getActionRollModWindowData("bargain", bRetain);
+end
+
+function getActionRollModGambit(bRetain)
+	return RollManager.getActionRollModWindowData("gambit", bRetain);
+end
+
+function getActionRollModAssist(bRetain)
+	return RollManager.getActionRollModWindowData("assist", bRetain);
+end
+
+function getActionRollModInjury(bRetain)
+	return RollManager.getActionRollModWindowData("injury", bRetain);
+end
+
+function getActionRollModWindowData(sControl, bRetain)
+	if not _actionRollModWindow then
+		return false;
+	end
+
+	local bValue = _actionRollModWindow[sControl].getValue() == 1;
+
+	if not bRetain then
+		RollManager.setActionRollModWindowData(sControl, false);
+	end
+
+	return bValue;
+end
+
+function setActionRollModWindowData(sControl, bToggle)
+	if not _actionRollModWindow then
+		return false;
+	end
+
+	local nVal = 0;
+	if bToggle then 
+		nVal = 1 
+	end;
+
+	_actionRollModWindow[sControl].setValue(nVal);
 end
 
 -------------------------------------------------------------------------------

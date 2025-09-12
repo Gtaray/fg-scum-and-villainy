@@ -20,7 +20,7 @@ function update()
 	-- Trim the <p> and </p> from the string
 	sDesc = string.gsub(sDesc, "<p />", "") -- Remove empty paragraphs
 	sDesc = string.sub(sDesc, 4, -5);
-	local sText = string.format("<p><b>%s</b>: %s</p>", sName, sDesc);
+	local sText = string.format("<p><b>%s:</b> %s</p>", sName, sDesc);
 
 	setValue(sText);
 end

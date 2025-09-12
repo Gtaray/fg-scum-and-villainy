@@ -144,7 +144,23 @@
 		<margins control="0,0,0,5" />
 		<script>
 			function onInit()
+				self.migrate()
 				self.update()
+			end
+			function migrate()
+				local sContact = DB.getValue(getDatabaseNode(), "contact");
+				if not sContact then
+					return;
+				end
+
+				local aParts = StringManager.split(sContact, ".");
+				name.setValue(aParts[1]);
+				local sDesc = "";
+				for i = 2, #aParts do
+					sDesc = sDesc .. aParts[i]
+				end
+				notes.setValue(sDesc);
+				DB.deleteNode(DB.getPath(getDatabaseNode(), "contact"));
 			end
 			function update()
 				local w = UtilityManager.getTopWindow(self);

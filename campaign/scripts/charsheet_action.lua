@@ -19,8 +19,7 @@ function performActionRoll(draginfo)
 	local attrNode = getDatabaseNode();
 	local rActor = ActorManager.resolveActor(UtilityManager.getTopWindow(self).getDatabaseNode());
 	local rAction = {
-		sAction = DB.getValue(attrNode, "action", "");
-		nBonusDice = DB.getValue(attrNode, "bonusdice", 0);
+		sAction = DB.getValue(attrNode, "action", "")
 	}
 	ActionRoll.performRoll(draginfo, rActor, rAction)
 end

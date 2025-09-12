@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="position_and_effect">
+		<sizelimits>
+			<minimum width="280" height="70" />
+		</sizelimits>
+		<script file="desktop/scripts/position_and_effect.lua" />
+		<sheetdata>
+			<genericcontrol name="positionanchor">
+				<anchored position="insidetopleft" offset="0,10" width="0" height="0" />
+				<disabled />
+			</genericcontrol>
+			
+			<button_toggle_position name="position_desperate">
+				<state textres="position_desperate" />
+				<value>desperate</value>
+			</button_toggle_position>
+
+			<button_toggle_position name="position_risky">
+				<state textres="position_risky" />
+				<value>risky</value>
+			</button_toggle_position>
+
+			<button_toggle_position name="position_controlled">
+				<state textres="position_controlled" />
+				<value>controlled</value>
+			</button_toggle_position>
+
+			<genericcontrol name="effectanchor">
+				<anchored position="insidetopleft" offset="0,40" width="0" height="0" />
+				<disabled />
+			</genericcontrol>
+
+			<button_toggle_effect name="effect_limited">
+				<state textres="effect_limited" />
+				<value>limited</value>
+			</button_toggle_effect>
+
+			<button_toggle_effect name="effect_standard">
+				<state textres="effect_standard" />
+				<value>standard</value>
+			</button_toggle_effect>
+
+			<button_toggle_effect name="effect_great">
+				<state textres="effect_great" />
+				<value>great</value>
+			</button_toggle_effect>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="action_modifiers">
+		<script>
+			function onInit()
+				RollManager.registerActionRollModWindow(self);
+			end
+		</script>
+		<sheetdata>
+			<button_text_toggle name="push">
+				<anchored position="insidetopleft" offset="10,10" width="60" height="50" />
+				<state textres="desktop_button_push" />
+			</button_text_toggle>
+
+			<button_text_toggle name="bargain">
+				<anchored position="insidetopleft" offset="80, 10" width="60" />
+				<state textres="desktop_button_bargain" />
+			</button_text_toggle>
+
+			<button_text_toggle name="gambit">
+				<anchored position="insidetopleft" offset="80, 40" width="60" />
+				<state textres="desktop_button_gambit" />
+			</button_text_toggle>
+
+			<button_text_toggle name="assist">
+				<anchored position="insidetopleft" offset="150, 10" width="60" />
+				<state textres="desktop_button_assist" />
+			</button_text_toggle>
+
+			<button_text_toggle name="injury">
+				<anchored position="insidetopleft" offset="150, 40" width="60" />
+				<state textres="desktop_button_injury" />
+			</button_text_toggle>
+		</sheetdata>
+	</windowclass>
+</root>

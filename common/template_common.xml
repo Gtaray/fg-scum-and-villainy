@@ -33,12 +33,11 @@
 	</template>
 
 	<template name="buttongroup_rating_small">
-		<genericcontrol>
+		<buttongroup_counter>
 			<anchored height="22" width="20" />
-			<allowsinglespacing />
-			<spacing>14</spacing>
-			<script file="common/scripts/buttongroup_counter.lua" />
-		</genericcontrol>
+			<spacing>28</spacing>
+			<script file="common/scripts/buttongroup_rating.lua" />
+		</buttongroup_counter>
 	</template>
 	<template name="buttongroup_rating_small_blue">
 		<buttongroup_rating_small>

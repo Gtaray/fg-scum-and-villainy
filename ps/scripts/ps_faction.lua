@@ -52,7 +52,7 @@ end
 
 function update()
 	local node = self.getFactionNode();
-	header.setValue(DB.getValue(node, "name", ""));
+	header.setValue(string.format("%s - Tier %s", DB.getValue(node, "name", ""), self.getTierNumerals()));
 	self.setStatusTooltip();
 
 	content.subwindow.update();
@@ -62,6 +62,21 @@ function setStatusTooltip()
 	local nValue = DB.getValue(getDatabaseNode(), "status", 0);
 	local sRes = string.format("ps_tooltip_factionstatus_%s", nValue);
 	status.setTooltipText(Interface.getString(sRes));
+end
+
+local _tTierNumerals = {
+	[1] = "I",
+	[2] = "II",
+	[3] = "III",
+	[4] = "IV",
+	[5] = "V",
+}
+function getTierNumerals()
+	local nTier = DB.getValue(self.getFactionNode(), "tier", 1)
+	if not _tTierNumerals[nTier] then
+		return "???"
+	end
+	return _tTierNumerals[nTier];
 end
 
 -------------------------------------------------------------------------------

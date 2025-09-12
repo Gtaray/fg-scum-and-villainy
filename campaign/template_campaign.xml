@@ -6,4 +6,64 @@
 -->
 
 <root>
+	<template name="list_faction_data_column">
+		<list_content_column name="npclist">
+			<allowdelete />
+			<script>
+				function onInit()
+					self.update()
+				end
+				function update()
+					local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+					for _, w in ipairs(getWindows()) do
+						w.text.setReadOnly(bReadOnly);
+						w.visible.setReadOnly(bReadOnly);
+					end
+				end
+				function onFilter(w)
+					if Session.IsHost then
+						return true;
+					end
+					
+					return w.visible.getValue() == 1;
+				end
+			</script>
+		</list_content_column>
+	</template>
+
+	<template name="string_faction_property_columnh">
+		<string_content_columnh>
+			<script file="campaign/scripts/faction_property_visibility.lua" />
+			<anchored>
+				<right anchor="left" offset="-5" />
+			</anchored>
+		</string_content_columnh>
+	</template>
+
+	<template name="button_visibility_base">
+		<buttonfield>
+			<gmvisibleonly />
+			<anchored height="20" width="20" />
+			<state icon="button_toolbar_visibility_off" tooltipres="faction_property_visible" merge="resetandadd" />
+			<state icon="button_toolbar_visibility_on" tooltipres="faction_property_hidden" merge="add" />
+		</buttonfield>
+	</template>
+
+	<template name="button_visibility_column">
+		<button_visibility_base>
+			<anchored to="contentanchor">
+				<top relation="current" offset="3" postoffset="3" />
+				<right />
+			</anchored>
+		</button_visibility_base>
+	</template>
+
+	<template name="button_visibility_listitem_right">
+		<button_visibility_base>
+			<anchored to="rightanchor">
+				<top />
+				<right relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</button_visibility_base>
+	</template>
 </root>

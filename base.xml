@@ -38,15 +38,16 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="campaign/record_crewtype.xml" />
 	<includefile source="campaign/record_upgrade.xml" />
 
+	<includefile source="campaign/record_clock.xml" />
 	<includefile source="campaign/record_system.xml" />
 	<includefile source="campaign/record_location.xml" />
 	<includefile source="campaign/record_faction.xml" />
-	<includefile source="campaign/record_clock.xml" />
 	<includefile source="campaign/record_quest.xml" />
 	<includefile source="campaign/record_gmnotes.xml" />
 	<includefile source="campaign/template_campaign.xml" />
 
 	<includefile source="campaign/record_char.xml" />
+	<includefile source="campaign/record_char_editors.xml" />
 	<includefile source="campaign/record_char_main.xml" />
 	<includefile source="campaign/record_char_actions.xml" />
 	<includefile source="campaign/record_char_inventory.xml" />
@@ -57,7 +58,6 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="campaign/template_char.xml" />
 	
 	<includefile source="campaign/record_crew.xml" />
-	<includefile source="campaign/record_crew_main.xml" />
 
 	<includefile source="campaign/record_gmnotes.xml" />
 	<includefile source="campaign/record_contact.xml" />
@@ -89,6 +89,11 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="graphics/fonts.xml" />
 	<includefile source="graphics/frames.xml" />
 
+	<!-- Desktop -->
+	<includefile source="desktop/desktop_classes.xml" />
+	<includefile source="desktop/desktop_panels.xml" />
+	<includefile source="desktop/desktop_templates.xml" />
+
 	<!-- Utility -->
 	<includefile source="utility/dialog_roll.xml" />
 	<includefile source="utility/dialog_text.xml" />
@@ -115,6 +120,5 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<script name="ActionEngagement" file="scripts/manager_action_engagement.lua" />
 	<script name="ActionFortune" file="scripts/manager_action_fortune.lua" />
 	<script name="ActionResistance" file="scripts/manager_action_resistance.lua" />
-	<script name="ActionStress" file="scripts/manager_action_stress.lua" />
-	
+	<script name="ActionVice" file="scripts/manager_action_vice.lua" />
 </root>

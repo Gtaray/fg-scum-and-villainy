@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<!-- COMMON -->
+	<windowclass name="charsheet_editor_base" copy="charsheethelper_base">
+		<sheetdata>
+			<sub_content_framed_groupbox name="main" />
+			<scrollbar_content_main />
+		</sheetdata>
+	</windowclass>
+
+	<!-- HEALTH EDITOR -->
+	<windowclass name="editor_charsheet_main_health" copy="charsheet_editor_base">
+		<sizelimits>
+			<minimum width="350" height="220" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_health</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+
+			<sub_content_framed_groupbox name="main">
+				<class>editor_charsheet_main_health_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_health_content">
+		<sheetdata>
+			<anchor_content_top />
+
+			<spacer_content_top>
+				<anchored height="20" />
+			</spacer_content_top>
+		
+			<label_content_column name="label_stress">
+				<static textres="char_label_stress" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="stress_current" source="health.stress.current">
+				<maxsource>health.stress.max</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="stress_maximum" source="health.stress.max">
+				<min>1</min>
+				<default>8</default>
+				<max>12</max>
+			</number_content_column_right>
+
+			<label_fieldtop>
+				<anchored to="stress_maximum" />
+				<static textres="char_label_health_max" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="stress_current" />
+				<static textres="char_label_health_cur" />
+			</label_fieldtop>
+
+			<label_content_column name="label_trauma">
+				<static textres="char_label_trauma" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="trauma_current" source="health.trauma.current">
+				<maxsource>health.trauma.max</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="trauma_maximum" source="health.trauma.max">
+				<min>1</min>
+				<max>8</max>
+				<default>4</default>
+			</number_content_column_right>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<header_content_framed_headersimple name="vice_header">
+				<static textres="char_label_vice" />
+			</header_content_framed_headersimple>
+
+			<label_content_column name="label_vicedice">
+				<static textres="char_label_vice_bonusdice" />
+			</label_content_column>
+			<number_content_column name="vicedice" source="health.vice.bonusdice">
+				<default>0</default>
+			</number_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<!-- DEFENSES -->
+	<windowclass name="editor_charsheet_main_defenses" copy="charsheet_editor_base">
+		<sizelimits>
+			<minimum width="350" height="180" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_defenses</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+
+			<sub_content_framed_groupbox name="main">
+				<class>editor_charsheet_main_defenses_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_defenses_content">
+		<sheetdata>
+			<anchor_content_top />
+
+			<spacer_content_top>
+				<anchored height="20" />
+			</spacer_content_top>
+		
+			<label_content_column name="label_armor">
+				<static textres="char_label_armor" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="armor_current" source="defenses.armor.spent">
+				<maxsource>defenses.armor.max</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="armor_maximum" source="defenses.armor.max">
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</number_content_column_right>
+
+			<label_fieldtop>
+				<anchored to="armor_current" />
+				<static textres="char_label_defenses_cur" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="armor_maximum" />
+				<static textres="char_label_defenses_max" />
+			</label_fieldtop>
+
+			<label_content_column name="label_heavy">
+				<static textres="char_label_heavy" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="heavy_current" source="defenses.heavy.spent">
+				<maxsource>defenses.heavy.max</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="heavy_maximum" source="defenses.heavy.max">
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</number_content_column_right>
+
+			<label_content_column name="label_special">
+				<static textres="char_label_special" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="special_current" source="defenses.special.spent">
+				<maxsource>defenses.special.max</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="special_maximum" source="defenses.special.max">
+				<min>1</min>
+				<default>1</default>
+				<max>4</max>
+			</number_content_column_right>
+		</sheetdata>
+	</windowclass>
+
+	<!-- ATTRIBUTES -->
+	<windowclass name="editor_charsheet_actions_attribute" copy="charsheet_editor_base">
+		<sizelimits>
+			<minimum width="350" height="300" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_attribute</prefix>
+				<field>attribute</field>
+			</windowtitlebar_charsheethelper>
+
+			<sub_content_framed_groupbox name="main">
+				<class>editor_charsheet_actions_attribute_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_actions_attribute_content">
+		<script>
+			function onInit()
+				local nodeAttr = getDatabaseNode()
+				local sAttribute = DB.getValue(nodeAttr, "attribute", "")
+
+				attribute.setValue(sAttribute)
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+
+			<spacer_content_top>
+				<anchored height="20" />
+			</spacer_content_top>
+
+			<hs name="attribute" />
+
+			<label_content_column name="label_xp">
+				<static textres="char_label_attribute_xp" />
+			</label_content_column>
+			<number_content_column_left_linked_maximum name="xp_current" source="xp.current">
+				<default>0</default>
+				<maxsource>xp.maximum</maxsource>
+			</number_content_column_left_linked_maximum>
+			<number_content_column_right name="xp_maximum" source="xp.maximum">
+				<min>1</min>
+				<default>6</default>
+				<max>18</max>
+			</number_content_column_right>
+
+			<label_fieldtop>
+				<anchored to="xp_current" />
+				<static textres="char_label_attribute_current" />
+			</label_fieldtop>
+			<label_fieldtop>
+				<anchored to="xp_maximum" />
+				<static textres="char_label_attribute_maximum" />
+			</label_fieldtop>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
+			<header_content_framed_headersimple name="bonusdice_header">
+				<static textres="char_header_attribute_bonusdice" />
+			</header_content_framed_headersimple>
+			
+			<label_content_column name="label_resistance">
+				<static textres="char_label_attribute_resistance" />
+			</label_content_column>
+			<number_content_column name="resistancedice" source="resistance.bonusdice">
+				<anchored width="45" height="20" />
+				<default>0</default>
+			</number_content_column>
+
+			<list_content_column name="actions">
+				<class>editor_charsheet_actions_action</class>
+				<datasource>.actions</datasource>
+			</list_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_actions_action">
+		<margins control="0,0,0,3" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<label_content_column name="label_action">
+				<script>
+					function onInit()
+						local sAction = DB.getValue(window.getDatabaseNode(), "action", "");
+						local rAction = DataManager.getAction(sAction)
+						setValue(Interface.getString(rAction.sResource))
+					end
+				</script>
+			</label_content_column>
+			<number_content_column name="bonusdice">
+				<anchored width="45" height="20" />
+				<default>0</default>
+			</number_content_column>
+		</sheetdata>
+	</windowclass>
+
+	<!-- LOADOUT -->
+	 <windowclass name="editor_charsheet_inventory_loadout" copy="charsheet_editor_base">
+		<sizelimits>
+			<minimum width="350" height="160" />
+		</sizelimits>
+		<sheetdata>
+			<windowtitlebar_charsheethelper name="title">
+				<prefix>char_title_loadout</prefix>
+				<field>name</field>
+			</windowtitlebar_charsheethelper>
+
+			<sub_content_framed_groupbox name="main">
+				<class>editor_charsheet_inventory_loadout_content</class>
+			</sub_content_framed_groupbox>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_inventory_loadout_content">
+		<sheetdata>
+			<anchor_content_top />
+
+			<spacer_content_top>
+				<anchored height="20" />
+			</spacer_content_top>
+		
+			<label_content_column name="label_load">
+				<static textres="char_label_load_amount" />
+			</label_content_column>
+
+			<number_content_column name="light" source="inventory.load.lightamount">
+				<anchored>
+					<top relation="current" />
+				</anchored>
+				<min>1</min>
+				<default>3</default>
+				<max>20</max>
+			</number_content_column>
+			<label_fieldtop>
+				<anchored to="light" />
+				<static textres="char_label_load_light" />
+			</label_fieldtop>
+
+			<number_content_column name="normal" source="inventory.load.normalamount">
+				<anchored>
+					<top relation="current" />
+					<left offset="155" />
+				</anchored>
+				<min>1</min>
+				<default>5</default>
+				<max>20</max>
+			</number_content_column>
+			<label_fieldtop>
+				<anchored to="normal" />
+				<static textres="char_label_load_normal" />
+			</label_fieldtop>
+
+			<number_content_column name="heavy" source="inventory.load.heavyamount">
+				<anchored>
+					<left offset="205" />
+				</anchored>
+				<min>1</min>
+				<default>6</default>
+				<max>20</max>
+			</number_content_column>
+			<label_fieldtop>
+				<anchored to="heavy" />
+				<static textres="char_label_load_heavy" />
+			</label_fieldtop>
+		</sheetdata>
+	</windowclass>
+</root>

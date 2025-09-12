@@ -12,6 +12,9 @@
 				ClockManager.handleClockDrop(draginfo, self);
 			end
 		</script>
+		<sizelimits>
+			<minimum height="700" width="550" />
+		</sizelimits>
 		<tab>
 			<name>main</name>
 			<resource>tab_main</resource>
@@ -126,23 +129,36 @@
 		<margins control="0,0,0,4" />
 		<script>
 			function update(bReadOnly)
-				local tFields = { "description", };
+				local tFields = { "name", "notes" };
 				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
 			end
 		</script>
 		<sheetdata>
-			<anchor_listitem_left />
+			<anchor_content_top />
 			<anchor_listitem_right />
+			<anchor_listitem_left />
 
 			<button_listitem_idelete name="idelete">
 				<editmode>npcs_iedit</editmode>
 			</button_listitem_idelete>
 
-			<ft_listitem_center_framed name="description">
+			<linkc_listitem_right name="link">
+				<class>contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name" />
+
+			<spacer_content_top>
+				<anchored height="22" />
+			</spacer_content_top>
+
+			<ft_content_noframe_noscroll_top name="notes">
 				<anchored>
-					<right offset="-20" />
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
 				</anchored>
-			</ft_listitem_center_framed>
+			</ft_content_noframe_noscroll_top>
 		</sheetdata>
 	</windowclass>
 </root>

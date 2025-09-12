@@ -31,6 +31,21 @@
 				<anchored height="15" />
 			</spacer_content_top>
 
+			<sub_content_top_left name="coin">
+				<anchored>
+					<top relation="current" />
+				</anchored>
+				<class>charsheet_notes_coin</class>
+			</sub_content_top_left>
+
+			<sub_content_top_right name="stash">
+				<class>charsheet_notes_stash</class>
+			</sub_content_top_right>
+
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+
 			<sub_content_top name="notes">
 				<class>charsheet_notes_notes</class>
 				<noscroll />
@@ -166,6 +181,40 @@
 					<right offset="-15" />
 				</anchored>
 			</stringu_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_coin">
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="curcred" source="cred.current">
+				<default>0</default>
+			</hn>
+			<hn name="maxcred" source="cred.max">
+				<default>4</default>
+			</hn>
+
+			<char_title_framed_top name="cred_title">
+				<static textres="char_title_cred" />
+			</char_title_framed_top>
+			<char_cred name="cred" />
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_notes_stash">
+		<sheetdata>
+			<anchor_content_top />
+			<hn name="stashcur" source="cred.stashed">
+				<deafult>0</deafult>
+			</hn>
+			<hn name="stashcur" source="cred.stashmax">
+				<default>40</default>
+			</hn>
+
+			<char_title_framed_top name="stash_title">
+				<static textres="char_title_stash" />
+			</char_title_framed_top>
+			<char_stash name="stash" />
 		</sheetdata>
 	</windowclass>
 </root>

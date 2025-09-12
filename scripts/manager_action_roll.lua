@@ -1,3 +1,5 @@
+local fActionRoll;
+
 function onInit()
     ActionsManager.registerModHandler("action", modRoll);
     ActionsManager.registerResultHandler("action", onRoll);
@@ -5,7 +7,7 @@ end
 
 function performRoll(draginfo, rActor, rAction)
 	local rRoll = ActionRoll.getRoll(rActor, rAction);
-	RollManager.promptForPositionAndEffect(rActor, rRoll);
+	ActionsManager.performAction(draginfo, rActor, rRoll);
 end
 
 function getRoll(rActor, rAction)
@@ -17,6 +19,14 @@ function getRoll(rActor, rAction)
 
     rRoll.sAction = rAction.sAction;
 	rRoll.sDesc = ActionRoll.getRollLabel(rActor, rAction);
+
+	rRoll.sPosition = RollManager.getPosition();
+	rRoll.sEffect = RollManager.getEffect();
+	rRoll.bPush = RollManager.getActionRollModPush();
+	rRoll.bBargain = RollManager.getActionRollModBargain();
+	rRoll.bAssist = RollManager.getActionRollModAssist();
+	rRoll.bGambit = RollManager.getActionRollModGambit();
+	rRoll.bInjured = RollManager.getActionRollModInjury();
 
     return rRoll;
 end
@@ -65,7 +75,14 @@ function onRoll(rSource, rTarget, rRoll)
 end
 
 function getFullRollText(rSource, rTarget, rRoll)
-	local s = string.format("%s - %s / %s", rRoll.sDesc, rRoll.sPosition, rRoll.sEffect);
+	local s = rRoll.sDesc;
+
+	if rRoll.sPosition and rRoll.sEffect then
+		s = string.format("%s - %s / %s", 
+			s, 
+			Interface.getString(string.format("position_%s", rRoll.sPosition)), 
+			Interface.getString(string.format("effect_%s", rRoll.sEffect)));
+	end
 	if rRoll.bPush then
 		s = string.format("%s\n%s", s, Interface.getString("roll_text_push_yourself"));
 	end
@@ -81,7 +98,8 @@ function getFullRollText(rSource, rTarget, rRoll)
 	if rRoll.bInjured then
 		s = string.format("%s\n%s", s, Interface.getString("roll_text_injured"));
 	end
-	if rRoll.sPosition == "Desperate" then
+
+	if rRoll.sPosition == "desperate" then
 		local tAttr = DataManager.getAttributeForAction(rRoll.sAction);
 		if tAttr then
 			local sAttr = StringManager.capitalize(Interface.getString(tAttr.sResource));

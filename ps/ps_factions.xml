@@ -38,7 +38,6 @@
 				<sortby><field>name</field></sortby>
 				<allowdelete />
 				<class>ps_faction</class>
-				<columns width="371" fillwidth="true" />
 			</list_content_noscroll_top>
 		</sheetdata>
 	</windowclass>
@@ -98,13 +97,6 @@
 				<class>ps_faction_goal</class>
 			</sub_content_top>
 
-			<stringc_content_noframe_noscroll_static_top name="description">
-				<anchored>
-					<left parent="goal" anchor="right" offset="5" />
-					<right offset="-15" />
-				</anchored>
-				<center />
-			</stringc_content_noframe_noscroll_static_top>
 			<stringu_content_noframe_noscroll_top name="notes">
 				<script>
 					function onClickDown(button, x, y)
@@ -143,11 +135,11 @@
 			<anchor_content_top />
 			<anchor_content_bottom />
 
-			<label_content_top_center name="tier_label">
+			<!-- <label_content_top_center name="tier_label">
 				<anchored>
 					<top relation="relative" />
 				</anchored>
-			</label_content_top_center>
+			</label_content_top_center> -->
 			<button_clock_faction name="goalclock" />
 			<string_content_noframe_static_top name="description">
 				<anchored>

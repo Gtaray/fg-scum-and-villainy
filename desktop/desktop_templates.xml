@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<template name="button_toggle_positioneffect">
+		<button_text_toggle>
+			<script>
+				function onClickDown()
+					return Session.IsHost and getValue() == 0;
+				end
+			</script>
+			<anchored width="80">
+				<top />
+				<left anchor="right" offset="10" relation="relative" />
+			</anchored>
+		</button_text_toggle>
+	</template>
+
+	<template name="button_toggle_position">
+		<button_toggle_positioneffect>
+			<script>
+				function onClickRelease()
+					RollManager.setPosition(value[1]);
+					return true;
+				end
+			</script>
+			<anchored to="positionanchor" />
+		</button_toggle_positioneffect>
+	</template>
+
+	<template name="button_toggle_effect">
+		<button_toggle_positioneffect>
+			<script>
+				function onClickRelease()
+					RollManager.setEffect(value[1]);
+					return true;
+				end
+			</script>
+			<anchored to="effectanchor" />
+		</button_toggle_positioneffect>
+	</template>
+</root>

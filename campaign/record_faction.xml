@@ -13,7 +13,7 @@
 			end
 		</script>
 		<sizelimits>
-			<minimum height="500" />
+			<minimum height="700" width="550" />
 		</sizelimits>
 		<tab>
 			<name>main</name>
@@ -25,7 +25,6 @@
 			<name>clocks</name>
 			<resource>clocks_tab</resource>
 			<class>tab_clocks</class>
-			<gmvisibleonly />
 			<embed />
 		</tab>
 		<tab merge="add">
@@ -43,9 +42,6 @@
 		<script file="campaign/scripts/faction_main.lua" />
 		<sheetdata>
 			<anchor_content_top />
-
-			<hn name="goalclocksize" source="goal.clocksize" />
-			<hn name="goalprogress" source="goal.progress" />
 			
 			<label_content_column name="tier_label">
 				<static textres="faction_label_tier" />
@@ -79,12 +75,22 @@
 			<label_content_column name="description_label">
 				<static textres="faction_label_description" />
 			</label_content_column>
-			<string_content_column name="description" />
+			<button_visibility_column name="description_visible" source="description.visible" />
+			<string_faction_property_columnh name="description" source="description.value">
+				<anchored>
+					<right parent="description_visible" />
+				</anchored>
+			</string_faction_property_columnh>
 			
 			<label_content_column name="situation_label">
 				<static textres="faction_label_situation" />
 			</label_content_column>
-			<string_content_column name="situation" />
+			<button_visibility_column name="situation_visible" source="situation.visible" />
+			<string_faction_property_columnh name="situation" source="situation.value">
+				<anchored>
+					<right parent="situation_visible" />
+				</anchored>
+			</string_faction_property_columnh>
 
 			<spacer_content_top />
 
@@ -95,51 +101,231 @@
 			<label_content_column name="turf_label">
 				<static textres="faction_label_turf" />
 			</label_content_column>
-			<string_content_column name="turf" />
-
-			<label_content_column name="npcs_label">
-				<static textres="faction_label_npcs" />
-			</label_content_column>
-			<string_content_column name="npcs" />
+			<button_visibility_column name="turf_visible" source="turf.visible" />
+			<string_faction_property_columnh name="turf" source="turf.value">
+				<anchored>
+					<right parent="turf_visible" />
+				</anchored>
+			</string_faction_property_columnh>
 
 			<label_content_column name="assets_label">
 				<static textres="faction_label_assets" />
 			</label_content_column>
-			<string_content_column name="assets" />
+			<button_visibility_column name="assets_visible" source="assets.visible" />
+			<string_faction_property_columnh name="assets" source="assets.value">
+				<anchored>
+					<right parent="assets_visible" />
+				</anchored>
+			</string_faction_property_columnh>
 			
 			<label_content_column name="quirks_label">
 				<static textres="faction_label_quirks" />
 			</label_content_column>
-			<string_content_column name="quirks" />
+			<button_visibility_column name="quirks_visible" source="quirks.visible" />
+			<string_faction_property_columnh name="quirks" source="quirks.value">
+				<anchored>
+					<right parent="quirks_visible" />
+				</anchored>
+			</string_faction_property_columnh>
+
+			<header_content_framed_headersimple name="goal_header">
+				<static textres="faction_header_goal" />
+			</header_content_framed_headersimple>
+			<sub_content_top name="goal">
+				<class>sub_faction_goal</class>
+				<script>
+					function onInit()
+						local sNode = DB.getPath(window.getDatabaseNode(), "goal")
+						DB.createNode(sNode);
+						setValue("sub_faction_goal", sNode);
+
+						if Session.IsHost then
+							return;
+						end
+
+						DB.addHandler(DB.getPath(window.getDatabaseNode(), "goal.visible"), "onUpdate", update);
+
+						-- Only hide these properties on the client
+						update();
+					end
+					function onClose()
+						if Session.IsHost then
+							return;
+						end
+
+						DB.removeHandler(DB.getPath(window.getDatabaseNode(), "goal.visible"), "onUpdate", update);
+					end
+					function update(bReadOnly)
+						local node = window.getDatabaseNode();
+						setVisible(Session.IsHost or DB.getValue(window.getDatabaseNode(), "goal.visible", 0) == 1);
+						subwindow.update(WindowManager.getReadOnlyState(node))
+					end
+				</script>
+			</sub_content_top>
+
 			
-			<label_content_column name="allies_label">
-				<static textres="faction_label_allies" />
-			</label_content_column>
-			<string_content_column name="allies" />
-			
-			<label_content_column name="enemies_label">
-				<static textres="faction_label_enemies" />
-			</label_content_column>
-			<string_content_column name="enemies" />
+			<header_content_framed_headersimple name="relationships_header">
+				<static textres="faction_header_relationships" />
+			</header_content_framed_headersimple>
+			<list_content_column name="factionlist">
+				<datasource>.relationships</datasource>
+				<class>faction_relationship</class>
+				<allowdelete />
+				<script>
+					function onInit()
+						self.update()
+					end
+					function update()
+						local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+						for _, w in ipairs(getWindows()) do
+							w.standing.setReadOnly(bReadOnly);
+							w.visible.setReadOnly(bReadOnly);
+						end
+					end
+					function onFilter(w)
+						if Session.IsHost then
+							return true;
+						end
+
+						return w.visible.getValue() == 1;
+					end
+					function onSortCompare(w1, w2)
+						local s1 = w1.standing.getValue();
+						local s2 = w2.standing.getValue();
+						if s1 ~= s2 then
+							return s1 &gt; s2;
+						end
+
+						return w1.name.getValue() &gt; w2.name.getValue();
+					end
+				</script>
+			</list_content_column>
 
 			<header_content_framed_headersimple name="npcs_header">
 				<static textres="faction_header_npcs" />
 			</header_content_framed_headersimple>
-
+			<button_iedit name="npcs_iedit">
+				<anchored to="npcs_header" position="insidetopright" offset="2,0" />
+				<edittarget>npclist</edittarget>
+				<gmvisibleonly />
+			</button_iedit>
+			<button_iadd name="npcs_iadd">
+				<anchored to="npcs_header" position="insidetopright" offset="22,0" />
+				<target>npclist</target>
+				<gmvisibleonly />
+			</button_iadd>
 			<list_content_column name="npclist">
 				<datasource>.npclist</datasource>
-				<class>faction_npc</class>
+				<class>faction_listitem_contact</class>
 				<allowdelete />
+				<script>
+					function onInit()
+						self.update()
+					end
+					function update()
+						local bReadOnly = WindowManager.getReadOnlyState(window.getDatabaseNode());
+						for _, w in ipairs(getWindows()) do
+							w.update(bReadOnly);
+						end
+					end
+					function onFilter(w)
+						if Session.IsHost then
+							return true;
+						end
+						
+						return w.visible.getValue() == 1;
+					end
+				</script>
 			</list_content_column>
+
+			<!-- <header_content_framed_headersimple name="rumors_header">
+				<static textres="faction_header_rumors" />
+			</header_content_framed_headersimple>
+			<button_iedit name="rumors_iedit">
+				<anchored to="rumors_header" position="insidetopright" offset="2,0" />
+				<edittarget>rumorlist</edittarget>
+				<gmvisibleonly />
+			</button_iedit>
+			<button_iadd name="rumors_iadd">
+				<anchored to="rumors_header" position="insidetopright" offset="22,0" />
+				<target>rumorlist</target>
+				<gmvisibleonly />
+			</button_iadd>
+			<list_faction_data_column name="rumorlist">
+				<datasource>.rumorlist</datasource>
+				<class>faction_listitem_rumor</class>
+			</list_faction_data_column> -->
 		</sheetdata>
 	</windowclass>
-	
-	<windowclass name="faction_npc" copy="ref_listitem_linked">
+
+	<windowclass name="sub_faction_goal" copy="clock_listitem">
+		<margins control="0,0,0,6" />
+	</windowclass>
+
+	<windowclass name="faction_relationship" copy="ref_listitem_linked">
 		<margins control="0,0,0,2" />
-		<sheetdata>            
+		<sheetdata>          
+			<button_listitem_standing name="standing" insertbefore="shortcut" />
+
+			<button_visibility_listitem_right name="visible" insertbefore="shortcut" />
+
 			<link_listitem_right name="shortcut">
-				<class>npc</class>
+				<class>faction</class>
 			</link_listitem_right>
 		</sheetdata>
 	</windowclass>
+
+	<windowclass name="faction_listitem_contact">
+		<margins control="0,0,0,4" />
+		<script>
+			function update(bReadOnly)
+				local tFields = { "name", "notes", "visible" };
+				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
+			end
+		</script>
+		<sheetdata>
+			<anchor_content_top />
+			<anchor_listitem_right />
+			<anchor_listitem_left />
+
+			<button_visibility_listitem_right name="visible" />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>npcs_iedit</editmode>
+			</button_listitem_idelete>
+
+			<linkc_listitem_right name="link">
+				<class>contact</class>
+			</linkc_listitem_right>
+
+			<string_listitem_center_underline name="name" />
+
+			<spacer_content_top>
+				<anchored height="22" />
+			</spacer_content_top>
+
+			<ft_content_noframe_noscroll_top name="notes">
+				<anchored>
+					<top offset="5" postoffset="5" />
+					<left offset="15" />
+					<right offset="-15" />
+				</anchored>
+			</ft_content_noframe_noscroll_top>
+		</sheetdata>
+	</windowclass>
+
+	<!-- <windowclass name="faction_listitem_rumor">
+		<margins control="0,0,0,2" />
+		<sheetdata>        
+			<anchor_listitem_left />
+			<anchor_listitem_right />
+
+			<button_listitem_idelete name="idelete">
+				<editmode>rumors_iedit</editmode>
+			</button_listitem_idelete>
+
+			<button_visibility_listitem_right name="visible" />
+			<string_listitem_center_underline name="text" />
+		</sheetdata>
+	</windowclass> -->
 </root>

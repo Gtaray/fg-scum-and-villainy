@@ -34,6 +34,7 @@
 		</sheetdata>
 	</windowclass>
 
+	<!-- ATTRIBUTES AND ACTIONS -->
 	<windowclass name="charsheet_attribute">
 		<script file="campaign/scripts/charsheet_attribute.lua" />
 		<margins control="0,0,0,4" />
@@ -113,97 +114,6 @@
 			<buttongroup_action_right name="rating" />
 
 			<stringc_listitem_center_noframe_static name="label" />
-		</sheetdata>
-	</windowclass>
-
-	<windowclass name="editor_charsheet_actions_attribute" copy="charsheethelper_base">
-		<sizelimits>
-			<minimum width="350" height="240" />
-		</sizelimits>
-		<script>
-			function onInit()
-				local nodeAttr = getDatabaseNode()
-				local sAttribute = DB.getValue(nodeAttr, "attribute", "")
-
-				attribute.setValue(sAttribute)
-			end
-		</script>
-		<sheetdata>
-			<windowtitlebar_charsheethelper name="title">
-				<prefix>char_title_attribute</prefix>
-				<field>attribute</field>
-			</windowtitlebar_charsheethelper>
-			<anchor_content_top />
-
-			<hs name="attribute" />
-
-			<label_content_column name="label_xp">
-				<static textres="char_label_attribute_xp" />
-			</label_content_column>
-
-			<number_content_column name="xp_current" source="xp.current">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored width="45" height="20">
-					<top offset="10" />
-				</anchored>
-				<min>0</min>
-				<default>0</default>
-				<maxsource>xp.maximum</maxsource>
-			</number_content_column>
-			<label_fieldtop>
-				<anchored to="xp_current" />
-				<static textres="char_label_attribute_current" />
-			</label_fieldtop>
-
-			<basicnumber name="xp_maximum" source="xp.maximum">
-				<anchored to="xp_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<default>6</default>
-				<max>18</max>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="xp_maximum" />
-				<static textres="char_label_attribute_maximum" />
-			</label_fieldtop>
-
-			<header_content_framed_headersimple name="bonusdice_header">
-				<static textres="char_header_attribute_bonusdice" />
-			</header_content_framed_headersimple>
-
-			
-			<label_content_column name="label_resistance">
-				<static textres="char_label_attribute_resistance" />
-			</label_content_column>
-			<number_content_column name="resistancedice" source="resistance.bonusdice">
-				<anchored width="45" height="20" />
-				<default>0</default>
-			</number_content_column>
-
-			<list_content_column name="actions">
-				<class>editor_charsheet_actions_action</class>
-				<datasource>.actions</datasource>
-			</list_content_column>
-		</sheetdata>
-	</windowclass>
-
-	<windowclass name="editor_charsheet_actions_action">
-		<margins control="0,0,0,3" />
-		<sheetdata>
-			<anchor_content_top />
-
-			<label_content_column name="label_action">
-				<script>
-					function onInit()
-						local sAction = DB.getValue(window.getDatabaseNode(), "action", "");
-						local rAction = DataManager.getAction(sAction)
-						setValue(Interface.getString(rAction.sResource))
-					end
-				</script>
-			</label_content_column>
-			<number_content_column name="bonusdice">
-				<anchored width="45" height="20" />
-				<default>0</default>
-			</number_content_column>
 		</sheetdata>
 	</windowclass>
 </root>

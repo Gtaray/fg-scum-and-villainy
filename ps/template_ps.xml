@@ -61,12 +61,11 @@
 	</template>
 
 	<template name="ps_buttongroup_rating">
-		<genericcontrol>
-			<anchored height="32" width="28" />
-			<allowsinglespacing />
-			<spacing>17</spacing>
-			<script file="ps/scripts/ps_buttongroup_counter.lua" />
-		</genericcontrol>
+		<ps_buttongroup_counter>
+			<script file="common/scripts/buttongroup_rating.lua" />
+			<anchored height="34" width="34" />
+			<spacing>34</spacing>
+		</ps_buttongroup_counter>
 	</template>
 	<template name="ps_buttongroup_rating_blue">
 		<ps_buttongroup_rating>
@@ -88,16 +87,16 @@
 	<template name="ps_buttongroup_rating_title">
 		<ps_buttongroup_rating_blue>
 			<anchored>
-				<top offset="7" />
-				<right offset="-10" />
+				<top offset="-2" />
+				<right offset="-20" />
 			</anchored>
 		</ps_buttongroup_rating_blue>
 	</template>
 	<template name="ps_buttongroup_rating_title_red">
 		<ps_buttongroup_rating_red>
 			<anchored>
-				<top offset="7" />
-				<right offset="-10" />
+				<top offset="-2" />
+				<right offset="-20" />
 			</anchored>
 		</ps_buttongroup_rating_red>
 	</template>
@@ -114,19 +113,18 @@
 	</template>
 
 	<template name="ps_buttongroup_rating_armor">
-		<genericcontrol>
+		<ps_buttongroup_counter>
 			<anchored to="contentanchor" height="22" width="20">
-				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
-				<left offset="77" />
+				<top relation="relative" anchor="bottom" offset="0" postoffset="0" />
+				<left offset="90" />
 			</anchored>
 			<allowsinglespacing />
-			<spacing>14</spacing>
-			<script file="ps/scripts/ps_buttongroup_counter.lua" />
+			<spacing>28</spacing>
 			<stateicons>
 				<off>button_rating_small</off>
 				<on>button_rating_small_down</on>
 			</stateicons>
-		</genericcontrol>
+		</ps_buttongroup_counter>
 	</template>
 
 	<!-- SECTIONS -->
@@ -206,14 +204,13 @@
 	</template>
 
 	<template name="buttongroup_sectionrating">
-		<genericcontrol>
-			<script file="ps/scripts/ps_buttongroup_counter_split.lua" />
-			<anchored height="32" width="28">
-				<top offset="7" />
-				<right parent="rightanchor" relation="relative" offset="-4" postoffset="-4" />
+		<ps_buttongroup_rating>
+			<script file="ps/scripts/ps_buttongroup_rating_damage.lua" />
+			<anchored>
+				<top offset="-2" />
+				<right parent="rightanchor" relation="relative" offset="-14" postoffset="-14" />
 			</anchored>
-			<allowsinglespacing />
-			<spacing>17</spacing>
+			<spacing>34</spacing>
 			<stateicons>
 				<off>button_rating_split</off>
 				<top>button_rating_split_top</top>
@@ -221,11 +218,11 @@
 				<both>button_rating_split_both</both>
 			</stateicons>
 			<sourcefields>
-				<top>rating</top>
-				<bottom>damage</bottom>
+				<rating>rating</rating>
+				<current>damage</current>
 				<maximum>maxrating</maximum>
 			</sourcefields>
-		</genericcontrol>
+		</ps_buttongroup_rating>
 	</template>
 
 	<!-- CRED -->
@@ -380,14 +377,12 @@
 
 	<!-- FACTIONS -->
 	<template name="buttongroup_factionstatus">
-		<genericcontrol>
+		<ps_buttongroup_rating>
 			<script file="ps/scripts/ps_buttongroup_factionstatus.lua" />
-			<anchored height="32" width="28">
-				<top offset="7" />
-				<right offset="-30" />
+			<anchored>
+				<top offset="-2" />
+				<right offset="-40" />
 			</anchored>
-			<allowsinglespacing />
-			<spacing>17</spacing>
 			<stateicons>
 				<base>button_rating</base>
 				<positive>button_rating_down</positive>
@@ -400,7 +395,7 @@
 			<sourcefields>
 				<current>status</current>
 			</sourcefields>
-		</genericcontrol>
+		</ps_buttongroup_rating>
 	</template>
 
 	<template name="button_clock_faction">

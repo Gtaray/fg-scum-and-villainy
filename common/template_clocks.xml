@@ -55,55 +55,55 @@
 					return _tStateIndex[nSize]
 				end
 			</script>
-			<state icon="button_clock_4_0" merge="add" />
-			<state icon="button_clock_4_1" merge="add" />
-			<state icon="button_clock_4_2" merge="add" />
-			<state icon="button_clock_4_3" merge="add" />
-			<state icon="button_clock_4_4" merge="add" />
+			<state icon="button_clock_scifi_blue_4_0" merge="add" />
+			<state icon="button_clock_scifi_blue_4_1" merge="add" />
+			<state icon="button_clock_scifi_blue_4_2" merge="add" />
+			<state icon="button_clock_scifi_blue_4_3" merge="add" />
+			<state icon="button_clock_scifi_blue_4_4" merge="add" />
 
-			<state icon="button_clock_6_0" merge="add" />
-			<state icon="button_clock_6_1" merge="add" />
-			<state icon="button_clock_6_2" merge="add" />
-			<state icon="button_clock_6_3" merge="add" />
-			<state icon="button_clock_6_4" merge="add" />
-			<state icon="button_clock_6_5" merge="add" />
-			<state icon="button_clock_6_6" merge="add" />
+			<state icon="button_clock_scifi_blue_6_0" merge="add" />
+			<state icon="button_clock_scifi_blue_6_1" merge="add" />
+			<state icon="button_clock_scifi_blue_6_2" merge="add" />
+			<state icon="button_clock_scifi_blue_6_3" merge="add" />
+			<state icon="button_clock_scifi_blue_6_4" merge="add" />
+			<state icon="button_clock_scifi_blue_6_5" merge="add" />
+			<state icon="button_clock_scifi_blue_6_6" merge="add" />
 
-			<state icon="button_clock_8_0" merge="add" />
-			<state icon="button_clock_8_1" merge="add" />
-			<state icon="button_clock_8_2" merge="add" />
-			<state icon="button_clock_8_3" merge="add" />
-			<state icon="button_clock_8_4" merge="add" />
-			<state icon="button_clock_8_5" merge="add" />
-			<state icon="button_clock_8_6" merge="add" />
-			<state icon="button_clock_8_7" merge="add" />
-			<state icon="button_clock_8_8" merge="add" />
+			<state icon="button_clock_scifi_blue_8_0" merge="add" />
+			<state icon="button_clock_scifi_blue_8_1" merge="add" />
+			<state icon="button_clock_scifi_blue_8_2" merge="add" />
+			<state icon="button_clock_scifi_blue_8_3" merge="add" />
+			<state icon="button_clock_scifi_blue_8_4" merge="add" />
+			<state icon="button_clock_scifi_blue_8_5" merge="add" />
+			<state icon="button_clock_scifi_blue_8_6" merge="add" />
+			<state icon="button_clock_scifi_blue_8_7" merge="add" />
+			<state icon="button_clock_scifi_blue_8_8" merge="add" />
 
-			<state icon="button_clock_10_0" merge="add" />
-			<state icon="button_clock_10_1" merge="add" />
-			<state icon="button_clock_10_2" merge="add" />
-			<state icon="button_clock_10_3" merge="add" />
-			<state icon="button_clock_10_4" merge="add" />
-			<state icon="button_clock_10_5" merge="add" />
-			<state icon="button_clock_10_6" merge="add" />
-			<state icon="button_clock_10_7" merge="add" />
-			<state icon="button_clock_10_8" merge="add" />
-			<state icon="button_clock_10_9" merge="add" />
-			<state icon="button_clock_10_10" merge="add" />
+			<state icon="button_clock_scifi_blue_10_0" merge="add" />
+			<state icon="button_clock_scifi_blue_10_1" merge="add" />
+			<state icon="button_clock_scifi_blue_10_2" merge="add" />
+			<state icon="button_clock_scifi_blue_10_3" merge="add" />
+			<state icon="button_clock_scifi_blue_10_4" merge="add" />
+			<state icon="button_clock_scifi_blue_10_5" merge="add" />
+			<state icon="button_clock_scifi_blue_10_6" merge="add" />
+			<state icon="button_clock_scifi_blue_10_7" merge="add" />
+			<state icon="button_clock_scifi_blue_10_8" merge="add" />
+			<state icon="button_clock_scifi_blue_10_9" merge="add" />
+			<state icon="button_clock_scifi_blue_10_10" merge="add" />
 
-			<state icon="button_clock_12_0" merge="add" />
-			<state icon="button_clock_12_1" merge="add" />
-			<state icon="button_clock_12_2" merge="add" />
-			<state icon="button_clock_12_3" merge="add" />
-			<state icon="button_clock_12_4" merge="add" />
-			<state icon="button_clock_12_5" merge="add" />
-			<state icon="button_clock_12_6" merge="add" />
-			<state icon="button_clock_12_7" merge="add" />
-			<state icon="button_clock_12_8" merge="add" />
-			<state icon="button_clock_12_9" merge="add" />
-			<state icon="button_clock_12_10" merge="add" />
-			<state icon="button_clock_12_11" merge="add" />
-			<state icon="button_clock_12_12" merge="add" />
+			<state icon="button_clock_scifi_blue_12_0" merge="add" />
+			<state icon="button_clock_scifi_blue_12_1" merge="add" />
+			<state icon="button_clock_scifi_blue_12_2" merge="add" />
+			<state icon="button_clock_scifi_blue_12_3" merge="add" />
+			<state icon="button_clock_scifi_blue_12_4" merge="add" />
+			<state icon="button_clock_scifi_blue_12_5" merge="add" />
+			<state icon="button_clock_scifi_blue_12_6" merge="add" />
+			<state icon="button_clock_scifi_blue_12_7" merge="add" />
+			<state icon="button_clock_scifi_blue_12_8" merge="add" />
+			<state icon="button_clock_scifi_blue_12_9" merge="add" />
+			<state icon="button_clock_scifi_blue_12_10" merge="add" />
+			<state icon="button_clock_scifi_blue_12_11" merge="add" />
+			<state icon="button_clock_scifi_blue_12_12" merge="add" />
 		</buttoncontrol>
 	</template>
 	<template name="button_clock">
@@ -131,7 +131,7 @@
 	 <template name="button_clock_listitem">
 		<button_content_top_clock>
 			<gmeditonly />
-			<anchored height="100">
+			<anchored height="110">
 				<left offset="5" />
 				<right offset="-5" />
 			</anchored>

@@ -97,8 +97,8 @@
 					function onInit()
 						super.onInit();
 						self.add(Interface.getString("effect_great"));
-						self.add(Interface.getString("position_standard"));
-						self.add(Interface.getString("position_limited"));
+						self.add(Interface.getString("effect_standard"));
+						self.add(Interface.getString("effect_limited"));
 						self.setListIndex(2);
 					end
 				</script>
@@ -112,7 +112,7 @@
 				<static textres="dialog_roll_label_push" />
 			</label_content_column>
 			<buttonc_checkbox_content_column name="push">
-				<script>
+				<!-- <script>
 					local bUpdate = false;
 					function onValueChanged()
 						if bUpdate then
@@ -125,14 +125,14 @@
 						end
 						bUpdate = false;
 					end
-				</script>
+				</script> -->
 			</buttonc_checkbox_content_column>
 
 			<label_content_column name="bargain_label">
 				<static textres="dialog_roll_label_bargain" />
 			</label_content_column>
 			<buttonc_checkbox_content_column name="bargain">
-				<script>
+				<!-- <script>
 					local bUpdate = false;
 					function onValueChanged()
 						if bUpdate then
@@ -145,7 +145,7 @@
 						end
 						bUpdate = false;
 					end
-				</script>
+				</script> -->
 			</buttonc_checkbox_content_column>
 
 			<label_content_column name="assist_label">

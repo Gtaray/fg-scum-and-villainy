@@ -42,6 +42,8 @@
 	<string name="char_title_health">Health</string>
 	<string name="char_label_stress">Stress</string>
 	<string name="char_label_trauma">Trauma</string>
+	<string name="char_label_vice">Vice</string>
+	<string name="char_label_vice_bonusdice">Bonus Dice</string>
 	<string name="char_label_health_cur">Current</string>
 	<string name="char_label_health_max">Maximum</string>
 	
@@ -178,7 +180,9 @@
 	<!-- Upgrades -->
 	<string name="upgrade_label_type">Upgrade Type</string>
 	<string name="upgrade_label_cost">Cost</string>
-	<string name="upgrade_tooltip_cost">How many upgrade points does this upgrade cost</string>
+	<string name="upgrade_tooltip_cost">How many upgrade points does this upgrade cost?</string>
+	<string name="upgrade_label_uses">Uses</string>
+	<string name="upgrade_tooltip_uses">How many uses per job does this upgrade have?</string>
 	<string name="upgrade_header_description">Description</string>
 
 	<!-- Clocks -->
@@ -188,6 +192,10 @@
 	<string name="clock_label_progress">Progress</string>
 	<string name="clock_tooltip_chat">Show clock progress in chat</string>
 
+	<string name="clock_color_blue">Blue</string>
+	<string name="clock_color_violet">Violet</string>
+	<string name="clock_color_yellow">Yellow</string>
+
 	<string name="clock_header_clocks">Clocks</string>
 
 	<!-- Factions -->
@@ -196,25 +204,21 @@
 	<string name="faction_label_situation">Situation</string>
 	<string name="faction_label_tier">Tier</string>
 
-	<string name="faction_header_goal">Goal</string>
-	<string name="faction_label_goaldescription">Summary</string>
-	<string name="faction_label_goalclocksize">Clock Size</string>
-
 	<string name="faction_header_information">Information</string>
 	<string name="faction_label_turf">Turf</string>
 	<string name="faction_label_assets">Assets</string>
 	<string name="faction_label_quirks">Quirks</string>
-	<string name="faction_label_allies">Allies</string>
-	<string name="faction_label_enemies">Enemies</string>
-	<string name="faction_label_npcs">NPCs</string>
 
+	<string name="faction_header_goal">Goal</string>
+	<string name="faction_header_relationships">Allies &amp; Enemies</string>
 	<string name="faction_header_npcs">NPCs</string>
+	<string name="faction_header_rumors">Rumors</string>
 	<string name="faction_header_clocks">Clocks</string>
 
 	<!-- System -->
 	<string name="system_tab_main">Main</string>
 	<string name="system_header_description">Description</string>
-	<string name="system_header_notablelocations">Notable Locations</string>
+	<string name="system_header_notablelocations">Notable Places</string>
 	<string name="system_header_locations">Locations</string>
 
 	<!-- Location -->

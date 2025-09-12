@@ -100,6 +100,7 @@
 
 	<windowclass name="charsheet_main_health">
 		<margins control="0,0,0,4" />
+		<script file="campaign/scripts/charsheet_main_health.lua" />
 		<sheetdata>
 			<hn name="maxstress" source="health.stress.max">
 				<default>8</default>
@@ -131,9 +132,7 @@
 				<anchored to="health_title" />
 			</button_details_header>
 
-			<spacer_content_top>
-				<anchored height="10" />
-			</spacer_content_top>
+			<spacer_content_top />
 
 			<!-- STRESS -->
 			<label_content_column name="stress_label">
@@ -150,9 +149,7 @@
 				<maxslotperrow>15</maxslotperrow>
 			</char_rating_column_red>
 
-			<spacer_content_top>
-				<anchored height="10" />
-			</spacer_content_top>
+			<spacer_content_top />
 
 			<!-- TRAUMA-->
 			<label_content_column name="trauma_label">
@@ -167,60 +164,24 @@
 					<maximum>health.trauma.max</maximum>
 				</sourcefields>
 			</char_rating_column_red>
-		</sheetdata>
-	</windowclass>
 
-	<windowclass name="editor_charsheet_main_health" copy="charsheethelper_base">
-		<sizelimits>
-			<minimum width="350" height="120" />
-		</sizelimits>
-		<sheetdata>
-			<windowtitlebar_charsheethelper name="title">
-				<prefix>char_title_health</prefix>
-				<field>name</field>
-			</windowtitlebar_charsheethelper>
-		
-			<label name="label_stress">
-				<anchored position="insidetopleft" offset="20,50" width="50" />
-				<static textres="char_label_stress" />
-			</label>
-			<basicnumber name="stress_current" source="health.stress.current">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored to="label_stress" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>0</min>
-				<maxsource>health.stress.max</maxsource>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="stress_current" />
-				<static textres="char_label_health_cur" />
-			</label_fieldtop>
-			<basicnumber name="stress_maximum" source="health.stress.max">
-				<anchored to="stress_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<default>8</default>
-				<max>12</max>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="stress_maximum" />
-				<static textres="char_label_health_max" />
-			</label_fieldtop>
+			<spacer_content_top />
 
-			<label name="label_trauma">
-				<anchored position="insidetopleft" offset="20,80" width="50" />
-				<static textres="char_label_trauma" />
-			</label>
-			<basicnumber name="trauma_current" source="health.trauma.current">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored to="label_trauma" position="righthigh" offset="15,0" width="45" height="20" />
-				<maxsource>health.trauma.max</maxsource>
-				<min>0</min>
-			</basicnumber>
-			<basicnumber name="trauma_maximum" source="health.trauma.max">
-				<anchored to="trauma_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<max>8</max>
-				<default>4</default>
-			</basicnumber>
+			<!-- VICE -->
+			 <label_content_column name="vice_label">
+				<static textres="char_label_vice" />
+				<anchored>
+					<left offset="15" />
+				</anchored>
+			</label_content_column>
+			<char_button_vice_roll name="button_vice" />
+			<stringc_content_column_noframe_static name="vice_attribute">
+				<anchored>
+					<left offset="77" />
+					<right offset="-50" />
+				</anchored>
+				<readonly />
+			</stringc_content_column_noframe_static>
 		</sheetdata>
 	</windowclass>
 
@@ -309,76 +270,7 @@
 		</sheetdata>
 	</windowclass>
 
-	<windowclass name="editor_charsheet_main_defenses" copy="charsheethelper_base">
-		<sizelimits>
-			<minimum width="350" height="160" />
-		</sizelimits>
-		<sheetdata>
-			<windowtitlebar_charsheethelper name="title">
-				<prefix>char_title_defenses</prefix>
-				<field>name</field>
-			</windowtitlebar_charsheethelper>
-		
-			<label name="label_armor">
-				<anchored position="insidetopleft" offset="20,50" width="50" />
-				<static textres="char_label_armor" />
-			</label>
-			<basicnumber name="armor_current" source="defenses.armor.spent">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored to="label_armor" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>0</min>
-				<maxsource>defenses.armor.max</maxsource>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="armor_current" />
-				<static textres="char_label_defenses_cur" />
-			</label_fieldtop>
-			<basicnumber name="armor_maximum" source="defenses.armor.max">
-				<anchored to="armor_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<default>1</default>
-				<max>4</max>
-			</basicnumber>
-			<label_fieldtop>
-				<anchored to="armor_maximum" />
-				<static textres="char_label_defenses_max" />
-			</label_fieldtop>
-
-			<label name="label_heavy">
-				<anchored position="insidetopleft" offset="20,80" width="50" />
-				<static textres="char_label_heavy" />
-			</label>
-			<basicnumber name="heavy_current" source="defenses.heavy.spent">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored to="label_heavy" position="righthigh" offset="15,0" width="45" height="20" />
-				<maxsource>defenses.heavy.max</maxsource>
-				<min>0</min>
-			</basicnumber>
-			<basicnumber name="heavy_maximum" source="defenses.heavy.max">
-				<anchored to="heavy_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<default>1</default>
-				<max>4</max>
-			</basicnumber>
-
-			<label name="label_special">
-				<anchored position="insidetopleft" offset="20,110" width="50" />
-				<static textres="char_label_special" />
-			</label>
-			<basicnumber name="special_current" source="defenses.special.spent">
-				<script file="common/scripts/number_linkedmaximum.lua" />
-				<anchored to="label_special" position="righthigh" offset="15,0" width="45" height="20" />
-				<maxsource>defenses.special.max</maxsource>
-				<min>0</min>
-			</basicnumber>
-			<basicnumber name="special_maximum" source="defenses.special.max">
-				<anchored to="special_current" position="righthigh" offset="15,0" width="45" height="20" />
-				<min>1</min>
-				<default>1</default>
-				<max>4</max>
-			</basicnumber>
-		</sheetdata>
-	</windowclass>
+	
 
 	<windowclass name="charsheet_main_harm">
 		<margins control="0,0,0,10" />

@@ -47,8 +47,15 @@
 	<string name="position_desperate">Desperate</string>
 
 	<string name="effect_great">Great</string>
-	<string name="position_standard">Standard</string>
-	<string name="position_limited">Limited</string>
+	<string name="effect_standard">Standard</string>
+	<string name="effect_limited">Limited</string>
+
+	<!-- Desktop button labels -->
+	<string name="desktop_button_push">Push</string>
+	<string name="desktop_button_bargain">Bargain</string>
+	<string name="desktop_button_gambit">Gambit</string>
+	<string name="desktop_button_assist">Assist</string>
+	<string name="desktop_button_injury">Injury</string>
 
 	<!-- Engagement Rolls -->
 	 <string name="engagement_assault_label">Assault</string>

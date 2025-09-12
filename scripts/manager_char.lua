@@ -222,6 +222,51 @@ function setActionScore(rActor, sAction, nValue)
 end
 
 -------------------------------------------------------------------------------
+--- VICE
+-------------------------------------------------------------------------------
+function getViceAttribute(rActor)
+	local nodeChar;
+	if type(rActor) == "databasenode" then
+		nodeChar = rActor;
+	else
+		nodeChar = ActorManager.getCreatureNode(rActor);
+	end
+
+	if not nodeChar then
+		return;
+	end
+
+	local sLowestAttribute = nil;
+	local nLowest = 100;
+	for i, attr in ipairs(DataManager.getAttributes()) do
+		local nScore = CharManager.getAttributeScore(rActor, attr.sAttribute)
+		if nScore < nLowest then
+			nLowest = nScore
+			sLowestAttribute = attr.sAttribute;
+		end
+	end
+
+	local nBonusDice = CharManager.getViceBonusDice(rActor)
+
+	return sLowestAttribute, nLowest + nBonusDice;
+end
+
+function getViceBonusDice(rActor)
+	local nodeChar;
+	if type(rActor) == "databasenode" then
+		nodeChar = rActor;
+	else
+		nodeChar = ActorManager.getCreatureNode(rActor);
+	end
+
+	if not nodeChar then
+		return 0;
+	end
+
+	return DB.getValue(nodeChar, "health.vice.bonusdice", 0);
+end
+
+-------------------------------------------------------------------------------
 --- STRESS
 -------------------------------------------------------------------------------
 function getStressMax(rActor)
@@ -633,7 +678,7 @@ function getContactNodes(rActor)
     return DB.getChildList(nodeChar, "contacts");
 end
 
-function addContact(rActor, sName, sNotes)
+function addContact(rActor, sName, sNotes, nRelationship)
 	local nodeChar;
 	if type(rActor) == "databasenode" then
 		nodeChar = rActor;
@@ -650,11 +695,15 @@ function addContact(rActor, sName, sNotes)
 		return;
 	end
 
+	if not nRelationship then
+		nRelationship = 0;
+	end
+
 	local node = DB.createChild(listnode);
 	if node then
 		DB.setValue(node, "name", "string", sName);
 		DB.setValue(node, "notes", "formattedtext", sNotes);
-		DB.setValue(node, "relationship", "number", 0);
+		DB.setValue(node, "relationship", "number", nRelationship);
 	end
 	return node;
 end

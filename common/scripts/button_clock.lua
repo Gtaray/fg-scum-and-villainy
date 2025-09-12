@@ -24,12 +24,16 @@ function onInit()
 		end
 	end
 
-	self.updateMax();
+	self.updateIconMax();
 end
 
 function onClose()
 	self.setSizeNode("");
 	self.setCurrentNode("");
+end
+
+function update(bReadOnly)
+	setReadOnly(bReadOnly);
 end
 
 function onWheel(notches)
@@ -59,7 +63,7 @@ function onButtonPress()
 	return true;
 end
 
-function updateMax()
+function updateIconMax()
 	-- When updating clock size, make sure that progress is clamped to the new
 	-- maximum
 	local s = self.getSizeValue();
@@ -72,13 +76,13 @@ function updateMax()
 
 	if p > s then
 		self.setCurrentValue(s);
-		return; --setCurrentValue will all update, so we can return early and not trigger it twice
+		return; --setCurrentValue will all updateIcon, so we can return early and not trigger it twice
 	end
 
-	update();
+	updateIcon();
 end
 
-function update()
+function updateIcon()
 	local s = self.getSizeValue();
 	local p = self.getCurrentValue();
 	
@@ -120,13 +124,13 @@ function setSizeValue(n)
 end
 function setSizeNode(sNewMaxNodeName)
 	if _sSizeNodeName ~= "" then
-		DB.removeHandler(_sSizeNodeName, "onUpdate", self.updateMax);
+		DB.removeHandler(_sSizeNodeName, "onUpdate", self.updateIconMax);
 	end
 	_sSizeNodeName = sNewMaxNodeName;
 	if _sSizeNodeName ~= "" then
-		DB.addHandler(_sSizeNodeName, "onUpdate", self.updateMax);
+		DB.addHandler(_sSizeNodeName, "onUpdate", self.updateIconMax);
 	end
-	self.updateMax();
+	self.updateIconMax();
 end
 
 function getCurrentValue()
@@ -142,11 +146,11 @@ function setCurrentValue(n)
 end
 function setCurrentNode(sNewCurrentNodeName)
 	if _sCurNodeName ~= "" then
-		DB.removeHandler(_sCurNodeName, "onUpdate", update);
+		DB.removeHandler(_sCurNodeName, "onUpdate", updateIcon);
 	end
 	_sCurNodeName = sNewCurrentNodeName;
 	if _sCurNodeName ~= "" then
-		DB.addHandler(_sCurNodeName, "onUpdate", update);
+		DB.addHandler(_sCurNodeName, "onUpdate", updateIcon);
 	end
-	update();
+	updateIcon();
 end

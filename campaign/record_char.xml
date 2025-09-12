@@ -29,6 +29,11 @@
 							CharManager.addBackground(getDatabaseNode(), node);	
 						elseif RecordDataManager.isRecordTypeDisplayClass("clock", sClass) then
 							CharManager.addClock(getDatabaseNode(), node);	
+						elseif sClass == "contact" then
+							local sName = DB.getValue(node, "name", "");
+							local sNotes = DB.getValue(node, "notes", "");
+							local nRelationship = DB.getValue(node, "relationship", 0);
+							return CharManager.addContact(getDatabaseNode(), sName, sNotes, nRelationship);
 						end
 					end
 				end

@@ -13,7 +13,8 @@ actions = {
     ["resistance"] = { sIcon = "action_roll" },
     ["stress"] = { sIcon = "action_roll" },
     ["engagement"] = { sIcon = "action_roll" },
-    ["fortune"] = { sIcon = "action_roll" }
+    ["fortune"] = { sIcon = "action_roll" },
+	["vice"] = { sIcon = "action_roll" },
 };
 
 targetactions = { };
@@ -55,12 +56,6 @@ aRecordOverrides = {
 		aDataMap = { "background", "reference.background" },
 		sRecordDisplayClass = "background",
 		sSidebarCategory = "create",
-	},
-	["crew"] = {
-		bExport = true,
-		aDataMap = { "crew", "reference.crew" },
-		sRecordDisplayClass = "crew",
-		sSidebarCategory = "crew",
 	},
 	["crewtype"] = {
 		bExport = true,

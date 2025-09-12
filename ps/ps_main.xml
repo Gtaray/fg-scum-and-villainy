@@ -165,9 +165,7 @@
 				<control>xp</control>
 			</bg_rating>
 			<ps_buttongroup_rating_title name="xp">
-				<anchored to="header_xp">
-					<right offset="-10" />
-				</anchored>
+				<anchored to="header_xp" />
 				<values>
 					<maximum>8</maximum>
 				</values>
@@ -358,12 +356,14 @@
 				<anchored height="15" />
 			</spacer_content_top>
 
-			<label_content_column name="armor_label">
+			<label_crewframe_top_right name="armor_label">
 				<static textres="ps_label_armor" />
-				<anchored>
-					<left offset="15" />
+				<anchored height="20">
+					<top relation="current" offset="0" postoffset="0" />
 				</anchored>
-			</label_content_column>
+				<font>crewheader_small</font>
+				<frame merge="delete" />
+			</label_crewframe_top_right>
 			<ps_buttongroup_rating_armor name="armor">
 				<sourcefields>
 					<current>defenses.armor.spent</current>
@@ -373,12 +373,14 @@
 
 			<spacer_content_top />
 
-			<label_content_column name="heavy_label">
+			<label_crewframe_top_right name="heavy_label">
 				<static textres="ps_label_heavy" />
-				<anchored>
-					<left offset="15" />
+				<anchored height="20">
+					<top relation="current" offset="0" postoffset="0" />
 				</anchored>
-			</label_content_column>
+				<font>crewheader_small</font>
+				<frame merge="delete" />
+			</label_crewframe_top_right>
 			<ps_buttongroup_rating_armor name="armor">
 				<sourcefields>
 					<current>defenses.heavy.spent</current>
@@ -387,13 +389,15 @@
 			</ps_buttongroup_rating_armor>
 
 			<spacer_content_top />
-
-			<label_content_column name="special_label">
+			
+			<label_crewframe_top_right name="special_label">
 				<static textres="ps_label_special" />
-				<anchored>
-					<left offset="15" />
+				<anchored height="20">
+					<top relation="current" offset="0" postoffset="0" />
 				</anchored>
-			</label_content_column>
+				<font>crewheader_small</font>
+				<frame merge="delete" />
+			</label_crewframe_top_right>
 			<ps_buttongroup_rating_armor name="special">
 				<sourcefields>
 					<current>defenses.special.spent</current>
@@ -577,6 +581,17 @@
 				<min>1</min>
 				<default>1</default>
 			</hn>
+			<hn name="used">
+				<min>0</min>
+			</hn>
+			<hn name="uses">
+				<min>0</min>
+				<script>
+					function onValueChanged()
+						window.uses.update();
+					end
+				</script>
+			</hn>
 
 			<ps_buttongroup_listitem_counter_left name="paid">
 				<anchored height="12" />
@@ -588,6 +603,31 @@
 			<linkc_listitem_right name="shortcut">
 				<class>upgrade</class>
 			</linkc_listitem_right>
+			<buttongroup_rating_small_blue name="uses">
+				<script>
+					function onInit()
+						if super and super.onInit then
+							super.onInit()
+						end
+						update();
+					end
+					function update()
+						if super and super.update then
+							super.update()
+						end
+						local nUses = DB.getValue(window.getDatabaseNode(), "uses", 0);
+						setVisible(nUses &gt; 0);
+					end
+				</script>
+				<anchored to="rightanchor">
+					<top />
+					<right relation="relative" offset="0" postoffset="0" />
+				</anchored>
+				<sourcefields>
+					<current>used</current>
+					<maximum>uses</maximum>
+				</sourcefields>
+			</buttongroup_rating_small_blue>
 			<string_listitem_center_underline name="name">
 				<script>
 					function onInit()

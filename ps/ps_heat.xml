@@ -65,7 +65,7 @@
 
 			<bg_rating name="wanted_bg">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="current" offset="-6" />
+					<right anchor="left" relation="current" offset="3" />
 				</anchored>
 				<control>wanted</control>
 				<source>wanted</source>
@@ -91,7 +91,7 @@
 
 			<bg_rating name="heat_bg">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="current" offset="-16" />
+					<right anchor="left" relation="current" offset="-7" />
 				</anchored>
 				<control>heat</control>
 				<source>heat</source>

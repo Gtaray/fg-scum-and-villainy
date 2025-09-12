@@ -75,8 +75,8 @@
 	<template name="char_rating_title_right">
 		<buttongroup_rating_small_blue>
 			<anchored to="rightanchor">
-				<top offset="3" />
-				<right offset="-5" relation="relative" />
+				<top offset="-4	" />
+				<right offset="-12" relation="relative" />
 			</anchored>
 		</buttongroup_rating_small_blue>
 	</template>
@@ -138,7 +138,7 @@
 	<template name="char_rating_column_blue">
 		<buttongroup_rating_small_blue>
 			<anchored to="contentanchor">
-				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
+				<top relation="relative" anchor="bottom" offset="0" postoffset="0" />
 				<left offset="77" />
 			</anchored>
 		</buttongroup_rating_small_blue>
@@ -146,7 +146,7 @@
 	<template name="char_rating_column_red">
 		<buttongroup_rating_small_red>
 			<anchored to="contentanchor">
-				<top relation="relative" anchor="bottom" offset="6" postoffset="6" />
+				<top relation="relative" anchor="bottom" offset="0" postoffset="0" />
 				<left offset="77" />
 			</anchored>
 		</buttongroup_rating_small_red>
@@ -193,7 +193,7 @@
 		<button_roll>
 			<script>
 				function onButtonPress()
-					self.action()
+					self.action(nil)
 				end
 				function onDragStart(button, x, y, draginfo)
 					self.action(draginfo);
@@ -244,17 +244,39 @@
 	</template>
 
 	<!-- STRESS / TRAUMA -->
-
 	<template name="button_recoveryclock">
 		<button_content_top_clock>
-			<anchored width="80" height="80">
-				<left anchor="center" offset="-40" />
+			<anchored width="110" height="110">
+				<top offset="-7" />
+				<left anchor="center" offset="-55" />
 			</anchored>
 			<sourcefields>
 				<size>health.recovery.clocksize</size>
 				<progress>health.recovery.progress</progress>
 			</sourcefields>
 		</button_content_top_clock>
+	</template>
+
+	<!-- VICE -->
+	<template name="char_button_vice_roll">
+		<button_roll>
+			<script>
+				function onButtonPress()
+					self.action()
+				end
+				function onDragStart(button, x, y, draginfo)
+					self.action(draginfo);
+					return true;
+				end
+				function action(draginfo)
+					window.performViceRoll(draginfo);
+				end
+			</script>
+			<anchored to="contentanchor" height="30" width="30" >
+				<top relation="current" offset="-2" />
+				<right offset="-10" />
+			</anchored>
+		</button_roll>
 	</template>
 
 	<!-- LOADOUT -->
@@ -344,48 +366,16 @@
 
 	<template name="list_inventory">
 		<list_content_noscroll_alternating_top>
-			<script>				
-				local sFilterProperty;
-				local sFilterValue = "";
-				function onInit()
-					if filter and filter[1] then
-						if filter[1].property and filter[1].property[1] then
-							sFilterProperty = filter[1].property[1]
-						end
-						if filter[1].value and filter[1].value[1] then
-							sFilterValue = filter[1].value[1]
-						end
+			<script>
+				function onSortCompare(w1, w2)
+					if _sortLocked then
+						return false;
 					end
-					
-					if not sFilterProperty then
-						return;
-					end
-
-					local node = window.getDatabaseNode();
-					DB.addHandler(DB.getPath(node, "inventorylist.*.isplaybook"), "onUpdate", onItemTypeUpdated);
-
-					applyFilter();
-				end
-				function onClose()
-					if not sFilterProperty then
-						return;
-					end
-					
-					local node = window.getDatabaseNode();
-					DB.removeHandler(DB.getPath(node, "inventorylist.*.isplaybook"), "onUpdate", onItemTypeUpdated);
-				end
-				function onItemTypeUpdated()
-					applyFilter();
-				end
-				function onFilter(w)
-					if not sFilterProperty then return true end;
-
-					local node = w.getDatabaseNode()
-					local sValue = DB.getValue(node, sFilterProperty, ""):lower();
-					return sValue == sFilterValue:lower();
+					return ItemManager.onInventorySortCompare(w1, w2);
 				end
 			</script>
 			<anchored>
+				<top relation="current" offset="0" />
 				<left offset="10" />
 				<right offset="-10" />
 			</anchored>
@@ -466,7 +456,30 @@
 		</string_listitem_center_text>
 	</template>
 
-	<template name="char_inventory_cred">
+	<!-- ABILITIES -->
+	<template name="char_abilities_list">
+		<list_content_top>
+			<anchored>
+				<top offset="6" postoffset="6" />
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+			<class>charsheet_ability_item</class>
+			<allowdelete />
+		</list_content_top>
+	</template>
+	
+	<!-- CONTACTS -->
+	<template name="char_contact_state">
+		<button_listitem_checkbox_left>
+			<state icon="button_checkoff" tooltipres="contact_tooltip_neutral" merge="resetandadd" />
+			<state icon="button_triangle_up_blue" tooltipres="contact_tooltip_friend" merge="add" />
+			<state icon="button_triangle_down_red" tooltipres="contact_tooltip_enemy" merge="add" />
+		</button_listitem_checkbox_left>
+	</template>
+
+	<!-- COIN -->
+	 <template name="char_cred">
 		<buttongroup_counter>
 			<anchored to="contentanchor">
 				<top anchor="bottom" relation="relative" offset="3" postoffset="3" />
@@ -482,14 +495,14 @@
 		</buttongroup_counter>
 	</template>
 
-	<template name="char_inventory_stash">
+	<template name="char_stash">
 		<buttongroup_counter>
 			<anchored to="contentanchor">
 				<top anchor="bottom" relation="relative" offset="6" postoffset="6" />
-				<left anchor="center" offset="-100" />
+				<left anchor="center" offset="-75" />
 			</anchored>
 			<allowsinglespacing />
-			<spacing>20</spacing>
+			<spacing>15</spacing>
 			<maxslotperrow>10</maxslotperrow>
 			<sourcefields>
 				<current>cred.stashed</current>
@@ -498,25 +511,24 @@
 		</buttongroup_counter>
 	</template>
 
-	<!-- ABILITIES -->
-	<template name="char_abilities_list">
-		<list_content_top>
-			<anchored>
-				<top offset="6" postoffset="6" />
-				<left offset="10" />
-				<right offset="-10" />
+	<!-- HEALTH EDITOR -->
+	<template name="number_content_column_left_linked_maximum">
+		<number_content_column>
+			<script file="common/scripts/number_linkedmaximum.lua" />
+			<anchored width="45">
+				<top relation="current" offset="3" postoffset="3" />
 			</anchored>
-			<class>charsheet_ability_item</class>
-			<allowdelete />
-		</list_content_top>
+			<min>0</min>
+		</number_content_column>
 	</template>
-	
-	<!-- NOTES -->
-	<template name="char_contact_state">
-		<button_listitem_checkbox_left>
-			<state icon="button_checkoff" tooltipres="contact_tooltip_neutral" merge="resetandadd" />
-			<state icon="button_triangle_up_blue" tooltipres="contact_tooltip_friend" merge="add" />
-			<state icon="button_triangle_down_red" tooltipres="contact_tooltip_enemy" merge="add" />
-		</button_listitem_checkbox_left>
+
+	<template name="number_content_column_right">
+		<number_content_column>
+			<script file="common/scripts/number_linkedmaximum.lua" />
+			<anchored width="45">
+				<left offset="160" />
+			</anchored>
+			<min>0</min>
+		</number_content_column>
 	</template>
 </root>
