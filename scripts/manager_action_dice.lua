@@ -16,5 +16,10 @@ function onRoll(rSource, rTarget, rRoll)
 	end
 
 	local rMessage = RollManager.buildActionMessage(rSource, rRoll);
+
+	if rRoll.aDroppedDie then
+        rMessage.text = string.format("Dropped %s", rRoll.aDroppedDie.result)
+    end
+
 	Comm.deliverChatMessage(rMessage);
 end

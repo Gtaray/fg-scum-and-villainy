@@ -75,43 +75,6 @@ function onRoll(rSource, rTarget, rRoll)
 	RollManager.processRoll(rSource, rTarget, rRoll);
 
     local rMessage = RollManager.buildActionMessage(rSource, rRoll);
-	rMessage.text = ActionRoll.getFullRollText(rSource, rTarget, rRoll);
 
     Comm.deliverChatMessage(rMessage);
-end
-
-function getFullRollText(rSource, rTarget, rRoll)
-	local s = rRoll.sDesc;
-
-	if rRoll.sPosition and rRoll.sEffect then
-		s = string.format("%s - %s / %s", 
-			s, 
-			Interface.getString(string.format("position_%s", rRoll.sPosition)), 
-			Interface.getString(string.format("effect_%s", rRoll.sEffect)));
-	end
-	if rRoll.bPush then
-		s = string.format("%s\n%s", s, Interface.getString("roll_text_push_yourself"));
-	end
-	if rRoll.bBargain then
-		s = string.format("%s\n%s", s, Interface.getString("roll_text_devils_bargain"));
-	end
-	if rRoll.bAssist then
-		s = string.format("%s\n%s", s, Interface.getString("roll_text_assisted"));
-	end
-	if rRoll.bGambit then
-		s = string.format("%s\n%s", s, Interface.getString("roll_text_spent_gambit"));
-	end
-	if rRoll.bInjured then
-		s = string.format("%s\n%s", s, Interface.getString("roll_text_injured"));
-	end
-
-	if rRoll.sPosition == "desperate" then
-		local tAttr = DataManager.getAttributeForAction(rRoll.sAction);
-		if tAttr then
-			local sAttr = StringManager.capitalize(Interface.getString(tAttr.sResource));
-
-			s = string.format("%s\n%s", s, string.format(Interface.getString("roll_text_desperate_action"), sAttr));
-		end
-	end
-	return s;
 end

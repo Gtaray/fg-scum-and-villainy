@@ -35,6 +35,16 @@ end
 function onRoll(rSource, rTarget, rRoll)
 	RollManager.processRoll(rSource, rTarget, rRoll);
 
+	local nTotal = ActionsManager.total(rRoll);
+
+	if nTotal == 6 then
+		rRoll.sDesc = string.format("%s %s", rRoll.sDesc, "Controlled");
+	elseif nTotal >= 4 then
+		rRoll.sDesc = string.format("%s %s", rRoll.sDesc, "Risky");
+	else
+		rRoll.sDesc = string.format("%s %s", rRoll.sDesc, "Desperate");
+	end
+
     local rMessage = RollManager.buildActionMessage(rSource, rRoll);
 
     Comm.deliverChatMessage(rMessage);

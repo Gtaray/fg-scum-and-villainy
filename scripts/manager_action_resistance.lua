@@ -33,15 +33,12 @@ end
 
 function onRoll(rSource, rTarget, rRoll)
 	RollManager.processRoll(rSource, rTarget, rRoll);
+    local nTotal = ActionsManager.total(rRoll);
 
     local rMessage = RollManager.buildActionMessage(rSource, rRoll);
-	rMessage.text = ActionResistance.getFullRollText(rSource, rTarget, rRoll);
+	rMessage.text = string.format("%s\n%s", 
+        rMessage.text, 
+        string.format(Interface.getString("roll_text_resistance"), 6 - nTotal))
 
     Comm.deliverChatMessage(rMessage);
-end
-
-function getFullRollText(rSource, rTarget, rRoll)
-	local nTotal = ActionsManager.total(rRoll);
-	local sResult = string.format(Interface.getString("roll_text_resistance"), 6 - nTotal)
-	return string.format("%s\n%s", rRoll.sDesc, sResult);
 end

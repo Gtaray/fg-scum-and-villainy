@@ -23,6 +23,9 @@
 	<template name="button_toggle_position">
 		<button_toggle_positioneffect>
 			<script>
+				function onInit()
+					window.addPosition(value[1], self)
+				end
 				function onClickRelease()
 					RollManager.setPosition(value[1]);
 					return true;
@@ -35,6 +38,9 @@
 	<template name="button_toggle_effect">
 		<button_toggle_positioneffect>
 			<script>
+				function onInit()
+					window.addEffect(value[1], self)
+				end
 				function onClickRelease()
 					RollManager.setEffect(value[1]);
 					return true;

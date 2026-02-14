@@ -86,6 +86,10 @@ function registerActionRollModWindow(w)
 	_actionRollModWindow = w;
 end
 
+function getActionRollModWindow()
+	return _actionRollModWindow;
+end
+
 function getActionRollModPush(bRetain)
 	return RollManager.getActionRollModWindowData("push", bRetain);
 end
@@ -156,30 +160,60 @@ end
 -------------------------------------------------------------------------------
 -- Adjusts the results of a standard roll to display it correctly
 function processRoll(rSource, rTarget, rRoll)
-	local fCompare = function(a,b) return a < b end;
-	if rRoll.bTakeLowest then
-		fCompare = function(a,b) return a > b end;
-	end
+	local aDice = {}
 
-	local nResult = 0;
+    if rRoll.bTakeLowest then
+        -- Get the subset of aDice that represent the first two dice to take the lowest from
+        local _, nLowestIndex = getLowestDice({rRoll.aDice[1], rRoll.aDice[2]});
+        table.insert(aDice, rRoll.aDice[nLowestIndex]);
 
-	for i = 1, #(rRoll.aDice) do
-        if rRoll.aDice[i].result == 6 then
-            rRoll.aDice[i].type = "g" .. string.sub(rRoll.aDice[1].type, 2);
-        elseif rRoll.aDice[i].result < 4 then
-            rRoll.aDice[i].type = "r" .. string.sub(rRoll.aDice[1].type, 2);
+        -- Record the number that was dropped so it can be put in chat
+        if nLowestIndex == 1 then
+            rRoll.aDroppedDie = rRoll.aDice[2]
+        elseif nLowestIndex == 2 then
+            rRoll.aDroppedDie = rRoll.aDice[1]
         end
-
-		if nResult == 0 or fCompare(nResult, rRoll.aDice[i].value) then
-			nResult = rRoll.aDice[i].value;
-		end
-
-		rRoll.aDice[i].value = 0;
+    else
+        aDice = rRoll.aDice;
     end
 
-	-- Set the first dice to have the result we actually want.
-	rRoll.aDice[1].value = nResult;
-	rRoll.nTotal = nResult;
+     -- Sort the dice table in descending order
+    table.sort(aDice, function(a, b)
+        return b.value < a.value
+    end);
+
+	local nNumberOfSixes = 0;
+	for i = 1, #(aDice) do
+        if aDice[i].result == 6 then
+            aDice[i].type = "g" .. string.sub(aDice[1].type, 2);
+            nNumberOfSixes = nNumberOfSixes + 1;
+
+        elseif aDice[i].result < 4 then
+            aDice[i].type = "r" .. string.sub(aDice[1].type, 2);
+
+        end
+
+        -- Only the first (highest) value is kept, everything else is zero
+        if i >= 2 then
+            aDice[i].value = 0;
+        end
+    end
+
+	rRoll.bCritical = nNumberOfSixes >= 2;
+	rRoll.aDice = aDice;
+end
+
+function getLowestDice(aDice)
+    local nIndex = 0;
+    local nLowestValue = 1000;
+    for i = 1, #(aDice) do
+        if aDice[i].value < nLowestValue then
+            nIndex = i;
+            nLowestValue = aDice[i].value;
+        end
+    end
+
+    return nLowestValue, nIndex;
 end
 
 -------------------------------------------------------------------------------
@@ -187,6 +221,44 @@ end
 -------------------------------------------------------------------------------
 function buildActionMessage(rSource, rRoll)
 	local rMessage = ActionsManager.createActionMessage(rSource, rRoll);
+
+	local s = rRoll.sDesc;
+
+	if rRoll.sPosition and rRoll.sEffect then
+		s = string.format("%s - %s / %s", 
+			s, 
+			Interface.getString(string.format("position_%s", rRoll.sPosition)), 
+			Interface.getString(string.format("effect_%s", rRoll.sEffect)));
+	end
+    if rRoll.aDroppedDie then
+        s = string.format("%s (Dropped %s)", s, rRoll.aDroppedDie.result)
+    end
+	if rRoll.bPush then
+		s = string.format("%s\n%s", s, Interface.getString("roll_text_push_yourself"));
+	end
+	if rRoll.bBargain then
+		s = string.format("%s\n%s", s, Interface.getString("roll_text_devils_bargain"));
+	end
+	if rRoll.bAssist then
+		s = string.format("%s\n%s", s, Interface.getString("roll_text_assisted"));
+	end
+	if rRoll.bGambit then
+		s = string.format("%s\n%s", s, Interface.getString("roll_text_spent_gambit"));
+	end
+	if rRoll.bInjured then
+		s = string.format("%s\n%s", s, Interface.getString("roll_text_injured"));
+	end
+
+	if rRoll.sPosition == "desperate" then
+		local tAttr = DataManager.getAttributeForAction(rRoll.sAction);
+		if tAttr then
+			local sAttr = StringManager.capitalize(Interface.getString(tAttr.sResource));
+
+			s = string.format("%s\n%s", s, string.format(Interface.getString("roll_text_desperate_action"), sAttr));
+		end
+	end
+
+	rMessage.text = s;
 	
 	return rMessage;
 end

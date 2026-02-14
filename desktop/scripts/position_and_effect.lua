@@ -1,3 +1,7 @@
+local _tPosition = {};
+local _tEffect = {};
+
+
 function onInit()
 	RollManager.addPositionUpdateHandler(onPositionChanged);
 	RollManager.addEffectUpdateHandler(onEffectChanged);
@@ -6,42 +10,40 @@ function onInit()
 	onEffectChanged();
 end
 
-function onPositionChanged()
-	local sPosition = RollManager.getPosition();
+function addPosition(sKey, buttonControl)
+	_tPosition[sKey] = buttonControl;
+end
 
-	if sPosition == "desperate" then
-		selectPosition(position_desperate);
-	elseif sPosition == "risky" then
-		selectPosition(position_risky);
-	else
-		selectPosition(position_controlled);
-	end
+function addEffect(sKey, buttonControl)
+	_tEffect[sKey] = buttonControl;
+end
+
+
+function onPositionChanged()
+	selectPosition(RollManager.getPosition());
 end
 
 function onEffectChanged()
-	local sEffect = RollManager.getEffect();
+	selectEffect(RollManager.getEffect());
+end
 
-	if sEffect == "limited" then
-		selectEffect(effect_limited);
-	elseif sEffect == "standard" then
-		selectEffect(effect_standard);
-	else
-		selectEffect(effect_great);
+
+function selectPosition(sPosition)
+	for sKey, button in pairs(_tPosition) do
+		if sKey == sPosition then
+			button.setValue(1);
+		else
+			button.setValue(0);
+		end
 	end
 end
 
-function selectPosition(control)
-	position_desperate.setValue(0);
-	position_risky.setValue(0);
-	position_controlled.setValue(0);
-
-	control.setValue(1);
-end
-
-function selectEffect(control)
-	effect_limited.setValue(0);
-	effect_standard.setValue(0);
-	effect_great.setValue(0);
-
-	control.setValue(1);
+function selectEffect(sEffect)
+	for sKey, button in pairs(_tEffect) do
+		if sKey == sEffect then
+			button.setValue(1);
+		else
+			button.setValue(0);
+		end
+	end
 end
