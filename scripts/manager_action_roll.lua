@@ -58,7 +58,13 @@ function modRoll(rSource, rTarget, rRoll)
 
 	-- The easiest way to modify the dice pool is to reset aDice and build it again
 	if nDiceAdjust ~= 0 then
+		-- If the roll previously had 0 dice (roll 2, take the lowest)
+		-- Then we set the base dice back to 2. This effectively makes the nDiceAdjust
+		-- act as the regular dice amount
 		local nBaseDice = #(rRoll.aDice);
+		if rRoll.bTakeLowest then
+			nBaseDice = 0
+		end
 
 		rRoll.aDice = {};
 		RollManager.buildRollDice(rActor, rRoll, nBaseDice + nDiceAdjust);

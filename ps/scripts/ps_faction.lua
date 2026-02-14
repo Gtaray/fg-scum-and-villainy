@@ -52,7 +52,7 @@ end
 
 function update()
 	local node = self.getFactionNode();
-	header.setValue(string.format("%s - Tier %s", DB.getValue(node, "name", ""), self.getTierNumerals()));
+	header.setValue(string.format("%s - Tier %s", self.getFactionName(), self.getTierNumerals()));
 	self.setStatusTooltip();
 
 	content.subwindow.update();
@@ -72,7 +72,7 @@ local _tTierNumerals = {
 	[5] = "V",
 }
 function getTierNumerals()
-	local nTier = DB.getValue(self.getFactionNode(), "tier", 1)
+	local nTier = self.getFactionTier();
 	if not _tTierNumerals[nTier] then
 		return "???"
 	end
@@ -85,4 +85,12 @@ end
 function getFactionNode()
 	local _, sRecord = DB.getValue(getDatabaseNode(), "link", "", "")
 	return DB.findNode(sRecord);
+end
+
+function getFactionName()
+	return DB.getValue(self.getFactionNode(), "name", "");
+end
+
+function getFactionTier()
+	return DB.getValue(self.getFactionNode(), "tier", 1);
 end

@@ -74,55 +74,70 @@
 
 			function onMenuSelection(selection, subselection)
 				if not Session.IsHost then
-					CrewManager.sendPlayerDeleteClockOobMsg(getDatabaseNode());
+					if selection == 6 and subselection == 7 then
+						CrewManager.sendPlayerDeleteClockOobMsg(getDatabaseNode());
+					end
 				end
 			end
 		</script>
 		<sheetdata>
 			<button_visibility_listitem_right name="visible" merge="delete" />
-			<string_labeled name="name">
+
+			<ps_button_playeredit name="edit_name" insertbefore="shortcut">
+				<anchored to="rightanchor">
+					<top />
+					<right relation="relative" offset="-1" postoffset="-1" />
+				</anchored>
+				<path>name</path>
+				<titleres>ps_edit_header_clockname</titleres>
+			</ps_button_playeredit>
+
+			<comboboxc_content_top_sizeselector name="sizeselector">
 				<script>
-					function onClickDown(button, x, y)
-						if not Session.IsHost then
-							return button == 1;
-						end
-					end
-					function onClickRelease()
+					function setControlValue(nValue)
 						if Session.IsHost then
+							super.setControlValue(nValue);
 							return;
 						end
-						local tData = {
-							sTitleRes = "ps_title_clockname",
-							sDbPath = DB.getPath(window.getDatabaseNode(), "name"),
-							sText = getValue(),
-							fnCallback = CrewManager.onClockEditedByPlayer
-						}
-						DialogManager.openDialog("dialog_text", tData);
+						local sPath = DB.getPath(window.getDatabaseNode(), "size");
+						CrewManager.sendPlayerUpdateOobMsg(sPath, "number", nValue);
 					end
 				</script>
-			</string_labeled>
+			</comboboxc_content_top_sizeselector>
+
+			<button_content_top_clock name="clock">
+				<script>
+					function setSizeValue(n)
+						if Session.IsHost then
+							super.setSizeValue(n);
+							return;
+						end
+
+						CrewManager.sendPlayerUpdateOobMsg(self.getSizeNodeName(), "number", n);
+					end
+
+					function setCurrentValue(n)
+						if Session.IsHost then
+							super.setCurrentValue(n);
+							return;
+						end
+
+						CrewManager.sendPlayerUpdateOobMsg(self.getCurrentNodeName(), "number", n);
+					end
+				</script>
+			</button_content_top_clock>
 
 			<simpleft name="notes">
-				<script>
-					function onClickDown(button, x, y)
-						if not Session.IsHost then
-							return button == 1;
-						end
-					end
-					function onClickRelease()
-						if Session.IsHost then
-							return;
-						end
-						local tData = {
-							sTitleRes = "ps_title_clocknotes",
-							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
-							sText = getValue(),
-							fnCallback = CrewManager.onClockEditedByPlayer
-						}
-						DialogManager.openDialog("dialog_formattedtext", tData);
-					end
-				</script>
+				<anchored>
+					<right offset="-41" />
+				</anchored>
 			</simpleft>
+
+			<ps_button_playeredit name="edit_notes">
+				<anchored to="notes" position="righthigh" offset="20,0" />
+				<path>notes</path>
+				<titleres>ps_edit_header_clocknotes</titleres>
+			</ps_button_playeredit>
 		</sheetdata>
 	</windowclass>
 </root>

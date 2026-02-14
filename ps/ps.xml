@@ -6,14 +6,20 @@
 -->
 
 <root>
-	<windowclass name="partysheet" merge="join">
+	<windowclass name="partysheet" merge="join" />
+
+	<windowclass name="partysheet_host" copy="partysheet">
 		<script>
 			function onDrop(x, y, draginfo)
-				CrewManager.handleDrop(draginfo);
+				return CrewManager.handleDrop(draginfo);
 			end
 		</script>
 	</windowclass>
-
-	<windowclass name="partysheet_host" copy="partysheet" />
-	<windowclass name="partysheet_client" copy="partysheet" />
+	<windowclass name="partysheet_client" copy="partysheet">
+		<script>
+			function onDrop(x, y, draginfo)
+				return CrewManager.handleDrop(draginfo);
+			end
+		</script>
+	</windowclass>
 </root>

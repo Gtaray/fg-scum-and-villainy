@@ -86,12 +86,19 @@
 		<sheetdata>
 			<anchor_content_top />
 
-			<string_content_top_labeled name="crewname" source="crew.name">
+			<string_content_top_labeled_singleline name="crewname" source="crew.name">
 				<labelres>ps_label_name</labelres>
 				<font>crewname</font>
 				<multilinespacing>40</multilinespacing>
-				<anchored height="40" />
-			</string_content_top_labeled>
+				<anchored height="40">
+					<right offset="-30" />
+				</anchored>
+			</string_content_top_labeled_singleline>
+			<ps_button_playeredit name="crewname_edit">
+				<anchored to="crewname" position="righthigh" offset="5,10" />
+				<path>crew.name</path>
+				<titleres>ps_edit_header_crewname</titleres>
+			</ps_button_playeredit>
 			<spacer_content_top>
 				<anchored height="10" />
 			</spacer_content_top>
@@ -115,40 +122,53 @@
 			</ps_buttongroup_rating_title>
 			<spacer_content_top />
 
-			<string_content_top_labeled name="reputation" source="crew.reputation">
+			<ps_crewdetails_rightanchor name="details1_rightanchor" />
+
+			<ps_button_editcrewdetails name="reputation_edit">
+				<anchored to="details1_rightanchor" />
+				<path>crew.reputation</path>
+				<titleres>ps_edit_header_crewreputation</titleres>
+			</ps_button_editcrewdetails>
+
+			<ps_string_crewdetail name="reputation" source="crew.reputation">
+				<anchored to="details1_rightanchor" width="120" />
 				<labelres>ps_label_reputation</labelres>
-				<anchored width="140">
-					<top relation="current" />
-					<left merge="delete" />
-				</anchored>
-			</string_content_top_labeled>
+			</ps_string_crewdetail>
 
-			<string_content_top_labeled name="size" source="ship.size">
+			<ps_button_editcrewdetails name="size_edit">
+				<anchored to="details1_rightanchor" />
+				<path>ship.size</path>
+				<titleres>ps_edit_header_shipsize</titleres>
+			</ps_button_editcrewdetails>
+
+			<ps_string_crewdetail name="size" source="ship.size">
 				<labelres>ps_label_size</labelres>
-				<anchored width="100">
-					<top relation="current" />
-					<right parent="reputation" anchor="left" />
-					<left merge="delete" />
-				</anchored>
-			</string_content_top_labeled>
-			
-			<string_content_top_labeled name="designation" source="ship.class">
-				<labelres>ps_label_designation</labelres>
-				<anchored>
-					<right parent="size" anchor="left" />
-				</anchored>
-			</string_content_top_labeled>
+				<anchored to="details1_rightanchor" width="80" />
+			</ps_string_crewdetail>
 
-			<spacer_content_top>
-				<anchored height="15" />
-			</spacer_content_top>
-			<string_content_top_labeled name="look" source="ship.look">
+			<ps_button_editcrewdetails name="designation_edit">
+				<anchored to="details1_rightanchor" />
+				<path>ship.class</path>
+				<titleres>ps_edit_header_shipclass</titleres>
+			</ps_button_editcrewdetails>
+
+			<ps_string_crewdetail_fill name="designation" source="ship.class">
+				<labelres>ps_label_designation</labelres>
+				<anchored to="details1_rightanchor" />
+			</ps_string_crewdetail_fill>
+
+			<ps_crewdetails_rightanchor name="details2_rightanchor" />
+
+			<ps_button_editcrewdetails name="look_edit">
+				<anchored to="details2_rightanchor" />
+				<path>ship.look</path>
+				<titleres>ps_edit_header_shiplook</titleres>
+			</ps_button_editcrewdetails>
+
+			<ps_string_crewdetail_fill name="look" source="ship.look">
 				<labelres>ps_label_look</labelres>
-			</string_content_top_labeled>
-			
-			<spacer_content_top>
-				<anchored height="15" />
-			</spacer_content_top>
+				<anchored to="details2_rightanchor" />
+			</ps_string_crewdetail_fill>
 		</sheetdata>
 	</windowclass>
 
@@ -541,7 +561,6 @@
 				<anchored to="label_rating" position="righthigh" offset="15,0" width="45" height="20" />
 				<min>0</min>
 				<maxsource>maxrating</maxsource>
-				<readonly />
 			</basicnumber>
 			<label_fieldtop>
 				<anchored to="rating_current" />
@@ -588,7 +607,7 @@
 				<min>0</min>
 				<script>
 					function onValueChanged()
-						window.uses.update();
+						window.uses_buttongroup.update();
 					end
 				</script>
 			</hn>
@@ -603,7 +622,7 @@
 			<linkc_listitem_right name="shortcut">
 				<class>upgrade</class>
 			</linkc_listitem_right>
-			<buttongroup_rating_small_blue name="uses">
+			<ps_buttongroup_rating_blue_small name="uses_buttongroup">
 				<script>
 					function onInit()
 						if super and super.onInit then
@@ -620,14 +639,14 @@
 					end
 				</script>
 				<anchored to="rightanchor">
-					<top />
-					<right relation="relative" offset="0" postoffset="0" />
+					<top offset="-5" />
+					<right relation="relative" offset="-5" postoffset="0" />
 				</anchored>
 				<sourcefields>
 					<current>used</current>
 					<maximum>uses</maximum>
 				</sourcefields>
-			</buttongroup_rating_small_blue>
+			</ps_buttongroup_rating_blue_small>
 			<string_listitem_center_underline name="name">
 				<script>
 					function onInit()

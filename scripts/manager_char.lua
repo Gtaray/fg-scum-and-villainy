@@ -22,6 +22,7 @@ function addPlaybook(nodeChar, nodePlaybook)
 
 	-- Abilities
 	for _, ability in ipairs(DB.getChildList(nodePlaybook, "abilities")) do
+		--TODO: See if clients get a different value here
 		local bUnlocked = DB.getValue(ability, "given", 0) == 1;
 		local _, sRecord = DB.getValue(ability, "shortcut", "", "");
 		local node = DB.findNode(sRecord)

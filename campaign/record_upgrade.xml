@@ -22,15 +22,16 @@
 				<unsorted />
 				<script>
 					function onInit()
-						super.onInit();
 						for nIndex, tData in ipairs(DataManager.getShipSections()) do
-							self.add(tData.sSection, Interface.getString(tData.sResource))
+							self.add(StringManager.capitalize(tData.sSection), Interface.getString(tData.sResource))
 						end
 						self.add("Auxiliary")
 						self.add("Training")
 						self.add("Ship Gear")
 						self.add("Crew Gear")
 						self.add("Ship/Crew Upgrade")
+
+						super.onInit();
 					end
 				</script>
 			</combobox_content_column>

@@ -95,7 +95,6 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="desktop/desktop_templates.xml" />
 
 	<!-- Utility -->
-	<includefile source="utility/dialog_roll.xml" />
 	<includefile source="utility/dialog_text.xml" />
 	<includefile source="utility/dialog_formattedtext.xml" />
 

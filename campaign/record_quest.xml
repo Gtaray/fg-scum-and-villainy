@@ -73,7 +73,7 @@
 				<static textres="quest_header_description" />
 			</header_content_framed_headersimple>
 
-			<ft_content_columnh_full name="notes" />
+			<ft_content_columnh_full name="description" />
 		</sheetdata>
 	</windowclass>
 

@@ -61,8 +61,6 @@ function onInit()
 		DB.addHandler(DB.getPath(_psNode, "sections.*.maxrating"), "onUpdate", onSystemMaxRatingChanged)
 
 		self.updateUpkeep();
-		self.updateAllSectionRatings();
-		self.initializeSectionUpgrades();
 	end
 end
 
@@ -83,31 +81,15 @@ function onRatingChanged()
 end
 
 function onSystemMaxRatingChanged(nodeRating)
-	if Session.IsHost then
-		local sSection = DB.getValue(nodeRating, "..name");
-		CrewManager.updateEmptySectionUpgrades(sSection);
-	end
+
 end
 
 function onUpgradePaidFor()
-	if Session.IsHost then
-		CrewManager.updateAllSectionRatings();
-	end
+
 end
 
 function onUpgradeDeleted(node)
-	if Session.IsHost then
-		CrewManager.updateAllSectionRatings();
 
-		local sSection = DB.getValue(node, "..name");
-		CrewManager.updateEmptySectionUpgrades(sSection);
-	end
-end
-
-function updateAllSectionRatings()
-	for _, tData in ipairs(DataManager.getShipSections()) do
-		CrewManager.updateSectionRating(tData.sSection);
-	end
 end
 
 function updateUpkeep()
@@ -118,9 +100,13 @@ end
 
 --  Initializes all sections with empty actions for their max rating
 function initializeSectionUpgrades()
-	for _, tData in ipairs(DataManager.getShipSections()) do
-		CrewManager.updateEmptySectionUpgrades(tData.sSection);
+	if not Session.IsHost then
+		return;
 	end
+
+	-- for _, tData in ipairs(DataManager.getShipSections()) do
+	-- 	CrewManager.updateEmptySectionUpgrades(tData.sSection);
+	-- end
 end
 
 function updateEmptySectionUpgrades(sSection)
@@ -146,12 +132,12 @@ end
 -------------------------------------------------------------------------------
 -- OOB HANDLING FOR PLAYERS INTERACTING WITH THE PARTY SHEET
 -------------------------------------------------------------------------------
-function sendPlayerDroppedOobMsg(sClass, nodeDrop)
+function sendPlayerDroppedOobMsg(sClass, sRecord)
 	if not Session.IsHost then
 		local msg = {
 			type = CrewManager.OOB_MSGTYPE_PARTYSHEET_DROP,
 			sClass = sClass,
-			sPath = DB.getPath(nodeDrop)
+			sPath = sRecord
 		}
 		Comm.deliverOOBMessage(msg)
 	end
@@ -163,6 +149,14 @@ function handlePlayerDroppedOobMsg(msgOOB)
 	end
 
 	CrewManager.handleDropNode(msgOOB.sClass, DB.findNode(msgOOB.sPath))
+end
+
+function onPlayerEditCrewSheetField(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, tData.sType, tData.sText);
 end
 
 function sendPlayerUpdateOobMsg(sPath, sDataType, vValue)
@@ -311,10 +305,11 @@ function handleDrop(draginfo)
 
 		-- Only GM should be able to drop items? Maybe trigger an OOB
 		if not Session.IsHost then
-			CrewManager.sendPlayerDroppedOobMsg(sClass, node);
+			CrewManager.sendPlayerDroppedOobMsg(sClass, sRecord);
 		else
 			CrewManager.handleDropNode(sClass, node);
 		end
+		return true;
 	end
 end
 
@@ -344,6 +339,10 @@ function handleDropNode(sClass, node)
 end
 
 function addShipType(nodeShipType)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not nodeShipType then
 		return;
 	end
@@ -365,7 +364,9 @@ function addShipType(nodeShipType)
 		CrewManager.setSectionMax(sSection, DB.getValue(sectionnode, "maxrating", 0));
 		CrewManager.setSectionRating(sSection, DB.getValue(sectionnode, "rating", 0));
 
-		DB.deleteChildren(CrewManager.getSectionNode(sSection), "upgrades");
+		local psNodeSection = CrewManager.getSectionNode(sSection)
+		DB.deleteChildren(psNodeSection, "upgrades");
+
 		for _, upgradenode in ipairs(DB.getChildList(sectionnode, "upgrades")) do
 			local _, sRecord = DB.getValue(upgradenode, "shortcut", "", "");
 			local node = DB.findNode(sRecord)
@@ -387,6 +388,10 @@ function addShipType(nodeShipType)
 end
 
 function addCrewType(nodeCrewType)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not nodeCrewType then
 		return;
 	end
@@ -420,6 +425,10 @@ function addCrewType(nodeCrewType)
 end
 
 function addUpgrade(upgradeNode, bUnlocked)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not upgradeNode then
 		return;
 	end
@@ -445,6 +454,10 @@ function addUpgrade(upgradeNode, bUnlocked)
 end
 
 function addAbility(abilityNode)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not abilityNode then
 		return;
 	end
@@ -452,6 +465,10 @@ function addAbility(abilityNode)
 end
 
 function addFaction(nodeFaction)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not nodeFaction then
 		return;
 	end
@@ -472,6 +489,10 @@ function addFaction(nodeFaction)
 end
 
 function addSystem(nodeSystem)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not nodeSystem then
 		return;
 	end
@@ -495,54 +516,54 @@ end
 -- BASIC INFO
 -------------------------------------------------------------------------------
 function getCrewName()
-    return DB.getValue(_psNode, "crew.name", "");
+    return DB.getValue("partysheet.crew.name", "");
 end
 
 function getCrewReputation()
-    return DB.getValue(_psNode, "crew.reputation", "");
+    return DB.getValue("partysheet.crew.reputation", "");
 end
 
 function getCrewRating()
-    return DB.getValue(_psNode, "crew.rating", 0);
+    return DB.getValue("partysheet.crew.rating", 0);
 end
 function setCrewRating(nRating)
-	DB.setValue(_psNode, "crew.rating", "number", nRating);
+	DB.setValue("partysheet.crew.rating", "number", nRating);
 end
 
 function getContactNodes()
-	DB.getValue(_psNode, "crew.contacts")
+	DB.getValue("partysheet.crew.contacts")
 end
 
 -------------------------------------------------------------------------------
 -- SHIP CLASS
 -------------------------------------------------------------------------------
 function getShipClassNode()
-    local _, sRecord = DB.getValue(_psNode, "ship.link", "", "");
+    local _, sRecord = DB.getValue("partysheet.ship.link", "", "");
     return DB.findNode(sRecord);
 end
 function setShipClassNode(nodeShip)
-    DB.setValue(_psNode, "ship.link", "ship", DB.getPath(nodeShip))
+    DB.setValue("partysheet.ship.link", "ship", DB.getPath(nodeShip))
 end
 
 function getShipSize()
-    return DB.getValue(_psNode, "ship.size", "");
+    return DB.getValue("partysheet.ship.size", "");
 end
 function setShipSize(sValue)
-    DB.setValue(_psNode, "ship.size", "string", sValue);
+    DB.setValue("partysheet.ship.size", "string", sValue);
 end
 
 function getShipClassName()
-    return DB.getValue(_psNode, "ship.class", "");
+    return DB.getValue("partysheet.ship.class", "");
 end
 function setShipClassName(sName)
-    DB.setValue(_psNode, "ship.class", "string", sName)
+    DB.setValue("partysheet.ship.class", "string", sName)
 end
 
 function getShipLook()
-    return DB.getValue(_psNode, "ship.look", "");
+    return DB.getValue("partysheet.ship.look", "");
 end
 function setShipLook(sLook)
-    DB.setValue(_psNode, "ship.look", "string", sLook)
+    DB.setValue("partysheet.ship.look", "string", sLook)
 end
 
 -------------------------------------------------------------------------------
@@ -571,6 +592,10 @@ function getSectionRating(sSection)
     return DB.getValue(node, "rating", 0);
 end
 function setSectionRating(sSection, nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     local node = CrewManager.getSectionNode(sSection);
 	if not node then
 		return;
@@ -579,22 +604,6 @@ function setSectionRating(sSection, nValue)
 	nValue = math.max(nValue, 0);
 	local nMax = CrewManager.getSectionMax(sSection)
     DB.setValue(node, "rating", "number", math.min(nValue, nMax));
-end
-function updateSectionRating(sSection)
-	local node = CrewManager.getSectionNode(sSection);
-	if not node then
-		return 0;
-	end
-
-	local nRating = 0;
-	for _, upgrade in ipairs(DB.getChildList(node, "upgrades")) do
-		local nCost = DB.getValue(upgrade, "cost", 1);
-		local nPaid = DB.getValue(upgrade, "paid", 0);
-		if nPaid >= nCost then
-			nRating = nRating + 1;
-		end
-	end
-	CrewManager.setSectionRating(sSection, nRating);
 end
 
 function getSectionMax(sSection)
@@ -606,6 +615,10 @@ function getSectionMax(sSection)
     return DB.getValue(node, "maxrating", 0);
 end
 function setSectionMax(sSection, nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     local node = CrewManager.getSectionNode(sSection);
 	if not node then
 		return 0;
@@ -642,6 +655,10 @@ function getSectionUpgradeCount(sSection)
 end
 
 function addSectionUpgrade(nodeUpgrade, bUnlocked)
+	if not Session.IsHost then
+		return;
+	end
+
 	local sSection = DB.getValue(nodeUpgrade, "type", "");
 	local sectionnode = CrewManager.getSectionNode(sSection);
 	local sPath = string.format("sections.%s.upgrades", DB.getName(sectionnode));
@@ -650,6 +667,10 @@ function addSectionUpgrade(nodeUpgrade, bUnlocked)
 end
 
 function addEmptySectionUpgrade(sSection)
+	if not Session.IsHost then
+		return;
+	end
+
 	local node = CrewManager.getSectionNode(sSection);
 	if not node then
 		return;
@@ -665,6 +686,10 @@ function getCrewXp()
     return DB.getValue(_psNode, "advancement.xp", 0);
 end
 function setCrewXp(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "advancement.xp", "number", nValue);
 end
 
@@ -672,6 +697,10 @@ function getCrewXpTriggerNodes()
     return DB.getChildList(_psNode, "advancement.xptriggers")
 end
 function createCrewXpTrigger(nOrder, sTrigger)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not Session.IsHost then
 		return
 	end
@@ -704,12 +733,20 @@ function getCred()
     return DB.getValue(_psNode, "cred.current", 0);
 end
 function setCred(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
 	DB.setValue(_psNode, "cred.current", "number", nValue);
 end
 function getCredMax()
     return DB.getValue(_psNode, "cred.max", 0);
 end
 function setCredMax(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
 	DB.setValue(_psNode, "cred.max", "number", nValue);
 end
 
@@ -717,12 +754,20 @@ function getDebt()
     return DB.getValue(_psNode, "debt.current", 0);
 end
 function setDebt(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
 	DB.setValue(_psNode, "debt.current", "number", nValue);
 end
 function getDebtMax()
     return DB.getValue(_psNode, "debt.max", 0);
 end
 function setDebtMax(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
 	DB.setValue(_psNode, "debt.current", "number", nValue);
 end
 
@@ -733,6 +778,10 @@ function getUpkeep()
     return DB.getValue(_psNode, "upkeep.total", 0);
 end
 function setUpkeep(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "upkeep.total", "number", nValue);
 end
 
@@ -740,6 +789,10 @@ function getUpkeepSkips()
     return DB.getValue(_psNode, "upkeep.skips", 0);
 end
 function setUpkeepSkips(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "upkeep.skips", "number", nValue);
 end
 
@@ -759,6 +812,10 @@ function getGambits()
     return DB.getValue(_psNode, "gambits.current", 0);
 end
 function setGambits(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "gambits.current", "number", nValue);
 end
 
@@ -766,6 +823,10 @@ function getDefaultGambits()
     return DB.getValue(_psNode, "gambits.default", 0);
 end
 function setDefaultGambits(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "gambits.default", "number", nValue);
 end
 
@@ -773,6 +834,10 @@ function getMaximumGambits()
     return DB.getValue(_psNode, "gambits.max", 0);
 end
 function setMaximumGambits(nValue)
+	if not Session.IsHost then
+		return;
+	end
+
     DB.setValue(_psNode, "gambits.max", "number", nValue);
 end
 
@@ -822,6 +887,10 @@ function addTrainingUpgrade(upgradeNode, bUnlocked)
 end
 
 function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
+	if not Session.IsHost then
+		return;
+	end
+
 	local listnode = DB.createChild(_psNode, sList);
 	if not listnode then
 		return false;
@@ -833,12 +902,9 @@ function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
 	-- Go through the list of upgrades and see if one matches the dropped value
 	local sUpgradeName = DB.getValue(nodeUpgrade, "name", "");
 	local matchnode;
-	local emptynode;
 	for _, node in ipairs(DB.getChildList(listnode)) do
 		local sName = DB.getValue(node, "name", "");
-		if not emptynode and (sName or "") == "" then
-			emptynode = node;
-		elseif (sName or "") ~= "" and sUpgradeName == sName then
+		if (sName or "") ~= "" and sUpgradeName == sName then
 			matchnode = node
 			break;
 		end
@@ -847,25 +913,24 @@ function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
 	-- If a match was found, don't add the upgrade again
 	-- instead just mark it as fully paid for.
 	if matchnode then
-		emptynode = matchnode;
 		bUnlocked = true;
 	end
 
 	-- If we didn't find an empty node to fill, then we create a new node
-	if not emptynode then
-		emptynode = DB.createChild(listnode)
+	if not matchnode then
+		matchnode = DB.createChild(listnode)
 	end
-	DB.copyNode(nodeUpgrade, emptynode)
+	DB.copyNode(nodeUpgrade, matchnode)
 
 	if bUnlocked then
 		local nCost = DB.getValue(nodeUpgrade, "cost", 1);
-		DB.setValue(emptynode, "paid", "number", nCost);
+		DB.setValue(matchnode, "paid", "number", nCost);
 	end
 
 	-- Initialize to 0
-	DB.setValue(emptynode, "used", "number", 0);
+	DB.setValue(matchnode, "used", "number", 0);
 
-	return true, emptynode;
+	return true, matchnode;
 end
 
 -------------------------------------------------------------------------------
@@ -883,6 +948,10 @@ end
 -- Clocks
 -------------------------------------------------------------------------------
 function addCrewClock()
+	if not Session.IsHost then
+		return;
+	end
+
 	local listnode = DB.getChild(_psNode, "clocks");
 	if not listnode then
 		return;
@@ -893,6 +962,10 @@ function addCrewClock()
 end
 
 function deleteCrewClock(clockNode)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not clockNode then
 		return;
 	end
@@ -900,7 +973,15 @@ function deleteCrewClock(clockNode)
 	DB.deleteNode(clockNode);
 end
 
-function onClockEditedByPlayer(sResult, tData)
+function onClockNameEditedByPlayer(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	CrewManager.sendPlayerUpdateOobMsg(tData.sDbPath, "string", tData.sText)
+end
+
+function onClockNotesEditedByPlayer(sResult, tData)
 	if sResult ~= "ok" then
 		return;
 	end

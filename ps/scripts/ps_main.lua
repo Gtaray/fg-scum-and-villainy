@@ -1,4 +1,8 @@
 function onInit()
+	if not Session.IsHost then
+		return;
+	end
+	
 	self.populateDefaultXpTriggers();
 end
 

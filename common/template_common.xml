@@ -303,22 +303,6 @@
 		</list_content_column>
 	</template>
 
-	<template name="comboboxc_content_column">
-		<comboboxc>
-			<anchored to="contentanchor" height="20">
-				<top relation="relative" offset="3" postoffset="3" />
-				<left offset="110" />
-				<right offset="-10" />
-			</anchored>
-			<frame>
-				<name>fieldlight</name>
-				<offset>10,5,10,5</offset>
-				<hidereadonly />
-			</frame>
-			<listdirection>down</listdirection>
-		</comboboxc>
-	</template>
-
 	<template name="buttonc_checkbox_content_column">
 		<buttonc_checkbox>
 			<anchored to="contentanchor" width="20" height="20">
@@ -374,5 +358,42 @@
 			<state icon="button_triangle_up_blue" tooltipres="quest_tooltip_faction_status_raise" merge="add" />
 			<state icon="button_triangle_down_red" tooltipres="quest_tooltip_faction_status_lower" merge="add" />
 		</button_listitem_checkbox_left>
+	</template>
+
+	<!-- PLAYER EDITING -->
+	<template name="button_playeredit">
+		<buttoncontrol>
+			<anchored width="20" height="20" />
+			<icon normal="button_edit" pressed="button_edit_down" />
+			<script file="common/scripts/button_playeredit.lua" />
+		</buttoncontrol>
+	</template>
+
+
+	<template name="ftc_content_column_base">
+		<simpleftc>
+			<anchored to="contentanchor">
+				<left offset="10" />
+				<right offset="-10" />
+				<sizelimits>
+					<minimum height="20" />
+				</sizelimits>
+			</anchored>
+			<frame mergerule="replace" name="fielddark" offset="10,5,10,5" hidereadonly="true" />
+			<stateframe>
+				<keyedit name="fieldfocus" offset="10,5,10,5" />
+				<hover name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+				<drophilight name="fieldfocus" offset="10,5,10,5" hidereadonly="true" />
+			</stateframe>
+			<empty textres="ft_empty" hidereadonly="true" />
+		</simpleftc>
+	</template>
+
+	<template name="ftc_content_column_full">
+		<ftc_content_column_base>
+			<anchored>
+				<top relation="relative" offset="3" postoffset="3" />
+			</anchored>
+		</ftc_content_column_base>
 	</template>
 </root>

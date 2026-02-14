@@ -107,7 +107,7 @@
 				<anchored height="22" />
 			</spacer_content_top>
 
-			<ft_content_noframe_noscroll_top name="notes">
+			<ft_content_noframe_noscroll_top name="description">
 				<anchored>
 					<top offset="5" postoffset="5" />
 					<left offset="15" />

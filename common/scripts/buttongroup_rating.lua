@@ -34,7 +34,7 @@ function refreshDisplay()
 			local sIcon = self.getSlotIcon(i);
 			local sColor = self.getSlotColor(i);
 
-			local nX = (((i - 1) % nMaxSlotsPerRow) * (nSpacing / 2)) + math.floor(nSpacing / 2);
+			local nX = (((i - 1) % nMaxSlotsPerRow) * (nSpacing / 2)) + math.floor(nSpacing / 4);
 			local nY = (math.floor((i - 1) / nMaxSlotsPerRow) * nSpacing) + math.floor(nSpacing / 2) + nCenterOffset;
 
 			_tDisplaySlots[i] = addBitmapWidget({
@@ -64,6 +64,8 @@ end
 
 function calcClickValue(x, y)
 	local nSpacing = self.getMetadata("spacing");
+
+	-- Each segment is 1/2 the spacing width.
 	local nWidth = nSpacing / 2;
 	local nMaxSlotsPerRow = self.getMetadata("maxslotperrow");
 
@@ -71,12 +73,18 @@ function calcClickValue(x, y)
 	if self.getMetadata("inverted") then
 		nClickH = self.getMaxValue() - nClickH + 1;
 	end
+
+	if nClickH > self.getMaxValue() then
+		nClickH = self.getMaxValue();
+	end
+
 	local nClickV;
 	if self.getMaxValue() > nMaxSlotsPerRow then
 		nClickV	= math.floor(y / nSpacing);
 	else
 		nClickV = 0;
 	end
+
 	local nClick = (nClickV * nMaxSlotsPerRow) + nClickH;
 	return nClick;
 end

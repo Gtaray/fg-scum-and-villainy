@@ -123,7 +123,7 @@
 			<label_content_column name="plan_label">
 				<static textres="js_label_engagement_plan" />
 			</label_content_column>
-			<combobox_content_column name="plan" source="engagement.plan">
+			<combobox_content_column name="engagementplan">
 				<script>
 					function onInit()
 						super.onInit()
@@ -137,16 +137,8 @@
 			</combobox_content_column>
 
 			<spacer_content_top />
-
-			<stringc_engagement name="description">
-				<property>sDescription</property>
-			</stringc_engagement>
-			<stringc_engagement name="detail">
-				<property>sDetail</property>
-				<prefixres>js_label_engagement_detail</prefixres>
-			</stringc_engagement>
 			
-			<ft_content_column_full name="notes" source="engagement.notes" />
+			<ft_content_column_full name="engagementnotes"/>
 
 			<spacer_content_top />
 
@@ -156,17 +148,17 @@
 
 			<button_engagement />
 
-			<spacer_content_top />
-
-			<number_content_column name="dice" source="engagement.dice">
+			<number_content_column name="engagementdice">
 				<min>0</min>
 				<default>1</default>
 			</number_content_column>
 
+			<spacer_content_top />
+
 			<label_content_column name="startingposition_label">
 				<static textres="js_label_engagement_starting_position" />
 			</label_content_column>
-			<combobox_content_column name="startingposition" source="engagement.startingposition">
+			<combobox_content_column name="startingposition">
 				<script>
 					function onInit()
 						super.onInit()
@@ -233,9 +225,7 @@
 			</string_js>
 
 			<stress_js name="stress">
-				<anchored position="insidetopleft" offset="70,40">
-					
-				</anchored>
+				<anchored position="insidetopleft" offset="70,40" />
 			</stress_js>
 		</sheetdata>
 	</windowclass>

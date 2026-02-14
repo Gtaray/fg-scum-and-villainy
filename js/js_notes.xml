@@ -55,9 +55,15 @@
 		<sheetdata>
 			<anchor_content_top />
 
-			<header_content_framed_headersimple name="header_details">
+			<header_content_framed_headersimple name="header_playernotes">
 				<static textres="js_header_notes" />
 			</header_content_framed_headersimple>
+
+			<js_button_playeredit name="notes_edit">
+				<anchored to="header_playernotes" position="insidetopright" offset="-2,0" />
+				<path>job.notes</path>
+				<titleres>js_edit_header_jobnotes</titleres>
+			</js_button_playeredit>
 
 			<ft_content_top name="notes" source="job.notes" />
 		</sheetdata>

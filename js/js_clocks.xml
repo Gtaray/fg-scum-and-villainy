@@ -67,14 +67,29 @@
 			<list_content_noscroll_top name="clocks">
 				<datasource>.clocks</datasource>
 				<class>js_clocks_clock</class>
-				<columns>
-					<width>225</width>
-					<fillwidth />
-				</columns>
 				<allowdelete />
+				<script>
+					function onSortCompare(w1, w2)
+						local b1 = w1.getSize() == w1.getProgress();
+						local b2 = w2.getSize() == w2.getProgress();
+
+						if b1 ~= b2 then
+							return b1;
+						end
+
+						local n1 = DB.getName(w1.getDatabaseNode());
+						local n2 = DB.getName(w2.getDatabaseNode());
+
+						return n1 &gt; n2;
+					end
+				</script>
 			</list_content_noscroll_top>
 		</sheetdata>
 	</windowclass>
 
-	<windowclass name="js_clocks_clock" copy="clock_listitem" />
+	<windowclass name="js_clocks_clock" copy="clock_listitem">
+		<sheetdata>
+			<button_visibility_listitem_right name="visible" merge="delete" />
+		</sheetdata>
+	</windowclass>
 </root>

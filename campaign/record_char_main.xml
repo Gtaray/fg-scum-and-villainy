@@ -304,7 +304,7 @@
 					<right anchor="center" />
 				</anchored>
 			</string_labeled_content_top>
-			<string_labeled_content_top name="harm_lesser2" source="health.harm.lesser1">
+			<string_labeled_content_top name="harm_lesser2" source="health.harm.lesser2">
 				<labelres>char_label_level1harm</labelres>
 				<anchored>
 					<left anchor="center" />

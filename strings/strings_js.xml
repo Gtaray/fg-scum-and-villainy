@@ -46,4 +46,7 @@
 	<!-- Export -->
 	<string name="js_title_export_prompt">Export Job</string>
 	<string name="js_text_export_prompt">Are you sure you want to add this job to the crew sheet and clear all data on the job sheet?</string>
+
+	<!-- Player Editing -->
+	<string name="js_edit_header_jobnotes">Edit Job Notes</string>
 </root>

@@ -76,7 +76,7 @@
 		<buttongroup_rating_small_blue>
 			<anchored to="rightanchor">
 				<top offset="-4	" />
-				<right offset="-12" relation="relative" />
+				<right offset="-5" relation="relative" />
 			</anchored>
 		</buttongroup_rating_small_blue>
 	</template>
@@ -380,7 +380,6 @@
 				<right offset="-10" />
 			</anchored>
 			<class>charsheet_inventory_item</class>
-			<allowdelete />
 		</list_content_noscroll_alternating_top>
 	</template>
 

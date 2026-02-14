@@ -20,6 +20,7 @@
 			<anchor_content_bottom />
 
 			<hn name="size" />
+			<hn name="progress" />
 
 			<label_content_column name="size_label">
 				<static textres="clock_label_size" />
@@ -28,19 +29,16 @@
 				<control>size</control>
 			</comboboxc_content_column_sizeselector>
 
-			<label_content_column name="progress_label">
-				<static textres="clock_label_progress" />
-			</label_content_column>
-			<number_content_column_clockprogress name="progress">
-				<maxsource>size</maxsource>
-			</number_content_column_clockprogress>
-
 			<button_content_top_clock_center name="clock">
 				<sourcefields>
 					<size>size</size>
 					<progress>progress</progress>
 				</sourcefields>
 			</button_content_top_clock_center>
+
+			<button_clock_to_chat>
+				<anchored to="clock" position="insidebottomleft" offset="2,2" />
+			</button_clock_to_chat>
 			
 			<ft_content name="notes">
 				<anchored>
@@ -111,6 +109,14 @@
 				local tFields = { "name", "notes", "clock", "sizeselector", "visible" };
 				WindowManager.callSafeControlsUpdate(self, tFields, bReadOnly);
 			end
+
+			function getSize()
+				return size.getValue();
+			end
+
+			function getProgress()
+				return progress.getValue();
+			end
 		</script>
 		<sheetdata>
 			<anchor_content_top />
@@ -160,6 +166,10 @@
 					<left />
 				</anchored>
 			</button_content_top_clock>
+
+			<button_clock_to_chat>
+				<anchored to="clock" position="insidebottomleft" offset="2,2" />
+			</button_clock_to_chat>
 
 			<simpleft name="notes">
 				<anchored to="clock">

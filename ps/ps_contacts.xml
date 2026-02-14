@@ -95,31 +95,19 @@
 				</script>
 			</char_contact_state>
 
+			<ps_button_playeredit_right name="edit_name">
+				<anchored to="rightanchor">
+					<top />
+				</anchored>
+				<path>name</path>
+				<titleres>ps_edit_header_contactname</titleres>
+			</ps_button_playeredit_right>
+
 			<linkc_listitem_right name="link">
 				<class>contact</class>
 			</linkc_listitem_right>
 
-			<string_listitem_center_underline name="name">
-				<script>
-					function onClickDown(button, x, y)
-						if not Session.IsHost then
-							return button == 1;
-						end
-					end
-					function onClickRelease()
-						if Session.IsHost then
-							return;
-						end
-						local tData = {
-							sTitleRes = "ps_title_contactname",
-							sDbPath = DB.getPath(window.getDatabaseNode(), "name"),
-							sText = getValue(),
-							fnCallback = CrewManager.onContactNameEditedByPlayer
-						}
-						DialogManager.openDialog("dialog_text", tData);
-					end
-				</script>
-			</string_listitem_center_underline>
+			<string_listitem_center_underline name="name" />
 
 			<spacer_content_top>
 				<anchored height="22" />
@@ -129,28 +117,18 @@
 				<anchored>
 					<top offset="5" postoffset="5" />
 					<left offset="15" />
-					<right offset="-15" />
+					<right offset="-23" />
 				</anchored>
-				<script>
-					function onClickDown(button, x, y)
-						if not Session.IsHost then
-							return button == 1;
-						end
-					end
-					function onClickRelease()
-						if Session.IsHost then
-							return;
-						end
-						local tData = {
-							sTitleRes = "ps_title_contactnotes",
-							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
-							sText = getValue(),
-							fnCallback = CrewManager.onContactNotesEditedByPlayer
-						}
-						DialogManager.openDialog("dialog_formattedtext", tData);
-					end
-				</script>
 			</ft_content_noframe_noscroll_top>
+
+			<ps_button_playeredit name="edit_notes">
+				<anchored to="notes">
+					<top />
+					<left anchor="right" offset="3" />
+				</anchored>
+				<path>notes</path>
+				<titleres>ps_edit_header_contactnotes</titleres>
+			</ps_button_playeredit>
 		</sheetdata>
 	</windowclass>
 </root>

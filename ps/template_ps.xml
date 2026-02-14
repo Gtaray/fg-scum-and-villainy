@@ -29,6 +29,11 @@
 			<center merge="delete" />
 		</label_crewframe_top>
 	</template>
+	<template name="label_crewframetop_textonly">
+		<label_crewframetop>
+			<frame merge="delete" />
+		</label_crewframetop>
+	</template>
 	<template name="label_crewheader">
 		<label>
 			<font>crewheader_small</font>
@@ -38,6 +43,12 @@
 	<template name="anchor_header_right">
 		<genericcontrol name="rightanchor">
 			<anchored position="insidetopright" offset="0,0" width="0" height="0" />
+			<invisible />
+		</genericcontrol>
+	</template>
+	<template name="anchor_header_left">
+		<genericcontrol name="leftanchor">
+			<anchored position="insidetopleft" offset="0,0" width="0" height="0" />
 			<invisible />
 		</genericcontrol>
 	</template>
@@ -51,6 +62,75 @@
 			</anchored>
 			<multilinespacing>20</multilinespacing>
 		</string_labeled>
+	</template>
+
+	<template name="string_content_top_labeled_singleline">
+		<string_labeled>
+			<anchored to="contentanchor">
+				<top relation="relative" offset="3" postoffset="3" />
+				<left offset="10" />
+				<right offset="-10" />
+			</anchored>
+		</string_labeled>
+	</template>
+
+	<!-- PLAYER EDITING -->
+	<template name="ps_button_playeredit">
+		<button_playeredit>
+			<script>
+				function getCallback()
+					return CrewManager.onPlayerEditCrewSheetField
+				end
+			</script>
+		</button_playeredit>
+	</template>
+
+	<template name="ps_button_playeredit_right">
+		<ps_button_playeredit>
+			<anchored>
+				<right anchor="left" relation="relative" offset="0" postoffset="0" />
+			</anchored>
+		</ps_button_playeredit>
+	</template>
+
+	<!-- CREW DETAILS -->
+	<template name="ps_crewdetails_rightanchor">
+		<genericcontrol name="details1_rightanchor">
+			<anchored to="contentanchor" height="30">
+				<top relation="relative" offset="3" postoffset="3" />
+				<right />
+			</anchored>
+			<disabled />
+		</genericcontrol>
+	</template>
+
+	<template name="ps_button_editcrewdetails">
+		<ps_button_playeredit>
+			<anchored>
+				<top />
+				<right anchor="left" relation="relative" offset="-2" postoffset="-2" />
+			</anchored>
+		</ps_button_playeredit>
+	</template>
+
+	<template name="ps_string_crewdetail">
+		<string_content_top_labeled_singleline>
+			<anchored>
+				<top relation="absolute" />
+				<right anchor="left" relation="relative" offset="-2" postoffset="-2" />
+				<left merge="delete" />
+			</anchored>
+		</string_content_top_labeled_singleline>
+	</template>
+
+	<template name="ps_string_crewdetail_fill">
+		<string_content_top_labeled_singleline>
+			<anchored>
+				<top relation="absolute" />
+				<right anchor="left" relation="relative" offset="-2" postoffset="-2" />
+				<left parent="contentanchor" />
+			</anchored>
+		</string_content_top_labeled_singleline>
 	</template>
 
 	<!-- PS Rating and Counter controls -->
@@ -84,11 +164,22 @@
 		</ps_buttongroup_rating>
 	</template>
 
+	<template name="ps_buttongroup_rating_blue_small">
+		<ps_buttongroup_rating>
+			<anchored height="22" width="20" />
+			<spacing>28</spacing>
+			<stateicons>
+				<off>button_rating_small</off>
+				<on>button_rating_small_down</on>
+			</stateicons>
+		</ps_buttongroup_rating>
+	</template>
+
 	<template name="ps_buttongroup_rating_title">
 		<ps_buttongroup_rating_blue>
 			<anchored>
 				<top offset="-2" />
-				<right offset="-20" />
+				<right offset="-11" />
 			</anchored>
 		</ps_buttongroup_rating_blue>
 	</template>
@@ -96,7 +187,7 @@
 		<ps_buttongroup_rating_red>
 			<anchored>
 				<top offset="-2" />
-				<right offset="-20" />
+				<right offset="-11" />
 			</anchored>
 		</ps_buttongroup_rating_red>
 	</template>
@@ -199,7 +290,7 @@
 			<noscroll />
 			<child merge="resetandadd"></child>
 			<child merge="add"><backcolor>1A40301E</backcolor></child>
-			<!-- <allowdelete /> -->
+			<allowdelete />
 		</windowlist>
 	</template>
 
@@ -208,7 +299,7 @@
 			<script file="ps/scripts/ps_buttongroup_rating_damage.lua" />
 			<anchored>
 				<top offset="-2" />
-				<right parent="rightanchor" relation="relative" offset="-14" postoffset="-14" />
+				<right parent="rightanchor" relation="relative" offset="-5" postoffset="-5" />
 			</anchored>
 			<spacing>34</spacing>
 			<stateicons>
@@ -356,13 +447,14 @@
 	<!-- CREW EXP -->
 	<template name="list_crewxptriggers">
 		<list_content_top>
-			<anchored height="100">
+			<anchored height="120">
 				<left offset="5" />
 			</anchored>
 			<datasource>.advancement.xptriggers</datasource>
 			<class>ps_main_crewxptrigger</class>
 			<sortby><control>order</control></sortby>
 			<allowdelete />
+			<noscroll />
 		</list_content_top>
 	</template>
 
@@ -381,7 +473,7 @@
 			<script file="ps/scripts/ps_buttongroup_factionstatus.lua" />
 			<anchored>
 				<top offset="-2" />
-				<right offset="-40" />
+				<right offset="-31" />
 			</anchored>
 			<stateicons>
 				<base>button_rating</base>
@@ -421,40 +513,6 @@
 		</button_clock_base>
 	</template>
 
-	<!-- CLOCKS -->
-	<template name="ps_comboboxc_clockselector">
-		<comboboxc_sizeselector>
-			<anchored to="contentanchor" height="20">
-				<top relation="relative" offset="3" postoffset="3" />
-				<left offset="10" />
-			</anchored>
-			<script>
-				function setControlValue(nValue)
-					if not control or not control[1] then
-						return;	
-					end
-
-					if Session.IsHost then
-						super.setControlValue(nValue)
-					else
-						local sPath = DB.getPath(window[control[1]].getDatabaseNode())
-						CrewManager.sendPlayerUpdateOobMsg(sPath, "number", nValue)
-					end
-				end
-			</script>
-		</comboboxc_sizeselector>
-	</template>
-
-	<template name="ps_button_clock">
-		<button_clock_base>
-			<script file="ps/scripts/ps_button_clock.lua" />
-			<anchored to="contentanchor" width="100" height="100">
-				<top relation="relative" offset="10" />
-				<left />
-			</anchored>
-		</button_clock_base>
-	</template>
-
 	<!-- Jobs -->
 	<template name="button_job_expand_base">
 		<genericcontrol name="expander">
@@ -481,5 +539,29 @@
 			<icon>sidebar_dock_category_expanded</icon>
 			<disabled />
 		</genericcontrol>
+	</template>
+
+	<!-- HEAT -->
+	<template name="ps_wanted_clock">
+		<button_clock>
+			<script>
+				function setCurrentValue(n)
+					if Session.IsHost then
+						super.setCurrentValue(n);
+						return;
+					end
+
+					CrewManager.sendPlayerUpdateOobMsg(self.getCurrentNodeName(), "number", n);
+				end
+			</script>
+			<anchored to="rightanchor" height="60" width="60">
+				<top offset="-15" />
+				<right anchor="left" relation="relative" offset="16" />
+			</anchored>
+			<sourcefields>
+				<size>wantedclock.size</size>
+				<progress>wantedclock.progress</progress>
+			</sourcefields>
+		</button_clock>
 	</template>
 </root>

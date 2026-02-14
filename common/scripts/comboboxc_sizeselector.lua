@@ -16,6 +16,11 @@ function onInit()
 	end
 
 	self.setListIndex(nCurIndex);
+
+	local sRoot = UtilityManager.getRootNodeName(window.getDatabaseNode());
+	if not Session.IsHost then
+		self.setComboBoxReadOnly(not (sRoot == "charsheet" or sRoot == "partysheet"));
+	end
 end
 
 function onValueChanged()

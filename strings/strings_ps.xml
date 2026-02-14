@@ -7,6 +7,8 @@
 
 <root>
 	<!-- General -->
+	 <string name="sidebar_tooltip_ps">Crew Sheet</string>
+
 	<string name="ps_window_title">Crew Sheet</string>
 	<string name="ps_tab_main">Crew</string>
 	<string name="ps_tab_abilities">Abilities</string>
@@ -82,7 +84,7 @@
 	<string name="ps_tooltip_factionstatus_1">Helpful</string>
 	<string name="ps_tooltip_factionstatus_2">Friendly</string>
 	<string name="ps_tooltip_factionstatus_3">Allies</string>
-	<string name="ps_title_playernotes">Faction Notes</string>
+	<string name="ps_title_playernotes">Player Notes</string>
 
 	<!-- Heat Tab -->
 	<string name="ps_title_wanted">Wanted</string>
@@ -99,6 +101,7 @@
 	 <string name="ps_label_payout">Payout</string>
 	 <string name="ps_label_engagement">Engagement</string>
 	 <string name="ps_label_job_system">System</string>
+	 <string name="ps_label_job_playernotes">Player Notes</string>
 
 	 <string name="ps_job_editor_tab_main">Main</string>
 	 <string name="ps_job_editor_tab_notes">Notes</string>
@@ -108,4 +111,21 @@
 	<string name="ps_title_contactname">Contact Name</string>
 	<string name="ps_title_contactnotes">Contact Notes</string>
 	<string name="ps_title_contactrelationship">Contact Relationship</string>
+
+	<!-- Edit Dialog Boxes -->
+	<string name="ps_edit_header_crewname">Edit Crew Name</string>
+	<string name="ps_edit_header_shipclass">Edit Ship Class</string>
+	<string name="ps_edit_header_shipsize">Edit Ship Size</string>
+	<string name="ps_edit_header_crewreputation">Edit Crew Reputation</string>
+	<string name="ps_edit_header_shiplook">Edit Ship Look</string>
+
+	<string name="ps_edit_header_factionnotes">Edit Faction Notes</string>
+
+	<string name="ps_edit_header_clockname">Edit Clock Name</string>
+	<string name="ps_edit_header_clocknotes">Edit Clock Notes</string>
+
+	<string name="ps_edit_header_contactname">Edit Contact Name</string>
+	<string name="ps_edit_header_contactnotes">Edit Contact Notes</string>
+
+	<string name="ps_edit_header_jobnotes">Edit Job Notes</string>
 </root>

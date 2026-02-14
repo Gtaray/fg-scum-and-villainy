@@ -38,12 +38,8 @@
 				</script>
 				<anchored to="loadout_title" />
 			</button_details_header>
-			<button_iedit name="inventory_iedit">
-				<anchored to="loadout_title" position="insidetopright" offset="22,0" />
-				<target>inventory</target>
-			</button_iedit>
 			<button_iadd name="inventory_iadd">
-				<anchored to="loadout_title" position="insidetopright" offset="42,0" />
+				<anchored to="loadout_title" position="insidetopright" offset="22,0" />
 				<target>inventory</target>
 				<recordtype>item</recordtype>
 			</button_iadd>
@@ -81,7 +77,7 @@
 				<default>5</default>
 			</hn>
 			<hn name="heavyloadamount" source="inventory.load.heavyamount">
-				<default>6</default>
+				<default>8</default>
 			</hn>
 
 			<label_content_column name="load_label">
@@ -117,14 +113,26 @@
 
 			<buttongroup_loadout name="equipped" />
 
-			<button_listitem_idelete name="idelete">
-				<editmode>inventory_iedit</editmode>
-			</button_listitem_idelete>
 			<linkc_listitem_right name="shortcut">
 				<class>item</class>
 			</linkc_listitem_right>
 
-			<string_listitem_center_inventoryitem name="name" />
+			<string_listitem_center_inventoryitem name="name">
+				<script>
+					function onInit()
+						registerMenuItem(Interface.getString("list_menu_deleteitem"), "delete", 6);
+						registerMenuItem(Interface.getString("list_menu_deleteconfirm"), "delete", 6, 7);
+
+						super.onInit()
+					end
+
+					function onMenuSelection(selection, subselection)
+						if selection == 6 and subselection == 7 then
+							DB.deleteNode(window.getDatabaseNode());
+						end
+					end
+				</script>
+			</string_listitem_center_inventoryitem>
 		</sheetdata>
 	</windowclass>
 </root>

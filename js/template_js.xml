@@ -16,6 +16,16 @@
 		</stringu>
 	</template>
 
+	<template name="js_button_playeredit">
+		<button_playeredit>
+			<script>
+				function getCallback()
+					return JobManager.onPlayerEditJobSheetField;
+				end
+			</script>
+		</button_playeredit>
+	</template>
+
 	<!-- CREW LIST -->
 	<template name="portrait_js">
 		<genericcontrol>
@@ -79,48 +89,6 @@
 	</template>
 
 	<!-- ENGAGEMENT -->
-	<template name="stringc_engagement">
-		<stringc_content_noframe_noscroll_static_top name="description">
-			<script>
-				local sProperty = ""
-				local sPrefix = "";
-
-				function onInit()
-					if property and property[1] then
-						sProperty = property[1];
-					end
-					if prefixres and prefixres[1] then
-						sPrefix = Interface.getString(prefixres[1]);
-					end
-
-					DB.addHandler(DB.getPath(window.getDatabaseNode(), "engagement.plan"), "onUpdate", update);
-					update();
-				end
-				function onClose()
-					DB.removeHandler(DB.getPath(window.getDatabaseNode(), "engagement.plan"), "onUpdate", update);
-				end
-				function update()
-					if sProperty == "" then
-						return;
-					end
-
-					local sId = DB.getValue(window.getDatabaseNode(), "engagement.plan", "");
-					local tPlan = DataManager.getEngagementPlan(sId);
-					if not tPlan then
-						setValue("");
-					else
-						local sValue = tPlan[sProperty];
-						if sPrefix ~= "" then
-							sValue = string.format("%s: %s", sPrefix, sValue);
-						end
-						setValue(sValue);
-					end
-					setVisible(getValue() ~= "");
-				end
-			</script>
-		</stringc_content_noframe_noscroll_static_top>
-	</template>
-
 	<template name="button_engagement">
 		<button_roll>
 			<script>

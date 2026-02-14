@@ -141,10 +141,11 @@ function buildRollDice(rActor, rRoll, nDice)
 		rRoll.aDice = {};
 	end
 
+	rRoll.bTakeLowest = nDice <= 0;
 	if nDice <= 0 then
 		nDice = 2;
-		rRoll.bTakeLowest = true;
 	end
+
 	for i = 1, nDice do
 		table.insert(rRoll.aDice, "d6");
 	end

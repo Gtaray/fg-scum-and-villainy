@@ -8,13 +8,13 @@ function onInit()
 	OOBManager.registerOOBMsgHandler(JobManager.OOB_MSGTYPE_JOBSHEET_ENGAGEMENTRESULT, JobManager.handleEngagementResultOobMsg);
 
 	WindowTabManager.registerTab("combattracker_host", { sName = "main", sTabRes = "js_tab_main", sClass = "js_main" });
+	WindowTabManager.registerTab("combattracker_host", { sName = "clocks", sTabRes = "js_tab_clocks", sClass = "js_clocks" });
 	WindowTabManager.registerTab("combattracker_host", { sName = "notes", sTabRes = "js_tab_notes", sClass = "js_notes" });
 	WindowTabManager.registerTab("combattracker_host", { sName = "gmnotes", sTabRes = "js_tab_gmnotes", sClass = "js_gmnotes" });
-	WindowTabManager.registerTab("combattracker_host", { sName = "clocks", sTabRes = "js_tab_clocks", sClass = "js_clocks" });
 
 	WindowTabManager.registerTab("combattracker_client", { sName = "main", sTabRes = "js_tab_main", sClass = "js_main" });
-	WindowTabManager.registerTab("combattracker_client", { sName = "notes", sTabRes = "js_tab_notes", sClass = "js_notes" });
 	WindowTabManager.registerTab("combattracker_client", { sName = "clocks", sTabRes = "js_tab_clocks", sClass = "js_clocks" });
+	WindowTabManager.registerTab("combattracker_client", { sName = "notes", sTabRes = "js_tab_notes", sClass = "js_notes" });
 
 	ToolbarManager.registerButton("export_job", 
 		{
@@ -75,6 +75,14 @@ function handlePlayerDroppedOobMsg(msgOOB)
 	end
 
 	CrewManager.handleDropNode(msgOOB.sClass, DB.findNode(msgOOB.sPath))
+end
+
+function onPlayerEditJobSheetField(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	JobManager.sendPlayerUpdateOobMsg(tData.sDbPath, tData.sType, tData.sText);
 end
 
 function sendPlayerUpdateOobMsg(sPath, sDataType, vValue)
@@ -178,6 +186,10 @@ end
 -- BASIC INFO
 ----------------------------------------------------------------------------------
 function setJob(nodeJob)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not nodeJob then
 		return;
 	end
@@ -197,7 +209,7 @@ function setJob(nodeJob)
 		JobManager.addFaction(DB.findNode(sFactionRecord), nStanding);
 	end
 
-	DB.setValue(jsNode, "job.description", "formattedtext", DB.getValue(nodeJob, "notes", ""));
+	DB.setValue(jsNode, "job.description", "formattedtext", DB.getValue(nodeJob, "description", ""));
 	DB.setValue(jsNode, "job.notes", "formattedtext", ""); -- This doesn't exist on the quest record
 	DB.setValue(jsNode, "job.gmnotes", "formattedtext", DB.getValue(nodeJob, "gmnotes", ""));
 end
@@ -237,6 +249,10 @@ function getGmNotes()
 end
 
 function setSystemNode(vSystem)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not vSystem then
 		return
 	end
@@ -260,11 +276,19 @@ function getPayout()
 end
 
 function clearFactions()
+	if not Session.IsHost then
+		return;
+	end
+
 	local nodeFactions = DB.createChild(JobManager.getDatabaseNode(), "job.factions");
 	DB.deleteChildren(nodeFactions);
 end
 
 function addFaction(factionNode, nStanding)
+	if not Session.IsHost then
+		return;
+	end
+
 	if not factionNode then
 		return;
 	end
@@ -405,15 +429,15 @@ end
 -- ENGAGEMENT
 ----------------------------------------------------------------------------------
 function getEngagementPlan()
-	return DB.getValue(JobManager.getDatabaseNode(), "engagement.plan", "");
+	return DB.getValue(JobManager.getDatabaseNode(), "engagementplan", "");
 end
 
 function getEngagementDice()
-	return DB.getValue(JobManager.getDatabaseNode(), "engagement.dice", 1);
+	return DB.getValue(JobManager.getDatabaseNode(), "engagementdice", 1);
 end
 
 function getEngagementResult()
-	return DB.getValue(JobManager.getDatabaseNode(), "engagement.startingposition", "");
+	return DB.getValue(JobManager.getDatabaseNode(), "startingposition", "");
 end
 
 function setEngagementRollResult(nResult)
@@ -428,15 +452,15 @@ function setEngagementRollResult(nResult)
 		sStartingPosition = Interface.getString("position_risky");
 	end
 
-	DB.setValue(JobManager.getDatabaseNode(), "engagement.startingposition", "string", sStartingPosition);
+	DB.setValue(JobManager.getDatabaseNode(), "startingposition", "string", sStartingPosition);
 end
 
 function clearEngagement()
 	local jsNode = JobManager.getDatabaseNode();
-	DB.setValue(jsNode, "engagement.plan", "string", "");
-	DB.setValue(jsNode, "engagement.notes", "formattedtext", "");
-	DB.setValue(jsNode, "engagement.dice", "number", 0);
-	DB.setValue(jsNode, "engagement.startingposition", "string", "");
+	DB.setValue(jsNode, "engagementplan", "string", "");
+	DB.setValue(jsNode, "engagementnotes", "formattedtext", "");
+	DB.setValue(jsNode, "engagementdice", "number", 0);
+	DB.setValue(jsNode, "startingposition", "string", "");
 end
 
 function performEngagementRoll(draginfo)
@@ -470,13 +494,14 @@ function exportJob(sResult, tData)
 end
 
 function buildJobTable()
+	local engagementData = DataManager.getEngagementPlan(JobManager.getEngagementPlan())
 	return {
 		sName = JobManager.getName(),
 		nodeSystem = JobManager.getSystemNode(),
 		sDescription = JobManager.getDescription(),
 		nPayout = JobManager.getPayout(),
 		tFactions = JobManager.getFactions(),
-		sEngagementPlan = JobManager.getEngagementPlan(),
+		sEngagementPlan = engagementData.sLabel,
 		sEngagementResult = JobManager.getEngagementResult(),
 		sNotes = JobManager.getNotes(),
 		sGmNotes = JobManager.getGmNotes()

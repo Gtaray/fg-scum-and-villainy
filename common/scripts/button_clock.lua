@@ -132,6 +132,9 @@ function setSizeNode(sNewMaxNodeName)
 	end
 	self.updateIconMax();
 end
+function getSizeNodeName()
+	return _sSizeNodeName;
+end
 
 function getCurrentValue()
 	if _sCurNodeName ~= "" then
@@ -153,4 +156,7 @@ function setCurrentNode(sNewCurrentNodeName)
 		DB.addHandler(_sCurNodeName, "onUpdate", updateIcon);
 	end
 	updateIcon();
+end
+function getCurrentNodeName()
+	return _sCurNodeName;
 end

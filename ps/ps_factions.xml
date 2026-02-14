@@ -35,14 +35,36 @@
 
 			<list_content_noscroll_top name="list">
 				<datasource>.factions</datasource>
-				<sortby><field>name</field></sortby>
 				<allowdelete />
 				<class>ps_faction</class>
+				<script>
+					function onSortCompare(w1, w2)
+						local t1 = w1.getFactionTier();
+						local t2 = w2.getFactionTier();
+
+						if t1 ~= t2 then
+							return t1 &gt; t2;
+						end
+
+						local n1 = w1.getFactionName();
+						local n2 = w2.getFactionName();
+						
+						if StringManager.startsWith(n1, "The ") then
+							n1 = string.sub(n1, 5, -1);
+						end
+						if StringManager.startsWith(n2, "The ") then
+							n2 = string.sub(n2, 5, -1);
+						end
+
+						return n1 &gt; n2;
+					end
+				</script>
 			</list_content_noscroll_top>
 		</sheetdata>
 	</windowclass>
 
 	<windowclass name="ps_faction">
+		<margins control="0,0,0,10" />
 		<script file="ps/scripts/ps_faction.lua" />
 		<sheetdata>
 			<anchor_content_top />
@@ -67,7 +89,6 @@
 			<linkfield_record name="link">
 				<anchored to="header" height="20" width="20" position="insidetopright" offset="0,5" />
 				<class>faction</class>
-				<gmvisibleonly />
 			</linkfield_record>
 
 			<sub_content_top name="content">
@@ -97,31 +118,55 @@
 				<class>ps_faction_goal</class>
 			</sub_content_top>
 
-			<stringu_content_noframe_noscroll_top name="notes">
-				<script>
-					function onClickDown(button, x, y)
-						if not Session.IsHost then
-							return button == 1;
-						end
-					end
-					function onClickRelease()
-						if Session.IsHost then
-							return;
-						end
-						local tData = {
-							sTitleRes = "ps_title_playernotes",
-							sDbPath = DB.getPath(window.getDatabaseNode(), "notes"),
-							sText = getValue(),
-							fnCallback = CrewManager.onFactionNotesEditedByPlayer
-						}
-						DialogManager.openDialog("dialog_text", tData);
-					end
-				</script>
+			<ftc_content_column_full name="description">
 				<anchored>
 					<left parent="goal" anchor="right" offset="5" />
-					<right offset="-15" />
+					<right parent="" offset="-40" />
 				</anchored>
-			</stringu_content_noframe_noscroll_top>
+				<script>
+					function onInit()
+						local node = window.getFactionNode();
+						DB.addHandler(DB.getPath(node, "description.value"), "onUpdate", update)
+						self.update();
+					end
+					function onClose()
+						local node = window.getFactionNode();
+						DB.removeHandler(DB.getPath(node, "description.value"), "onUpdate", update)
+					end
+					function update()
+						local node = window.getFactionNode();
+						setValue(DB.getValue(node, "description.value", ""));
+					end
+				</script>
+				<readonly />
+			</ftc_content_column_full>
+
+			<basicnumber name="jobcount">
+				<anchored height="20" width="30">
+					<top parent="description" />
+					<right parent="" offset="-5" />
+				</anchored>
+				<min>0</min>
+			</basicnumber>
+
+			<header_content_framed_headersimple name="notes_header">
+				<anchored>
+					<left parent="goal" anchor="right" offset="5" />
+				</anchored>
+				<static textres="ps_title_playernotes" />
+			</header_content_framed_headersimple>
+
+			<ps_button_playeredit name="notes_edit">
+				<anchored to="notes_header" position="insidetopright" />
+				<path>notes</path>
+				<titleres>ps_edit_header_factionnotes</titleres>
+			</ps_button_playeredit>
+
+			<ft_content_column_full name="notes">
+				<anchored>
+					<left parent="goal" anchor="right" offset="5" />
+				</anchored>
+			</ft_content_column_full>
 		</sheetdata>
 	</windowclass>
 
@@ -134,12 +179,7 @@
 		<sheetdata>
 			<anchor_content_top />
 			<anchor_content_bottom />
-
-			<!-- <label_content_top_center name="tier_label">
-				<anchored>
-					<top relation="relative" />
-				</anchored>
-			</label_content_top_center> -->
+			
 			<button_clock_faction name="goalclock" />
 			<string_content_noframe_static_top name="description">
 				<anchored>

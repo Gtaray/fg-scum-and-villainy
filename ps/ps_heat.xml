@@ -35,7 +35,6 @@
 
 			<list_content_noscroll_top name="list">
 				<datasource>.systems</datasource>
-				<sortby><field>name</field></sortby>
 				<allowdelete />
 				<class>ps_system</class>
 			</list_content_noscroll_top>
@@ -49,30 +48,45 @@
 			<anchor_content_top />
 			<anchor_content_bottom />
 
-			<label_crewframe_top_right name="header" />
+			<spacer_content_top>
+				<anchored height="8" />
+			</spacer_content_top>
+
+			<label_crewframe_top_right name="header_background" />
 
 			<anchor_header_right>
-				<anchored to="header" />
+				<anchored to="header_background" />
 			</anchor_header_right>
+			<anchor_header_left>
+				<anchored to="header_background" />
+			</anchor_header_left>
 
-			<link_listitem_right name="link">
-				<anchored>
+			<hn name="wantedclockprogress" source="wantedclock.progress">
+				<default>0</default>
+			</hn>
+			<hn name="wantedclocksize" source="wantedclock.size">
+				<default>6</default>
+			</hn>
+			<ps_wanted_clock name="wanted_clock" />
+
+			<link_listitem_left name="link">
+				<anchored to="leftanchor">
 					<top offset="5" />
-					<right anchor="left" relation="relative" />
+					<left offset="-5" />
 				</anchored>
 				<class>system</class>
-			</link_listitem_right>
+			</link_listitem_left>
 
 			<bg_rating name="wanted_bg">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="current" offset="3" />
+					<right relation="current" offset="3" />
 				</anchored>
 				<control>wanted</control>
 				<source>wanted</source>
 			</bg_rating>
 			<ps_buttongroup_rating_title_red name="wanted">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="relative" offset="-10" />
+					<right relation="relative" offset="-1" />
 				</anchored>
 				<values>
 					<maximum>4</maximum>
@@ -84,21 +98,21 @@
 			<label_crewheader name="wanted_header">
 				<static textres="ps_title_wanted" />
 				<anchored to="rightanchor" width="70">
-					<right anchor="left" relation="relative" offset="-5" />
+					<right relation="relative" offset="-5" />
 					<top offset="5" />
 				</anchored>
 			</label_crewheader>
 
 			<bg_rating name="heat_bg">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="current" offset="-7" />
+					<right relation="current" offset="-7" />
 				</anchored>
 				<control>heat</control>
 				<source>heat</source>
 			</bg_rating>
 			<ps_buttongroup_rating_title_red name="heat">
 				<anchored to="rightanchor">
-					<right anchor="left" relation="relative" offset="-20" />
+					<right relation="relative" offset="-11" />
 				</anchored>
 				<values>
 					<maximum>8</maximum>
@@ -107,13 +121,25 @@
 					<current>heat</current>
 				</sourcefields>
 			</ps_buttongroup_rating_title_red>
+
 			<label_crewheader name="heat_header">
 				<static textres="ps_title_heat" />
-				<anchored to="rightanchor" width="45">
-					<right anchor="left" relation="relative" offset="-5" />
+				<anchored to="rightanchor">
+					<right relation="relative" offset="-5" />
 					<top offset="5" />
 				</anchored>
 			</label_crewheader>
+
+			<label_crewframetop_textonly name="header">
+				<anchored height="30">
+					<top offset="12" />
+					<left parent="leftanchor" relation="relative" offset="10" />
+					<right parent="rightanchor" relation="relative" offset="-10" />
+				</anchored>
+				<font>crewheader</font>
+			</label_crewframetop_textonly>
+
+			<spacer_content_top />
 
 			<sub_content_top name="content">
 				<class>ps_system_content</class>
