@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+
+<!-- 
+  Please see the license.html file included with this distribution for 
+  attribution and copyright information.
+-->
+
+<root>
+	<windowclass name="ship" copy="record_window" />
+	<windowclass name="ship_header" copy="record_header" />
+
+	<windowclass name="ship_main">
+        <script file="campaign/scripts/ship_main.lua" />
+		<sheetdata>
+			<anchor_content_top />
+
+			<!-- Basic Info -->
+			<header_content_framed_headersimple name="details_header">
+				<static textres="ship_header_details" />
+			</header_content_framed_headersimple>
+
+			<label_content_column name="size_label">
+				<static textres="ship_label_size" />
+			</label_content_column>
+			<combobox_content_column name="size">
+				<listdirection>down</listdirection>
+				<unsorted />
+				<script>
+					function onInit()
+						super.onInit();
+						for nIndex, tData in ipairs(DataManager.getShipSizes()) do
+							self.add(tData.sSize, Interface.getString(tData.sResource))
+						end
+					end
+				</script>
+			</combobox_content_column>
+
+			<label_content_column name="class_label">
+				<static textres="ship_label_class" />
+			</label_content_column>
+			<string_content_column name="class" />
+
+			<label_content_column name="look_label">
+				<static textres="ship_label_look" />
+			</label_content_column>
+			<string_content_column name="look" />
+
+			<!-- System Ratings -->
+			<spacer_content_top>
+				<anchored height="10" />
+			</spacer_content_top>
+			<list_content_column_autopopulate name="sections">
+				<script>
+					function getData()
+						return DataManager.getShipSections();
+					end
+					function getDataCount()
+						return DB.getChildCount(window.getDatabaseNode(), "sections")
+					end
+				</script>
+				<datasource>.sections</datasource>
+				<class>ship_section</class>
+			</list_content_column_autopopulate>
+
+            <!-- Auxiliary -->
+            <label_crewframe_top name="auxiliary_header">
+				<static textres="ship_header_auxiliary" />
+			</label_crewframe_top>
+			<list_shipupgrades name="auxiliary">
+				<datasource>.upgrades.auxiliary</datasource>
+			</list_shipupgrades>
+
+            <!-- Ship Gear -->			
+			<spacer_content_top>
+				<anchored height="15" />
+			</spacer_content_top>
+			<label_crewframe_top name="shipgear_header">
+				<static textres="ship_header_shipgear" />
+			</label_crewframe_top>
+			<list_shipupgrades name="shipupgrades">
+				<datasource>.upgrades.shipgear</datasource>
+			</list_shipupgrades>
+		</sheetdata>
+	</windowclass>
+
+	<!-- Ship Section (system rating with damage, same as party sheet) -->
+	<windowclass name="ship_section">
+		<margins control="0,2,0,10" />
+		<script file="campaign/scripts/ship_section.lua" />
+		<sheetdata>
+			<hs name="name">
+				<script>
+					function onValueChanged()
+						window.updateHeader();
+					end
+				</script>
+			</hs>
+			<hn name="maxrating">
+				<default>3</default>
+			</hn>
+
+			<label_crewframetop name="header">
+				<anchored>
+					<top />
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+				<font>crewheader_shipsystem</font>
+			</label_crewframetop>
+			<anchor_header_right>
+				<anchored to="header" />
+			</anchor_header_right>
+
+			<button_sectiondetails name="button_details" />
+
+			<bg_rating name="bg">
+				<anchored to="header">
+					<right parent="rightanchor" relation="current" offset="0" postoffset="0" />
+				</anchored>
+				<control>rating</control>
+				<source>maxrating</source>
+			</bg_rating>
+			<buttongroup_sectionrating name="rating">
+				<anchored to="header" />
+			</buttongroup_sectionrating>
+
+			<list_section_upgrades name="upgrades">
+				<anchored to="header" />
+			</list_section_upgrades>
+		</sheetdata>
+	</windowclass>
+</root>

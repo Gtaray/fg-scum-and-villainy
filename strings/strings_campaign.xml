@@ -34,6 +34,9 @@
 	<string name="library_recordtype_label_quest">Jobs</string>
 	<string name="library_recordtype_single_quest">Job</string>
 	<string name="library_recordtype_empty_quest">&#171; New Job &#187;</string>
+	<string name="library_recordtype_label_ship">Ships</string>
+	<string name="library_recordtype_single_ship">Ship</string>
+	<string name="library_recordtype_empty_ship">&#171; New Ship &#187;</string>
 
 	<!-- Character -->
 	<string name="char_tab_main">Main</string>
@@ -46,6 +49,8 @@
 	<string name="char_label_vice_bonusdice">Bonus Dice</string>
 	<string name="char_label_health_cur">Current</string>
 	<string name="char_label_health_max">Maximum</string>
+
+	<string name="char_header_traumas">Traumas</string>
 	
 	<string name="char_title_defenses">Defenses</string>
 	<string name="char_label_armor">Armor</string>
@@ -161,6 +166,17 @@
 
 	<string name="shiptype_header_upgrades">Other Upgrades</string>
 
+	<!-- Ship -->
+	<string name="ship_header_details">Details</string>
+	<string name="ship_label_size">Size</string>
+	<string name="ship_label_class">Class</string>
+	<string name="ship_label_look">Look</string>
+	<string name="ship_header_sections">System Ratings</string>
+	<string name="ship_header_shipgear">Ship Gear</string>
+	<string name="ship_header_auxiliary">Auxiliary</string>
+	<string name="ship_tooltip_upgrade_off">This upgrade is not yet installed.</string>
+	<string name="ship_tooltip_upgrade_on">This upgrade is installed.</string>
+
 	<!-- Crew Type -->
 	<string name="crewtype_tab_main">Main</string>
     <string name="crewtype_tab_data">Data</string>
@@ -261,6 +277,9 @@
 	<string name="quest_tooltip_faction_status_raise">Improved Reputation</string>
 	<string name="quest_tooltip_faction_status_lower">Lowered Reputation</string>
 	<string name="quest_header_description">Description</string>
+
+	<!-- Ships -->
+
 	
 	<!-- Contacts-->
 	<string name="contact_tooltip_neutral">Neutral</string>

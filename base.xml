@@ -34,6 +34,7 @@ Any copyright or licensing of data modules distributed by Smiteworks for use wit
 	<includefile source="campaign/record_heritage.xml" />
 	<includefile source="campaign/record_item.xml" />
 
+	<includefile source="campaign/record_ship.xml" />
 	<includefile source="campaign/record_shiptype.xml" />
 	<includefile source="campaign/record_crewtype.xml" />
 	<includefile source="campaign/record_upgrade.xml" />

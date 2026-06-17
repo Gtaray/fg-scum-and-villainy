@@ -1,0 +1,37 @@
+{
+	"folders": [
+		{
+			"name": "Scum and Villainy",
+			"path": "."
+		},
+		{
+			"name": "CoreRPG",
+			"path": "../Extracted/CoreRPG"
+		},
+		{
+			"name": "Deep Cuts - Advancement",
+			"path": "../../extensions/Deep Cuts - Advancement"
+		},
+		{
+			"name": "Deep Cuts - Loadout",
+			"path": "../../extensions/Deep Cuts - Loadout"
+		},
+		{
+			"name": "Deep Cuts - Stress and Harm",
+			"path": "../../extensions/Deep Cuts - Stress and Harm"
+		},
+		{
+			"name": "Deep Cuts - Threat Rolls",
+			"path": "../../extensions/Deep Cuts - Threat Rolls"
+		},
+		{
+			"name": "MagitechRevolution",
+			"path": "../../extensions/MagitechRevolution"
+		},
+		{
+			"name": "Forged in the Dark",
+			"path": "../../../../../../home/george/unraid/media/documents/RPGs/Forged in the Dark"
+		}
+	],
+	"settings": {}
+}

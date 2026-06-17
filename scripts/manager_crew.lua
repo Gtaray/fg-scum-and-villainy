@@ -62,6 +62,15 @@ function onInit()
 
 		self.updateUpkeep();
 	end
+
+	ToolbarManager.registerButton("export_crewship", 
+		{
+			sType = "action",
+			sIcon = "button_toolbar_export",
+			sTooltipRes = "button_toolbar_export_job",
+			fnActivate = CrewManager.promptToExport,
+			bHostOnly = true,
+		});
 end
 
 function onClose()
@@ -314,7 +323,9 @@ function handleDrop(draginfo)
 end
 
 function handleDropNode(sClass, node)
-	if RecordDataManager.isRecordTypeDisplayClass("shiptype", sClass) then
+	if RecordDataManager.isRecordTypeDisplayClass("ship", sClass) then
+		return CrewManager.addShip(node);
+	elseif RecordDataManager.isRecordTypeDisplayClass("shiptype", sClass) then
 		return CrewManager.addShipType(node);
 	elseif RecordDataManager.isRecordTypeDisplayClass("crewtype", sClass) then
 		return CrewManager.addCrewType(node);
@@ -335,6 +346,67 @@ function handleDropNode(sClass, node)
 		local sNotes = DB.getValue(node, "notes", "");
 		local nRelationship = DB.getValue(node, "relationship", 0);
 		return CrewManager.addContact(sName, sNotes, nRelationship);
+	end
+end
+
+function addShip(nodeShip)
+	if not Session.IsHost then
+		return;
+	end
+
+	if not nodeShip then
+		return;
+	end
+
+	-- Set ship text fields
+	CrewManager.setCrewName(DB.getValue(nodeShip, "name", ""));
+	CrewManager.setShipSize(DB.getValue(nodeShip, "size", ""));
+	CrewManager.setShipClassName(DB.getValue(nodeShip, "class", ""));
+	CrewManager.setShipLook(DB.getValue(nodeShip, "look", ""));
+
+	-- Replace section ratings, damage, and upgrades
+	for _, nodeSrcSection in ipairs(DB.getChildList(nodeShip, "sections")) do
+		local sSection = DB.getValue(nodeSrcSection, "name", ""):lower();
+		local nodeDestSection = CrewManager.getSectionNode(sSection);
+		if nodeDestSection then
+			CrewManager.setSectionMax(sSection, DB.getValue(nodeSrcSection, "maxrating", 0));
+			CrewManager.setSectionRating(sSection, DB.getValue(nodeSrcSection, "rating", 0));
+			DB.setValue(nodeDestSection, "damage", "number", DB.getValue(nodeSrcSection, "damage", 0));
+
+			DB.deleteChildren(nodeDestSection, "upgrades");
+			local sPath = string.format("sections.%s.upgrades", DB.getName(nodeDestSection));
+			for _, nodeSrcUpgrade in ipairs(DB.getChildList(nodeSrcSection, "upgrades")) do
+				local sName = DB.getValue(nodeSrcUpgrade, "name", "");
+				if sName ~= "" then
+					local bUnlocked = DB.getValue(nodeSrcUpgrade, "paid", 0) >= DB.getValue(nodeSrcUpgrade, "cost", 1);
+					CrewManager.addUpgradeOrAbilityToList(nodeSrcUpgrade, sPath, bUnlocked);
+				end
+			end
+		end
+	end
+
+	-- Un-pay all existing auxiliary and ship gear on the party sheet
+	for _, nodeExisting in ipairs(CrewManager.getAuxiliaryUpgradeNodes()) do
+		DB.setValue(nodeExisting, "paid", "number", 0);
+	end
+	for _, nodeExisting in ipairs(CrewManager.getShipGearUpgradeNodes()) do
+		DB.setValue(nodeExisting, "paid", "number", 0);
+	end
+
+	-- Merge auxiliary upgrades from ship record
+	for _, nodeSrcUpgrade in ipairs(DB.getChildList(nodeShip, "upgrades.auxiliary")) do
+		local sName = DB.getValue(nodeSrcUpgrade, "name", "");
+		if sName ~= "" then
+			CrewManager.addUpgradeOrAbilityToList(nodeSrcUpgrade, "upgrades.auxiliary", false, false);
+		end
+	end
+
+	-- Merge ship gear upgrades from ship record
+	for _, nodeSrcUpgrade in ipairs(DB.getChildList(nodeShip, "upgrades.shipgear")) do
+		local sName = DB.getValue(nodeSrcUpgrade, "name", "");
+		if sName ~= "" then
+			CrewManager.addUpgradeOrAbilityToList(nodeSrcUpgrade, "upgrades.shipgear", false, false);
+		end
 	end
 end
 
@@ -513,10 +585,107 @@ function addSystem(nodeSystem)
 end
 
 -------------------------------------------------------------------------------
+-- EXPORTING
+-------------------------------------------------------------------------------
+function promptToExport()
+	local tData = {
+		sTitleRes = "ps_title_export_prompt",
+		sTextRes = "ps_text_export_prompt",
+		fnCallback = CrewManager.exportShip
+	};
+
+	DialogManager.openDialog("dialog_okcancel", tData);
+end
+
+function exportShip(sResult, tData)
+	if sResult ~= "ok" then
+		return;
+	end
+
+	-- Get an existing ship node or create an empty one if it doesn't exist
+	local shipNode = CrewManager.getShipRecordNode(getCrewName());
+	if not shipNode then
+		shipNode = CrewManager.createShipRecordNode();
+		if not shipNode then return; end
+	end
+
+	-- Set ship record fields based on crew sheet values
+	DB.setValue(shipNode, "name", "string", CrewManager.getCrewName());
+	DB.setValue(shipNode, "size", "string", CrewManager.getShipSize());
+	DB.setValue(shipNode, "class", "string", CrewManager.getShipClassName());
+	DB.setValue(shipNode, "look", "string", CrewManager.getShipLook());
+
+	-- Export section ratings, damage, and upgrades
+	local nodeSectionsList = DB.createChild(shipNode, "sections");
+	DB.deleteChildren(nodeSectionsList);
+	for _, nodePsSection in ipairs(DB.getChildList(_psNode, "sections")) do
+		local sSection = DB.getValue(nodePsSection, "name", ""):lower();
+		if sSection ~= "" then
+			local nodeDestSection = DB.createChild(nodeSectionsList);
+			DB.setValue(nodeDestSection, "name", "string", sSection);
+			DB.setValue(nodeDestSection, "rating", "number", DB.getValue(nodePsSection, "rating", 0));
+			DB.setValue(nodeDestSection, "maxrating", "number", DB.getValue(nodePsSection, "maxrating", 0));
+			DB.setValue(nodeDestSection, "damage", "number", DB.getValue(nodePsSection, "damage", 0));
+
+			local nodeUpgradesList = DB.createChild(nodeDestSection, "upgrades");
+			for _, nodePsUpgrade in ipairs(DB.getChildList(nodePsSection, "upgrades")) do
+				local nodeDestUpgrade = DB.createChild(nodeUpgradesList);
+				DB.copyNode(nodePsUpgrade, nodeDestUpgrade);
+			end
+		end
+	end
+
+	-- Export auxiliary upgrades
+	local nodeAuxList = DB.createChild(shipNode, "upgrades.auxiliary");
+	DB.deleteChildren(nodeAuxList);
+	for _, nodePsUpgrade in ipairs(CrewManager.getAuxiliaryUpgradeNodes()) do
+		local nodeDestUpgrade = DB.createChild(nodeAuxList);
+		DB.copyNode(nodePsUpgrade, nodeDestUpgrade);
+	end
+
+	-- Export ship gear upgrades
+	local nodeGearList = DB.createChild(shipNode, "upgrades.shipgear");
+	DB.deleteChildren(nodeGearList);
+	for _, nodePsUpgrade in ipairs(CrewManager.getShipGearUpgradeNodes()) do
+		local nodeDestUpgrade = DB.createChild(nodeGearList);
+		DB.copyNode(nodePsUpgrade, nodeDestUpgrade);
+	end
+end
+
+function getShipRecordNode(sName)
+	local shipsNode = DB.findNode("ship");
+	if not shipsNode then
+		return nil;
+	end
+
+	for k, v in ipairs(DB.getChildList(shipsNode)) do
+		-- Look through all ship records for one with a matching name, and return it
+		-- Case sensitive
+		if DB.getValue(v, "name", "") == sName then
+			return v;
+		end
+	end
+end
+
+function createShipRecordNode()
+	local shipsNode = DB.findNode("ship");
+	-- This should never be the case, but maybe in a new campaign where nothing is created?
+	if not shipsNode then
+		return nil;
+	end
+
+	return DB.createChild(shipsNode);
+end
+
+-------------------------------------------------------------------------------
 -- BASIC INFO
 -------------------------------------------------------------------------------
 function getCrewName()
     return DB.getValue("partysheet.crew.name", "");
+end
+
+function setCrewName(sName)
+	DB.setValue("partysheet.crew.name", "string", sName);
 end
 
 function getCrewReputation()
@@ -850,12 +1019,20 @@ end
 function addSpecialAbility(abilityNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(abilityNode, "upgrades.specialabilities", bUnlocked)
 end
+function getSpecialAbilityUpgradeByName(sName)
+    local nodeList = CrewManager.getSpecialAbilityNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
+end
 
 function getCrewUpgradeNodes()
     return DB.getChildList(_psNode, "upgrades.crewupgrades")
 end
 function addCrewUpgrade(upgradeNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(upgradeNode, "upgrades.crewupgrades", bUnlocked)
+end
+function getCrewUpgradeByName(sName)
+    local nodeList = CrewManager.getCrewUpgradeNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
 end
 
 function getAuxiliaryUpgradeNodes()
@@ -864,12 +1041,20 @@ end
 function addAuxiliaryUpgrade(upgradeNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(upgradeNode, "upgrades.auxiliary", bUnlocked);
 end
+function getAuxiliaryUpgradeByName(sName)
+    local nodeList = CrewManager.getAuxiliaryUpgradeNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
+end
 
 function getShipGearUpgradeNodes()
     return DB.getChildList(_psNode, "upgrades.shipgear");
 end
 function addShipGearUpgrade(upgradeNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(upgradeNode, "upgrades.shipgear", bUnlocked);
+end
+function getShipGearUpgradeByName(sName)
+    local nodeList = CrewManager.getShipGearUpgradeNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
 end
 
 function getCrewGearUpgradeNodes()
@@ -878,6 +1063,10 @@ end
 function addCrewGearUpgrade(upgradeNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(upgradeNode, "upgrades.crewgear", bUnlocked);
 end
+function getCrewGearUpgradeByName(sName)
+    local nodeList = CrewManager.getCrewGearUpgradeNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
+end
 
 function getTrainingUpgradeNodes()
     return DB.getChildList(_psNode, "upgrades.training");
@@ -885,8 +1074,22 @@ end
 function addTrainingUpgrade(upgradeNode, bUnlocked)
 	return CrewManager.addUpgradeOrAbilityToList(upgradeNode, "upgrades.training", bUnlocked);
 end
+function getTrainingUpgradeByName(sName)
+    local nodeList = CrewManager.getTrainingUpgradeNodes();
+    return CrewManager.getUpgradeOrAbilityByName(sName, nodeList);
+end
 
-function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
+function getUpgradeOrAbilityByName(sName, nodeList)
+	for _, node in ipairs(nodeList) do
+		local sNodeName = DB.getValue(node, "name", "");
+		if sNodeName == sName then
+			return node;
+		end
+	end
+	return nil;
+end
+
+function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked, bUpgradeIfAlreadyExists)
 	if not Session.IsHost then
 		return;
 	end
@@ -897,7 +1100,10 @@ function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
 	end
 
 	-- Default to false
-	bUnlocked = bUnlocked or false;
+	if bUnlocked == nil then bUnlocked = false end;
+
+	-- Default to true
+	if bUpgradeIfAlreadyExists == nil then bUpgradeIfAlreadyExists = true end;
 
 	-- Go through the list of upgrades and see if one matches the dropped value
 	local sUpgradeName = DB.getValue(nodeUpgrade, "name", "");
@@ -913,7 +1119,12 @@ function addUpgradeOrAbilityToList(nodeUpgrade, sList, bUnlocked)
 	-- If a match was found, don't add the upgrade again
 	-- instead just mark it as fully paid for.
 	if matchnode then
-		bUnlocked = true;
+		if bUpgradeIfAlreadyExists then
+			bUnlocked = true;
+		else
+			DB.setValue(matchnode, "paid", "number", DB.getValue(nodeUpgrade, "paid", 0));
+			return true, matchnode;
+		end
 	end
 
 	-- If we didn't find an empty node to fill, then we create a new node

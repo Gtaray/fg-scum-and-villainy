@@ -8,6 +8,7 @@ local _shipSizes = {}
 local _defaultCrewXpTriggers = {}
 local _defaultPlaybookXpTriggers = {}
 local _engagementPlans = {}
+local _traumas = {}
 
 function onInit()
     addAttribute("insight", "attribute_label_insight");
@@ -50,6 +51,15 @@ function onInit()
 	addEngagementPlan("mystic");
 	addEngagementPlan("social");
 	addEngagementPlan("transport");
+
+    addTrauma("Cold");
+    addTrauma("Haunted");
+    addTrauma("Obsessed");
+    addTrauma("Paranoid");
+    addTrauma("Reckless");
+    addTrauma("Soft");
+    addTrauma("Unstable");
+    addTrauma("Vicious");
 end
 
 -------------------------------------------------------------------------------
@@ -333,4 +343,32 @@ end
 
 function getEngagementsPlans()
 	return _engagementPlans;
+end
+
+-------------------------------------------------------------------------------
+-- TRAUMAS
+-------------------------------------------------------------------------------
+function addTrauma(sTrauma)
+	if DataManager.hasTrauma(sTrauma) then
+        return;
+    end
+	
+	table.insert(_traumas, sTrauma);
+end
+
+function hasTrauma(sTrauma)
+	return DataManager.getTrauma(sTrauma) ~= nil
+end
+
+function getTrauma(sTrauma)
+	sTrauma = sTrauma:lower();
+	for _, trauma in ipairs(_traumas) do
+		if sTrauma == trauma:lower() then
+			return trauma;
+		end
+	end
+end
+
+function getTraumas()
+	return _traumas;
 end

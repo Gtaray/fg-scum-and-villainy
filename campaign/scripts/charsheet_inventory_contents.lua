@@ -44,8 +44,3 @@ function onHeavyLoadChanged()
 	DB.setValue(node, "inventory.load.light", "number", 0);
 	DB.setValue(node, "inventory.load.normal", "number", 0);
 end
-
-function onEditModeChanged()
-	WindowManager.onEditModeChanged(genericitems);
-	WindowManager.onEditModeChanged(playbookitems);
-end

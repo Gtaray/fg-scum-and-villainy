@@ -54,23 +54,22 @@
 				<anchored height="15" />
 			</spacer_content_top>
 			
-			<sub_content_top name="health">
-				<class>charsheet_main_health</class>
-				<anchored>
-					<top relation="current" />
-					<right offset="-180" />
-				</anchored>
-			</sub_content_top>
 			<sub_content_top name="defenses">
 				<class>charsheet_main_defense</class>
 				<anchored>
-					<top offset="0" postoffset="0" />
-					<left parent="health" anchor="right" offset="0" />
+					<top relation="current" offset="0" postoffset="0" />
+					<left anchor="right" offset="-180" />
+				</anchored>
+			</sub_content_top>
+			<sub_content_top name="health">
+				<class>charsheet_main_health</class>
+				<anchored>
+					<right parent="defenses" anchor="left" offset="-0" />
 				</anchored>
 			</sub_content_top>
 
 			<spacer_content_top>
-				<anchored height="10" />
+				<anchored height="5" />
 			</spacer_content_top>
 
 			<sub_content_top name="harm">
@@ -103,7 +102,7 @@
 		<script file="campaign/scripts/charsheet_main_health.lua" />
 		<sheetdata>
 			<hn name="maxstress" source="health.stress.max">
-				<default>8</default>
+				<default>9</default>
 			</hn>
 			<hn name="curstress" source="health.stress.current">
 				<default>0</default>
@@ -141,6 +140,7 @@
 					<left offset="15" />
 				</anchored>
 			</label_content_column>
+			<char_button_vice_roll name="button_vice" />
 			<char_rating_column_red name="stress">
 				<sourcefields>
 					<current>health.stress.current</current>
@@ -165,23 +165,14 @@
 				</sourcefields>
 			</char_rating_column_red>
 
-			<spacer_content_top />
-
-			<!-- VICE -->
-			 <label_content_column name="vice_label">
-				<static textres="char_label_vice" />
-				<anchored>
-					<left offset="15" />
+			<genericcontrol name="traumaselector">
+				<script file="campaign/scripts/charsheet_main_health_trauma.lua" />
+				<anchored height="42">
+					<top parent="contentanchor" relation="relative" offset="-5" />
+					<left />
+					<right />
 				</anchored>
-			</label_content_column>
-			<char_button_vice_roll name="button_vice" />
-			<stringc_content_column_noframe_static name="vice_attribute">
-				<anchored>
-					<left offset="77" />
-					<right offset="-50" />
-				</anchored>
-				<readonly />
-			</stringc_content_column_noframe_static>
+			</genericcontrol>
 		</sheetdata>
 	</windowclass>
 
@@ -223,7 +214,7 @@
 				<anchored to="defenses_title" />
 			</button_details_header>
 
-			<spacer_content_top />
+			<spacer_content_top name="spacer1" />
 
 			<label_content_column name="armor_label">
 				<static textres="char_label_armor" />
@@ -238,7 +229,7 @@
 				</sourcefields>
 			</char_rating_column_blue>
 
-			<spacer_content_top />
+			<spacer_content_top name="spacer2" />
 
 			<label_content_column name="heavy_label">
 				<static textres="char_label_heavy" />
@@ -253,7 +244,7 @@
 				</sourcefields>
 			</char_rating_column_blue>
 
-			<spacer_content_top />
+			<spacer_content_top name="spacer3" />
 
 			<label_content_column name="special_label">
 				<static textres="char_label_special" />
@@ -375,9 +366,37 @@
 				</sourcefields>
 			</char_rating_title_right>
 
-			<ftc_content_framed_groupbox_top name="desc">
-				<frame merge="delete" />
-			</ftc_content_framed_groupbox_top>
+			<list_content_top name="xptriggers">
+				<anchored>
+					<top offset="6" postoffset="6" />
+					<left offset="10" />
+					<right offset="-10" />
+				</anchored>
+				<class>charsheet_main_advancement_trigger</class>
+				<datasource>.advancement.xptriggers</datasource>
+				<allowdelete />
+				<allowcreate />
+			</list_content_top>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="charsheet_main_advancement_trigger">
+		<margins control="0,0,0,2" />
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<buttongroup_listitem_counter_left name="marks">
+				<anchored height="12">
+					<left offset="5" />
+				</anchored>
+				<sourcefields><current>amount</current></sourcefields>
+				<values><maximum>2</maximum></values>
+			</buttongroup_listitem_counter_left>
+
+			<string_listitem_center_text name="description">
+				<readonly />
+			</string_listitem_center_text>
 		</sheetdata>
 	</windowclass>
 </root>

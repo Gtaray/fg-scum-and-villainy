@@ -17,7 +17,7 @@
 	<!-- HEALTH EDITOR -->
 	<windowclass name="editor_charsheet_main_health" copy="charsheet_editor_base">
 		<sizelimits>
-			<minimum width="350" height="220" />
+			<minimum width="350" height="450" />
 		</sizelimits>
 		<sheetdata>
 			<windowtitlebar_charsheethelper name="title">
@@ -86,6 +86,52 @@
 			<number_content_column name="vicedice" source="health.vice.bonusdice">
 				<default>0</default>
 			</number_content_column>
+
+			<header_content_framed_headersimple name="traumas_header">
+				<static textres="char_header_traumas" />
+			</header_content_framed_headersimple>
+			<button_iadd name="traumas_iadd">
+				<anchored to="traumas_header" position="insidetopright" offset="2,0" />
+				<target>traumas</target>
+			</button_iadd>
+
+			<list_content_column_autopopulate name="traumas">
+				<script>
+					function getData()
+						return DataManager.getTraumas();
+					end
+				</script>
+				<class>editor_charsheet_main_health_traumalist_item</class>
+				<datasource>.health.trauma.list</datasource>
+				<allowdelete />
+			</list_content_column_autopopulate>
+		</sheetdata>
+	</windowclass>
+
+	<windowclass name="editor_charsheet_main_health_traumalist_item">
+		<margins control="0,0,0,4" />
+		<script>
+			function setData(sTrauma)
+				description.setValue(sTrauma);
+			end
+		</script>
+		<sheetdata>
+			<anchor_listitem_left_sm />
+			<anchor_listitem_right_sm />
+
+			<button_listitem_checkbox_left name="active">
+
+			</button_listitem_checkbox_left>
+
+			<button_listitem_idelete name="idelete">
+				<script>
+					function onInit()
+						setVisible(true);
+					end
+				</script>
+			</button_listitem_idelete>
+
+			<string_listitem_center_underline name="description" />
 		</sheetdata>
 	</windowclass>
 
@@ -265,7 +311,7 @@
 	<!-- LOADOUT -->
 	 <windowclass name="editor_charsheet_inventory_loadout" copy="charsheet_editor_base">
 		<sizelimits>
-			<minimum width="350" height="160" />
+			<minimum width="275" height="180" />
 		</sizelimits>
 		<sheetdata>
 			<windowtitlebar_charsheethelper name="title">
@@ -287,49 +333,32 @@
 				<anchored height="20" />
 			</spacer_content_top>
 		
-			<label_content_column name="label_load">
-				<static textres="char_label_load_amount" />
+			<label_content_column name="label_lightload">
+				<static textres="char_label_load_light" />
 			</label_content_column>
-
 			<number_content_column name="light" source="inventory.load.lightamount">
-				<anchored>
-					<top relation="current" />
-				</anchored>
 				<min>1</min>
 				<default>3</default>
 				<max>20</max>
 			</number_content_column>
-			<label_fieldtop>
-				<anchored to="light" />
-				<static textres="char_label_load_light" />
-			</label_fieldtop>
 
+			<label_content_column name="label_normalload">
+				<static textres="char_label_load_normal" />
+			</label_content_column>
 			<number_content_column name="normal" source="inventory.load.normalamount">
-				<anchored>
-					<top relation="current" />
-					<left offset="155" />
-				</anchored>
 				<min>1</min>
 				<default>5</default>
 				<max>20</max>
 			</number_content_column>
-			<label_fieldtop>
-				<anchored to="normal" />
-				<static textres="char_label_load_normal" />
-			</label_fieldtop>
 
+			<label_content_column name="label_heavyload">
+				<static textres="char_label_load_heavy" />
+			</label_content_column>
 			<number_content_column name="heavy" source="inventory.load.heavyamount">
-				<anchored>
-					<left offset="205" />
-				</anchored>
 				<min>1</min>
 				<default>6</default>
 				<max>20</max>
 			</number_content_column>
-			<label_fieldtop>
-				<anchored to="heavy" />
-				<static textres="char_label_load_heavy" />
-			</label_fieldtop>
 		</sheetdata>
 	</windowclass>
 </root>

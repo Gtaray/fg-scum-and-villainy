@@ -17,9 +17,9 @@ function onActionRatingUpdated()
 	local tAttr = DataManager.getAttribute(sAttr);
 
 	if not tAttr then
-		vice_attribute.setValue("????");
+		button_vice.setTooltipText("????");
 	else
-		vice_attribute.setValue(string.format("%s (%sd6)", Interface.getString(tAttr.sResource), nScore));
+		button_vice.setTooltipText(string.format("%s (%sd6)", Interface.getString(tAttr.sResource), nScore));
 	end
 end
 

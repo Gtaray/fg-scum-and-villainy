@@ -63,6 +63,12 @@ aRecordOverrides = {
 		sRecordDisplayClass = "crewtype",
 		sSidebarCategory = "crew",
 	},
+	["ship"] = {
+		bExport = true,
+		aDataMap = { "ship", "reference.ship" },
+		sRecordDisplayClass = "ship",
+		sSidebarCategory = "crew",
+	},
 	["shiptype"] = {
 		bExport = true,
 		aDataMap = { "shiptype", "reference.shiptype" },

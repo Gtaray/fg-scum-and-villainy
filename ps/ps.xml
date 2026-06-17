@@ -6,7 +6,11 @@
 -->
 
 <root>
-	<windowclass name="partysheet" merge="join" />
+	<windowclass name="partysheet" merge="join">
+		<windowmenu>
+			<right>export_crewship</right>
+		</windowmenu>
+	</windowclass>
 
 	<windowclass name="partysheet_host" copy="partysheet">
 		<script>

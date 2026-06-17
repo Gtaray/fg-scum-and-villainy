@@ -29,9 +29,6 @@ function addPlaybook(nodeChar, nodePlaybook)
 		CharManager.addAbility(nodeChar, node, bUnlocked);
 	end
 
-	-- XP Trigger
-	CharManager.setXpTrigger(nodeChar, DB.getValue(nodePlaybook, "xptrigger"));
-
 	-- Contacts
 	for _, contact in ipairs(DB.getChildList(nodePlaybook, "contacts")) do
 		local sName = DB.getValue(contact, "name", "");
@@ -608,6 +605,27 @@ function getInventoryNodes(rActor)
     return DB.getChildList(nodeChar, "inventory.gear");
 end
 
+function getLoadLabelColor(rActor)
+	local nodeChar;
+	if type(rActor) == "databasenode" then
+		nodeChar = rActor;
+	else
+		nodeChar = ActorManager.getCreatureNode(rActor);
+	end
+
+    local nCarried = CharManager.getCurrentCarriedLoad(nodeChar)
+    local nLoad = CharManager.getCurrentMaxLoad(nodeChar)
+
+    if nCarried == nLoad then
+        return ColorManager.getUIColor("health_wounds_moderate")
+
+    elseif nCarried > nLoad then
+        return ColorManager.getUIColor("field_error")
+    end
+
+	return nil;
+end
+
 -------------------------------------------------------------------------------
 --- ABILITIES
 -------------------------------------------------------------------------------
@@ -746,24 +764,6 @@ function getPlaybookXp(rActor)
 		return;
 	end
 	return DB.getValue(nodeChar, "playbook.xp", 0);
-end
-
-function setXpTrigger(rActor, sTrigger)
-	local nodeChar;
-	if type(rActor) == "databasenode" then
-		nodeChar = rActor;
-	else
-		nodeChar = ActorManager.getCreatureNode(rActor);
-	end
-
-	if not nodeChar then
-		return;
-	end
-	if not sTrigger then
-		return;
-	end
-
-	DB.setValue(nodeChar, "playbook.xptrigger", "string", sTrigger);
 end
 
 -------------------------------------------------------------------------------

@@ -287,37 +287,7 @@
 				<left anchor="left" offset="10" />
 			</anchored>
 			<font>charheader_small</font>
-			<script>
-				function onInit()
-					local nodeChar = window.getDatabaseNode();
-					DB.addHandler(DB.getPath(nodeChar, "inventory.load.*"), "onUpdate", update)
-					DB.addHandler(DB.getPath(nodeChar, "inventory.gear.*.load"), "onUpdate", update)
-					DB.addHandler(DB.getPath(nodeChar, "inventory.gear.*.equipped"), "onUpdate", update)
-					self.update()
-				end
-				
-				function onClose()
-					local nodeChar = window.getDatabaseNode();
-					DB.removeHandler(DB.getPath(nodeChar, "inventory.load.*"), "onUpdate", update)
-					DB.removeHandler(DB.getPath(nodeChar, "inventory.gear.*.load"), "onUpdate", update)
-					DB.removeHandler(DB.getPath(nodeChar, "inventory.gear.*.equipped"), "onUpdate", update)
-				end
-
-				function update()
-					local nodeChar = window.getDatabaseNode();
-					local nCarried = CharManager.getCurrentCarriedLoad(nodeChar)
-					local nLoad = CharManager.getCurrentMaxLoad(nodeChar)
-					local sText = string.format(Interface.getString("char_label_carried"), nCarried, nLoad)
-
-					setValue(sText);
-
-					if nCarried &gt; nLoad then
-						setColor(ColorManager.getUIColor("field_error"))
-					else
-						setColor(nil);
-					end
-				end
-			</script>
+			<script file="campaign/scripts/label_caried.lua" />
 			<readonly />
 		</stringcontrol>
 	</template>
@@ -354,6 +324,19 @@
 				function update()
 					local nValue = DB.getValue(window.getDatabaseNode(), sSourceNode, 0)
 					setValue(string.format(Interface.getString(sRes), nValue))
+				end
+
+				function onClickDown(button, x, y)
+					return button == 1;
+				end
+
+				function onClickRelease(button, x, y)
+					if button ~= 1 then
+						return;
+					end
+					local sCheckbox = load[1] .. "load";
+					local nVal = window[sCheckbox].getValue();
+					window[sCheckbox].setValue((nVal + 1) % 2);
 				end
 			</script>
 			<anchored width="60">
