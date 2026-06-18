@@ -266,6 +266,9 @@
 	<!-- Items -->
 	<string name="item_label_load">Load</string>
 	<string name="item_label_quality">Quality</string>
+	<string name="item_load_single">All at Once</string>
+	<string name="item_load_multiple">One by One</string>
+	<string name="tooltip_item_load_amount">Changes how the item's load boxes are selected.\nAll at Once: This item's load boxes are selected all at once.\nOne by One: This item's load boxes are selected one by one.</string>
 
 	<!-- Quests / Jobs -->
 	<string name="quest_tab_main">Main</string>

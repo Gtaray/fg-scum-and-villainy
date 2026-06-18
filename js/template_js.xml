@@ -79,6 +79,7 @@
 
 	<template name="stress_js">
 		<buttongroup_rating_small_red>
+			<script file="js/scripts/js_buttongroup_stress.lua" />
 			<sourcefields>
 				<current>health.stress.current</current>
 				<maximum>health.stress.max</maximum>

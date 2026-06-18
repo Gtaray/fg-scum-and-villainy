@@ -368,32 +368,7 @@
 
 	<template name="buttongroup_loadout">
 		<buttongroup_listitem_counter_left>
-			<script>
-				function onClickRelease(button, x, y)
-					if isReadOnly() then
-						return;
-					end
-
-					local itemnode = window.getDatabaseNode();
-
-					local m = self.getMaxValue();
-					local c = self.getCurrentValue();
-					if c ~= 0 then
-						self.setCurrentValue(0);
-					else
-						self.setCurrentValue(m);
-					end
-					
-					return true;
-				end
-				function getMaxValue()
-					local m = super.getMaxValue();
-					if m == 0 then
-						m = 1;
-					end
-					return m;
-				end
-			</script>
+			<script file="campaign/scripts/charsheet_inventory_buttongroup_loadout.lua" />
 			<sourcefields>
 				<maximum>load</maximum>
 				<current>equipped</current>

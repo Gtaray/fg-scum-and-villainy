@@ -513,12 +513,12 @@ function getCurrentCarriedLoad(rActor)
 		local nLoad = DB.getValue(itemNode, "load", 1);
 		local nEquipped = DB.getValue(itemNode, "equipped", 0);
 
-		-- If the equipped value is greater than the load value
-		-- And equipped is greater than 0, then we add it to the total load
-		-- This handles both items that cost zero load (but have a single equip pip)
-		-- and items that cost multiple load
-		if nEquipped > 0 and nEquipped >= nLoad then
-			nCarriedLoad = nCarriedLoad + nLoad;
+		-- Only count equipment if they are both equipped AND have a load value
+		if nEquipped > 0 and nLoad > 0 then
+			-- By accumulating the equip value of each item, we can support items that 
+			-- are both equipped all at once (like Armor) and items that are 
+			-- equipped one by one (like Detonators).
+			nCarriedLoad = nCarriedLoad + nEquipped
 		end
 	end
 

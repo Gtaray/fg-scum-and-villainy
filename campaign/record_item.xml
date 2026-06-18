@@ -22,6 +22,20 @@
 				<default>1</default>
 			</number_content_column>
 
+			<button_stringcycler name="load_type">
+				<anchored height="20">
+					<top parent="load" anchor="top" />
+					<left parent="load" anchor="right" offset="10" />
+					<right parent="" anchor="right" offset="-10" />
+				</anchored>
+				<tooltip textres="tooltip_item_load_amount" />
+				<parameters>
+					<labelsres>item_load_multiple</labelsres>
+					<values>multi</values>
+					<defaultlabelres>item_load_single</defaultlabelres>
+				</parameters>
+			</button_stringcycler>
+
 			<label_content_column name="quality_label">
 				<static textres="item_label_quality" />
 			</label_content_column>
